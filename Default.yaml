@@ -1,9 +1,5 @@
 tiles: #!replace
 
-  # ============================================================
-  # 🛰️ 国际出口
-  # ============================================================
-
   - name: tile-international
     interval: 86400
     title: "国际出口"
@@ -11,34 +7,35 @@ tiles: #!replace
     icon: "globe.americas.fill"
     backgroundColor: "#173B5E"
 
-
-  # ============================================================
-  # 🌐 网络控制中心
-  # ============================================================
-
-  - name: tile-network
+  - name: tile-network-control
     interval: 86400
     title: "网络控制中心"
     content: "检测中..."
     icon: "network"
     backgroundColor: "#244A3A"
 
-
-  # ============================================================
-  # ⚡ 节点健康
-  # ============================================================
-
-  - name: tile-node-health
+  - name: tile-dns
     interval: 86400
-    title: "节点健康"
+    title: "DNS 检测"
     content: "检测中..."
-    icon: "bolt.horizontal.circle.fill"
-    backgroundColor: "#315D38"
+    icon: "network.badge.shield.half.filled"
+    backgroundColor: "#174A52"
+    url: "https://www.dnsleaktest.com/"
 
+  - name: tile-webrtc
+    interval: 86400
+    title: "WebRTC 检测"
+    content: "检测中..."
+    icon: "shield.lefthalf.filled"
+    backgroundColor: "#4C3030"
+    url: "https://browserleaks.com/webrtc"
 
-  # ============================================================
-  # 📊 网络质量
-  # ============================================================
+  - name: tile-tls
+    interval: 86400
+    title: "TLS / HTTPS"
+    content: "检测中..."
+    icon: "lock.shield.fill"
+    backgroundColor: "#344A63"
 
   - name: tile-network-quality
     interval: 86400
@@ -47,116 +44,74 @@ tiles: #!replace
     icon: "speedometer"
     backgroundColor: "#3E315F"
 
-
-  # ============================================================
-  # 🚀 QUIC / HTTP3
-  # ============================================================
-
-  - name: tile-quic
+  - name: tile-quic-http3
     interval: 86400
     title: "QUIC / HTTP3"
     content: "检测中..."
     icon: "bolt.circle.fill"
     backgroundColor: "#164C55"
 
+  - name: tile-node-health
+    interval: 86400
+    title: "节点健康"
+    content: "检测中..."
+    icon: "bolt.horizontal.circle.fill"
+    backgroundColor: "#315D38"
 
-  # ============================================================
-  # 🧬 Stash 3.6 协议
-  # ============================================================
-
-  - name: tile-protocols
+  - name: tile-stash36
     interval: 86400
     title: "3.6 协议能力"
-    content: "XHTTP · Gecko"
+    content: "检测中..."
     icon: "point.3.connected.trianglepath.dotted"
     backgroundColor: "#493B63"
-
-
-  # ============================================================
-  # 🧠 DNS
-  # ============================================================
-
-  - name: tile-dns
-    interval: 86400
-    title: "DNS 检测"
-    content: "检测中..."
-    icon: "network.badge.shield.half.filled"
-    backgroundColor: "#174A52"
-
-
-  # ============================================================
-  # 🛡️ WebRTC
-  # ============================================================
-
-  - name: tile-webrtc
-    interval: 86400
-    title: "WebRTC 检测"
-    content: "检测中..."
-    icon: "shield.lefthalf.filled"
-    backgroundColor: "#4C3030"
-
-
-  # ============================================================
-  # 🌎 第三方服务
-  # ============================================================
 
   - name: tile-youtube
     interval: 604800
     title: "YouTube"
     content: "检测中..."
-    icon: "play.rectangle.fill"
+    icon: "questionmark"
     backgroundColor: "#5A2424"
     collapsed: true
-
 
   - name: tile-tiktok
     interval: 604800
     title: "TikTok"
     content: "检测中..."
-    icon: "music.note"
+    icon: "questionmark"
     backgroundColor: "#252525"
     collapsed: true
-
 
   - name: tile-x
     interval: 604800
     title: "X"
     content: "检测中..."
-    icon: "at"
+    icon: "questionmark"
     backgroundColor: "#242424"
     collapsed: true
-
 
   - name: tile-instagram
     interval: 604800
     title: "Instagram"
     content: "检测中..."
-    icon: "camera.circle.fill"
+    icon: "questionmark"
     backgroundColor: "#59324A"
     collapsed: true
-
 
   - name: tile-google
     interval: 604800
     title: "Google"
     content: "检测中..."
-    icon: "magnifyingglass.circle.fill"
+    icon: "questionmark"
     backgroundColor: "#34475C"
     collapsed: true
-
 
   - name: tile-netflix
     interval: 604800
     title: "Netflix"
     content: "检测中..."
-    icon: "film.fill"
+    icon: "questionmark"
     backgroundColor: "#541F28"
     collapsed: true
-
-
-  # ============================================================
-  # 📋 Loog
-  # ============================================================
 
   - name: tile-loog
     interval: 86400
@@ -166,12 +121,11 @@ tiles: #!replace
     backgroundColor: "#3B3B3B"
 
 
-
 script-providers: #!replace
 
 
   # ============================================================
-  # 🛰️ 国际出口
+  # 国际出口
   # ============================================================
 
   tile-international:
@@ -185,14 +139,22 @@ script-providers: #!replace
 
           var ms = Date.now() - start;
 
-          if (error || !response ||
-              response.status < 200 ||
-              response.status >= 300) {
+          if (
+            error ||
+            !response ||
+            response.status < 200 ||
+            response.status >= 300
+          ) {
 
             $done({
-              content: "出口检测失败",
-              icon: "xmark.circle.fill",
-              backgroundColor: "#6A2B2B"
+              content:
+                "✕ 出口检测失败\n" +
+                "HTTP · " +
+                (
+                  response
+                    ? response.status
+                    : "连接失败"
+                )
             });
 
             return;
@@ -200,289 +162,29 @@ script-providers: #!replace
 
           try {
 
-            var x = JSON.parse(data);
-
-            var ip = x.ip || "Unknown";
-            var country = x.country || "Unknown";
-            var city = x.city || "Unknown";
-            var org = x.org || "Unknown";
-
-            var isp = org;
-
-            if (isp.length > 34) {
-              isp = isp.substring(0, 34) + "...";
-            }
+            var x =
+              JSON.parse(data);
 
             $done({
               content:
-                ip + "\n" +
-                country + " · " + city + "\n" +
-                isp + "\n" +
-                ms + "ms",
-              icon: "globe.americas.fill",
-              backgroundColor: "#173B5E"
-            });
-
-          } catch(e) {
-
-            $done({
-              content: "数据解析失败",
-              icon: "xmark.circle.fill",
-              backgroundColor: "#6A2B2B"
-            });
-
-          }
-
-        }
-      );
-
-
-  # ============================================================
-  # 🌐 网络控制中心
-  # ============================================================
-
-  tile-network:
-    interval: 86400
-    payload: |
-
-      var version =
-        $environment["stash-version"] || "Unknown";
-
-      var build =
-        $environment["stash-build"] || "Unknown";
-
-      $done({
-        content:
-          "Stash " + version + "\n" +
-          "Build " + build + "\n" +
-          "Network Engine · OK",
-        icon: "network",
-        backgroundColor: "#244A3A"
-      });
-
-
-  # ============================================================
-  # ⚡ 节点健康
-  # ============================================================
-
-  tile-node-health:
-    interval: 86400
-    payload: |
-
-      var start = Date.now();
-
-      $httpClient.get(
-        "https://www.apple.com/library/test/success.html",
-        function(error, response, data) {
-
-          var ms = Date.now() - start;
-
-          if (error || !response) {
-
-            $done({
-              content:
-                "连接失败\n" +
-                "节点不可达",
-              icon: "xmark.octagon.fill",
-              backgroundColor: "#6A2B2B"
-            });
-
-            return;
-          }
-
-          var status =
-            response.status;
-
-          if (status < 200 || status >= 400) {
-
-            $done({
-              content:
-                "HTTP " + status + "\n" +
-                ms + "ms",
-              icon: "exclamationmark.octagon.fill",
-              backgroundColor: "#8A5A20"
-            });
-
-            return;
-          }
-
-          if (ms < 100) {
-
-            $done({
-              content:
-                "优秀\n" +
-                ms + "ms · HTTP " + status,
-              icon: "checkmark.seal.fill",
-              backgroundColor: "#315D38"
-            });
-
-          } else if (ms < 250) {
-
-            $done({
-              content:
-                "良好\n" +
-                ms + "ms · HTTP " + status,
-              icon: "checkmark.seal.fill",
-              backgroundColor: "#315D38"
-            });
-
-          } else if (ms < 500) {
-
-            $done({
-              content:
-                "一般\n" +
-                ms + "ms · HTTP " + status,
-              icon: "exclamationmark.circle.fill",
-              backgroundColor: "#8A5A20"
-            });
-
-          } else {
-
-            $done({
-              content:
-                "延迟较高\n" +
-                ms + "ms · HTTP " + status,
-              icon: "exclamationmark.triangle.fill",
-              backgroundColor: "#8A5A20"
-            });
-
-          }
-
-        }
-      );
-
-
-  # ============================================================
-  # 📊 网络质量
-  # ============================================================
-
-  tile-network-quality:
-    interval: 86400
-    payload: |
-
-      var start = Date.now();
-
-      $httpClient.get(
-        "https://www.cloudflare.com/cdn-cgi/trace",
-        function(error, response, data) {
-
-          var ms = Date.now() - start;
-
-          if (error || !response) {
-
-            $done({
-              content: "网络质量检测失败",
-              icon: "xmark.circle.fill",
-              backgroundColor: "#6A2B2B"
-            });
-
-            return;
-          }
-
-          var colo = "Unknown";
-          var loc = "Unknown";
-          var ip = "Unknown";
-
-          if (data) {
-
-            var m1 =
-              data.match(/(?:^|\n)colo=([^\n]+)/);
-
-            var m2 =
-              data.match(/(?:^|\n)loc=([^\n]+)/);
-
-            var m3 =
-              data.match(/(?:^|\n)ip=([^\n]+)/);
-
-            if (m1) colo = m1[1];
-            if (m2) loc = m2[1];
-            if (m3) ip = m3[1];
-
-          }
-
-          $done({
-            content:
-              ms + "ms\n" +
-              "POP · " + colo + " · " + loc + "\n" +
-              "出口 · " + ip,
-            icon: "speedometer",
-            backgroundColor: "#3E315F"
-          });
-
-        }
-      );
-
-
-  # ============================================================
-  # 🚀 QUIC / HTTP3
-  # ============================================================
-
-  tile-quic:
-    interval: 86400
-    payload: |
-
-      var start = Date.now();
-
-      $httpClient.get(
-        "https://cloudflare-quic.com/",
-        function(error, response, data) {
-
-          var ms = Date.now() - start;
-
-          if (error || !response) {
-
-            $done({
-              content:
-                "HTTP/3 端点不可达",
-              icon: "xmark.circle.fill",
-              backgroundColor: "#6A2B2B"
-            });
-
-            return;
-          }
-
-          var alt =
-            "";
-
-          try {
-
-            if (response.headers) {
-
-              alt =
-                response.headers["alt-svc"] ||
-                response.headers["Alt-Svc"] ||
-                "";
-
-            }
-
-          } catch(e) {}
-
-          if (alt && alt.indexOf("h3") !== -1) {
-
-            $done({
-              content:
-                "HTTP " +
-                response.status +
+                (x.ip || "Unknown") +
+                "\n" +
+                (x.country || "Unknown") +
                 " · " +
+                (x.city || "Unknown") +
+                "\n" +
+                (x.org || "Unknown") +
+                "\n" +
+                "RTT · " +
                 ms +
-                "ms\n" +
-                "Alt-Svc · h3",
-              icon: "checkmark.circle.fill",
-              backgroundColor: "#315D38"
+                "ms"
             });
 
-          } else {
+          } catch (e) {
 
             $done({
               content:
-                "HTTP " +
-                response.status +
-                " · " +
-                ms +
-                "ms\n" +
-                "HTTP/3 Endpoint OK",
-              icon: "bolt.circle.fill",
-              backgroundColor: "#164C55"
+                "✕ 数据解析失败"
             });
 
           }
@@ -492,10 +194,10 @@ script-providers: #!replace
 
 
   # ============================================================
-  # 🧬 3.6 协议能力
+  # 网络控制中心
   # ============================================================
 
-  tile-protocols:
+  tile-network-control:
     interval: 86400
     payload: |
 
@@ -509,94 +211,187 @@ script-providers: #!replace
 
       $done({
         content:
-          "Stash " +
+          "Stash · " +
           version +
           "\n" +
-          "XHTTP · ✓\n" +
-          "Gecko · ✓\n" +
           "Build · " +
-          build,
-        icon:
-          "point.3.connected.trianglepath.dotted",
-        backgroundColor:
-          "#493B63"
+          build +
+          "\n" +
+          "Network Engine · OK"
       });
 
 
   # ============================================================
-  # 🧠 DNS
+  # DNS
+  #
+  # 自动检测：
+  #   Cloudflare DoH 实际 DNS 查询
+  #
+  # 手动检测：
+  #   DNSLeakTest 真正执行 DNS Leak Test
+  #
+  # 自动查询成功 ≠ DNS 无泄漏
   # ============================================================
 
   tile-dns:
     interval: 86400
     payload: |
 
-      var start = Date.now();
+      var start =
+        Date.now();
+
+      var finished =
+        false;
+
+
+      function doneOnce(content) {
+
+        if (finished) {
+          return;
+        }
+
+        finished =
+          true;
+
+        $done({
+          content:
+            content
+        });
+
+      }
+
+
+      setTimeout(function() {
+
+        doneOnce(
+          "✕ DNS 查询超时\n" +
+          "DoH · Cloudflare\n" +
+          "Resolver · 1.1.1.1\n" +
+          "手动检测 →"
+        );
+
+      }, 6000);
+
 
       $httpClient.get(
-        "https://cloudflare-dns.com/dns-query?name=example.com&type=A",
+        {
+          url:
+            "https://1.1.1.1/dns-query?name=example.com&type=A",
+
+          headers: {
+            "Accept":
+              "application/dns-json"
+          },
+
+          timeout:
+            5
+        },
+
         function(error, response, data) {
 
-          var ms = Date.now() - start;
+          if (finished) {
+            return;
+          }
 
-          if (error || !response) {
+          var ms =
+            Date.now() -
+            start;
 
-            $done({
-              content:
-                "DNS 请求失败",
-              icon:
-                "xmark.shield.fill",
-              backgroundColor:
-                "#6A2B2B"
-            });
+
+          if (
+            error ||
+            !response ||
+            response.status < 200 ||
+            response.status >= 300
+          ) {
+
+            doneOnce(
+              "✕ DNS 查询失败\n" +
+              "DoH · Cloudflare\n" +
+              "Resolver · 1.1.1.1\n" +
+              "HTTPS · " +
+              (
+                response
+                  ? response.status
+                  : "连接失败"
+              ) +
+              "\n" +
+              "手动检测 →"
+            );
 
             return;
           }
 
-          if (response.status >= 200 &&
-              response.status < 300) {
 
-            var answer = "OK";
+          try {
 
-            try {
+            var json =
+              JSON.parse(data);
 
-              var json =
-                JSON.parse(data);
+            var answers =
+              json.Answer ||
+              [];
 
-              if (json.Answer &&
-                  json.Answer.length > 0) {
 
-                answer =
-                  json.Answer[0].data;
+            if (
+              answers.length === 0
+            ) {
 
-              }
+              doneOnce(
+                "⚠ DNS 查询无 Answer\n" +
+                "DoH · Cloudflare\n" +
+                "Resolver · 1.1.1.1\n" +
+                "RTT · " +
+                ms +
+                "ms\n" +
+                "手动检测 →"
+              );
 
-            } catch(e) {}
+              return;
+            }
 
-            $done({
-              content:
-                "DoH · 正常\n" +
-                ms + "ms\n" +
-                "A · " + answer,
-              icon:
-                "checkmark.shield.fill",
-              backgroundColor:
-                "#315D38"
-            });
 
-          } else {
+            var first =
+              answers[0];
 
-            $done({
-              content:
-                "HTTP " +
-                response.status +
-                "\n" +
-                ms + "ms",
-              icon:
-                "exclamationmark.shield.fill",
-              backgroundColor:
-                "#8A5A20"
-            });
+            var ttl =
+              first.TTL !== undefined
+                ? first.TTL + "s"
+                : "未知";
+
+
+            doneOnce(
+              "✓ DNS 查询正常 · " +
+              ms +
+              "ms\n" +
+              "DoH · Cloudflare\n" +
+              "Resolver · 1.1.1.1\n" +
+              "A · " +
+              first.data +
+              "\n" +
+              "Answer · " +
+              answers.length +
+              "\n" +
+              "TTL · " +
+              ttl +
+              "\n" +
+              "HTTPS · " +
+              response.status +
+              "\n" +
+              "手动检测 →"
+            );
+
+
+          } catch (e) {
+
+            doneOnce(
+              "✕ DNS 响应解析失败\n" +
+              "DoH · Cloudflare\n" +
+              "HTTPS · " +
+              response.status +
+              "\n" +
+              "手动检测 →"
+            );
 
           }
 
@@ -605,113 +400,498 @@ script-providers: #!replace
 
 
   # ============================================================
-  # 🛡️ WebRTC
+  # WebRTC
+  #
+  # 自动：
+  #   BrowserLeaks 服务可达性
+  #
+  # 手动：
+  #   BrowserLeaks WebRTC API 实际检测
+  #
+  # 不伪造“无泄漏”
   # ============================================================
 
   tile-webrtc:
     interval: 86400
     payload: |
 
+      var start =
+        Date.now();
+
+
       $httpClient.get(
-        "https://api64.ipify.org?format=json",
+        "https://browserleaks.com/webrtc",
         function(error, response, data) {
 
-          if (error || !response ||
-              response.status < 200 ||
-              response.status >= 300) {
+          var ms =
+            Date.now() -
+            start;
+
+
+          if (
+            error ||
+            !response ||
+            response.status < 200 ||
+            response.status >= 400
+          ) {
 
             $done({
               content:
-                "出口 IP 获取失败",
-              icon:
-                "xmark.shield.fill",
-              backgroundColor:
-                "#6A2B2B"
+                "✕ 检测服务不可达\n" +
+                "BrowserLeaks\n" +
+                "HTTP · " +
+                (
+                  response
+                    ? response.status
+                    : "连接失败"
+                ) +
+                "\n" +
+                "手动检测 →"
             });
 
             return;
           }
 
-          try {
 
-            var x =
-              JSON.parse(data);
-
-            var ip =
-              x.ip || "Unknown";
-
-            var type =
-              ip.indexOf(":") !== -1
-              ? "IPv6"
-              : "IPv4";
-
-            $done({
-              content:
-                type + " 出口\n" +
-                ip + "\n" +
-                "WebRTC 需单独复核",
-              icon:
-                "shield.lefthalf.filled",
-              backgroundColor:
-                "#4C3030"
-            });
-
-          } catch(e) {
-
-            $done({
-              content:
-                "数据解析失败",
-              icon:
-                "xmark.shield.fill",
-              backgroundColor:
-                "#6A2B2B"
-            });
-
-          }
+          $done({
+            content:
+              "✓ 检测服务正常 · " +
+              ms +
+              "ms\n" +
+              "自动检测 · 服务可用\n" +
+              "手动检测 →"
+          });
 
         }
       );
 
 
   # ============================================================
-  # ▶️ YouTube
+  # TLS / HTTPS
+  #
+  # 这是 Stash Tile 能可靠取得的 TLS 信息：
+  #
+  # 1. 真实 HTTPS 请求
+  # 2. Cloudflare 返回的 TLS 版本
+  # 3. HTTP 协议
+  # 4. HTTPS 状态
+  # 5. Cloudflare POP
+  # 6. 实际 RTT
+  #
+  # 不伪造 Cipher / Certificate / OCSP 等信息
+  # ============================================================
+
+  tile-tls:
+    interval: 86400
+    payload: |
+
+      var start =
+        Date.now();
+
+
+      $httpClient.get(
+        {
+          url:
+            "https://www.cloudflare.com/cdn-cgi/trace",
+
+          timeout:
+            5,
+
+          insecure:
+            false
+        },
+
+        function(error, response, data) {
+
+          var ms =
+            Date.now() -
+            start;
+
+
+          if (
+            error ||
+            !response ||
+            response.status < 200 ||
+            response.status >= 400
+          ) {
+
+            $done({
+              content:
+                "✕ TLS / HTTPS 失败\n" +
+                "握手或 HTTPS 请求失败\n" +
+                "RTT · " +
+                ms +
+                "ms"
+            });
+
+            return;
+          }
+
+
+          var tls =
+            "Unknown";
+
+          var http =
+            "Unknown";
+
+          var colo =
+            "Unknown";
+
+          var loc =
+            "Unknown";
+
+
+          if (data) {
+
+            var tlsMatch =
+              data.match(
+                /(?:^|\n)tls=([^\n]+)/
+              );
+
+            var httpMatch =
+              data.match(
+                /(?:^|\n)http=([^\n]+)/
+              );
+
+            var coloMatch =
+              data.match(
+                /(?:^|\n)colo=([^\n]+)/
+              );
+
+            var locMatch =
+              data.match(
+                /(?:^|\n)loc=([^\n]+)/
+              );
+
+
+            if (tlsMatch) {
+              tls =
+                tlsMatch[1];
+            }
+
+            if (httpMatch) {
+              http =
+                httpMatch[1];
+            }
+
+            if (coloMatch) {
+              colo =
+                coloMatch[1];
+            }
+
+            if (locMatch) {
+              loc =
+                locMatch[1];
+            }
+
+          }
+
+
+          $done({
+            content:
+              "✓ TLS / HTTPS 正常\n" +
+              "TLS · " +
+              tls +
+              "\n" +
+              "HTTP · " +
+              http +
+              "\n" +
+              "HTTPS · " +
+              response.status +
+              "\n" +
+              "POP · " +
+              colo +
+              " · " +
+              loc +
+              "\n" +
+              "RTT · " +
+              ms +
+              "ms"
+          });
+
+        }
+      );
+
+
+  # ============================================================
+  # 网络质量
+  # ============================================================
+
+  tile-network-quality:
+    interval: 86400
+    payload: |
+
+      var start =
+        Date.now();
+
+
+      $httpClient.get(
+        "https://www.cloudflare.com/cdn-cgi/trace",
+        function(error, response, data) {
+
+          var ms =
+            Date.now() -
+            start;
+
+
+          if (
+            error ||
+            !response ||
+            response.status < 200 ||
+            response.status >= 400
+          ) {
+
+            $done({
+              content:
+                "✕ 网络质量检测失败"
+            });
+
+            return;
+          }
+
+
+          var colo =
+            "Unknown";
+
+          var loc =
+            "Unknown";
+
+
+          if (data) {
+
+            var m1 =
+              data.match(
+                /(?:^|\n)colo=([^\n]+)/
+              );
+
+            var m2 =
+              data.match(
+                /(?:^|\n)loc=([^\n]+)/
+              );
+
+
+            if (m1) {
+              colo =
+                m1[1];
+            }
+
+            if (m2) {
+              loc =
+                m2[1];
+            }
+
+          }
+
+
+          $done({
+            content:
+              "✓ HTTPS RTT · " +
+              ms +
+              "ms\n" +
+              "POP · " +
+              colo +
+              " · " +
+              loc
+          });
+
+        }
+      );
+
+
+  # ============================================================
+  # QUIC / HTTP3
+  #
+  # 重要：
+  # Stash Script $httpClient 当前不能把这个请求
+  # 当作可靠的 HTTP/3 测试工具。
+  #
+  # 因此这里不伪造“HTTP/3 已连接”。
+  # ============================================================
+
+  tile-quic-http3:
+    interval: 86400
+    payload: |
+
+      $done({
+        content:
+          "ℹ HTTP/3 自动检测受限\n" +
+          "Stash Script HTTP Client\n" +
+          "不将 HTTPS 请求冒充 HTTP/3\n" +
+          "需要实际 QUIC 连接才能判定"
+      });
+
+
+  # ============================================================
+  # 节点健康
+  # ============================================================
+
+  tile-node-health:
+    interval: 86400
+    payload: |
+
+      var start =
+        Date.now();
+
+
+      $httpClient.get(
+        "https://www.apple.com/library/test/success.html",
+        function(error, response, data) {
+
+          var ms =
+            Date.now() -
+            start;
+
+
+          if (
+            error ||
+            !response
+          ) {
+
+            $done({
+              content:
+                "✕ 节点不可达"
+            });
+
+            return;
+          }
+
+
+          if (
+            response.status < 200 ||
+            response.status >= 400
+          ) {
+
+            $done({
+              content:
+                "⚠ HTTP " +
+                response.status +
+                " · " +
+                ms +
+                "ms"
+            });
+
+            return;
+          }
+
+
+          var level;
+
+
+          if (ms < 100) {
+
+            level =
+              "优秀";
+
+          } else if (ms < 250) {
+
+            level =
+              "良好";
+
+          } else if (ms < 500) {
+
+            level =
+              "一般";
+
+          } else {
+
+            level =
+              "延迟较高";
+
+          }
+
+
+          $done({
+            content:
+              "✓ " +
+              level +
+              " · " +
+              ms +
+              "ms"
+          });
+
+        }
+      );
+
+
+  # ============================================================
+  # Stash 3.6
+  #
+  # 这里只显示真实版本 / Build。
+  # 不再伪造 XHTTP / Gecko 检测结果。
+  # ============================================================
+
+  tile-stash36:
+    interval: 86400
+    payload: |
+
+      var version =
+        $environment["stash-version"] ||
+        "Unknown";
+
+      var build =
+        $environment["stash-build"] ||
+        "Unknown";
+
+
+      $done({
+        content:
+          "Stash · " +
+          version +
+          "\n" +
+          "Build · " +
+          build +
+          "\n" +
+          "Runtime · " +
+          (
+            $environment.system ||
+            "Unknown"
+          )
+      });
+
+
+  # ============================================================
+  # YouTube
   # ============================================================
 
   tile-youtube:
     interval: 604800
     payload: |
 
-      var start = Date.now();
+      var start =
+        Date.now();
+
 
       $httpClient.get(
         "https://www.youtube.com/generate_204",
         function(error, response, data) {
 
-          var ms = Date.now() - start;
+          var ms =
+            Date.now() -
+            start;
 
-          if (!error && response &&
-              response.status >= 200 &&
-              response.status < 400) {
+
+          if (
+            !error &&
+            response &&
+            response.status >= 200 &&
+            response.status < 400
+          ) {
 
             $done({
-              content:
-                "✓ 可用 · " +
-                ms + "ms",
               icon:
-                "checkmark.circle.fill",
-              backgroundColor:
-                "#315D38"
+                "checkmark",
+              content:
+                ms +
+                "ms"
             });
 
           } else {
 
             $done({
-              content:
-                "✕ 不可用",
               icon:
-                "xmark.circle.fill",
-              backgroundColor:
-                "#6A2B2B"
+                "xmark",
+              content:
+                "不可用"
             });
 
           }
@@ -721,44 +901,48 @@ script-providers: #!replace
 
 
   # ============================================================
-  # 🎵 TikTok
+  # TikTok
   # ============================================================
 
   tile-tiktok:
     interval: 604800
     payload: |
 
-      var start = Date.now();
+      var start =
+        Date.now();
+
 
       $httpClient.get(
         "https://www.tiktok.com/robots.txt",
         function(error, response, data) {
 
-          var ms = Date.now() - start;
+          var ms =
+            Date.now() -
+            start;
 
-          if (!error && response &&
-              response.status >= 200 &&
-              response.status < 400) {
+
+          if (
+            !error &&
+            response &&
+            response.status >= 200 &&
+            response.status < 400
+          ) {
 
             $done({
-              content:
-                "✓ 可用 · " +
-                ms + "ms",
               icon:
-                "checkmark.circle.fill",
-              backgroundColor:
-                "#315D38"
+                "checkmark",
+              content:
+                ms +
+                "ms"
             });
 
           } else {
 
             $done({
-              content:
-                "✕ 不可用",
               icon:
-                "xmark.circle.fill",
-              backgroundColor:
-                "#6A2B2B"
+                "xmark",
+              content:
+                "不可用"
             });
 
           }
@@ -768,44 +952,48 @@ script-providers: #!replace
 
 
   # ============================================================
-  # 𝕏 X
+  # X
   # ============================================================
 
   tile-x:
     interval: 604800
     payload: |
 
-      var start = Date.now();
+      var start =
+        Date.now();
+
 
       $httpClient.get(
         "https://x.com/robots.txt",
         function(error, response, data) {
 
-          var ms = Date.now() - start;
+          var ms =
+            Date.now() -
+            start;
 
-          if (!error && response &&
-              response.status >= 200 &&
-              response.status < 400) {
+
+          if (
+            !error &&
+            response &&
+            response.status >= 200 &&
+            response.status < 400
+          ) {
 
             $done({
-              content:
-                "✓ 可用 · " +
-                ms + "ms",
               icon:
-                "checkmark.circle.fill",
-              backgroundColor:
-                "#315D38"
+                "checkmark",
+              content:
+                ms +
+                "ms"
             });
 
           } else {
 
             $done({
-              content:
-                "✕ 不可用",
               icon:
-                "xmark.circle.fill",
-              backgroundColor:
-                "#6A2B2B"
+                "xmark",
+              content:
+                "不可用"
             });
 
           }
@@ -815,44 +1003,48 @@ script-providers: #!replace
 
 
   # ============================================================
-  # 📷 Instagram
+  # Instagram
   # ============================================================
 
   tile-instagram:
     interval: 604800
     payload: |
 
-      var start = Date.now();
+      var start =
+        Date.now();
+
 
       $httpClient.get(
         "https://www.instagram.com/robots.txt",
         function(error, response, data) {
 
-          var ms = Date.now() - start;
+          var ms =
+            Date.now() -
+            start;
 
-          if (!error && response &&
-              response.status >= 200 &&
-              response.status < 400) {
+
+          if (
+            !error &&
+            response &&
+            response.status >= 200 &&
+            response.status < 400
+          ) {
 
             $done({
-              content:
-                "✓ 可用 · " +
-                ms + "ms",
               icon:
-                "checkmark.circle.fill",
-              backgroundColor:
-                "#315D38"
+                "checkmark",
+              content:
+                ms +
+                "ms"
             });
 
           } else {
 
             $done({
-              content:
-                "✕ 不可用",
               icon:
-                "xmark.circle.fill",
-              backgroundColor:
-                "#6A2B2B"
+                "xmark",
+              content:
+                "不可用"
             });
 
           }
@@ -862,44 +1054,48 @@ script-providers: #!replace
 
 
   # ============================================================
-  # 🔎 Google
+  # Google
   # ============================================================
 
   tile-google:
     interval: 604800
     payload: |
 
-      var start = Date.now();
+      var start =
+        Date.now();
+
 
       $httpClient.get(
         "https://www.google.com/generate_204",
         function(error, response, data) {
 
-          var ms = Date.now() - start;
+          var ms =
+            Date.now() -
+            start;
 
-          if (!error && response &&
-              response.status >= 200 &&
-              response.status < 400) {
+
+          if (
+            !error &&
+            response &&
+            response.status >= 200 &&
+            response.status < 400
+          ) {
 
             $done({
-              content:
-                "✓ 可用 · " +
-                ms + "ms",
               icon:
-                "checkmark.circle.fill",
-              backgroundColor:
-                "#315D38"
+                "checkmark",
+              content:
+                ms +
+                "ms"
             });
 
           } else {
 
             $done({
-              content:
-                "✕ 不可用",
               icon:
-                "xmark.circle.fill",
-              backgroundColor:
-                "#6A2B2B"
+                "xmark",
+              content:
+                "不可用"
             });
 
           }
@@ -909,44 +1105,48 @@ script-providers: #!replace
 
 
   # ============================================================
-  # 🎬 Netflix
+  # Netflix
   # ============================================================
 
   tile-netflix:
     interval: 604800
     payload: |
 
-      var start = Date.now();
+      var start =
+        Date.now();
+
 
       $httpClient.get(
         "https://www.netflix.com/robots.txt",
         function(error, response, data) {
 
-          var ms = Date.now() - start;
+          var ms =
+            Date.now() -
+            start;
 
-          if (!error && response &&
-              response.status >= 200 &&
-              response.status < 400) {
+
+          if (
+            !error &&
+            response &&
+            response.status >= 200 &&
+            response.status < 400
+          ) {
 
             $done({
-              content:
-                "✓ 可用 · " +
-                ms + "ms",
               icon:
-                "checkmark.circle.fill",
-              backgroundColor:
-                "#315D38"
+                "checkmark",
+              content:
+                ms +
+                "ms"
             });
 
           } else {
 
             $done({
-              content:
-                "✕ 不可用",
               icon:
-                "xmark.circle.fill",
-              backgroundColor:
-                "#6A2B2B"
+                "xmark",
+              content:
+                "不可用"
             });
 
           }
@@ -956,7 +1156,7 @@ script-providers: #!replace
 
 
   # ============================================================
-  # 📋 Loog
+  # Loog
   # ============================================================
 
   tile-loog:
@@ -971,17 +1171,14 @@ script-providers: #!replace
         $environment["stash-build"] ||
         "Unknown";
 
+
       $done({
         content:
-          "Stash " +
+          "Stash · " +
           version +
           "\n" +
           "Build · " +
           build +
           "\n" +
-          "Tile Engine · OK",
-        icon:
-          "doc.text.magnifyingglass",
-        backgroundColor:
-          "#3B3B3B"
+          "Tile Engine · OK"
       });
