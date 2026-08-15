@@ -1,5 +1,6 @@
 Stash Network Diagnostic Tiles
 
+![Stash Network Diagnostic Tiles](./stash-network-preview.gif)
 适用于 Stash iOS 的网络诊断 Tile 配置。
 
 🔍 检测内容
@@ -17,10 +18,9 @@ Stash Network Diagnostic Tiles
 🔗 手动检测
 
 DNS 泄漏：
-DNS Leak Test
-
+[DNS Leak Test](https://www.dnsleaktest.com/)
 WebRTC 泄漏：
-BrowserLeaks WebRTC Test
+[BrowserLeaks WebRTC Test](https://browserleaks.com/webrtc)
 
 ⚠️ 真实性说明
 
