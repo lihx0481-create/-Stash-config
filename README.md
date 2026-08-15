@@ -1,32 +1,74 @@
-# Stash Config
+# Stash iOS Tile Panel
 
-A Stash iOS configuration and Tile panel resource project.
+A Stash iOS Tile panel configuration with network monitoring tools.
 
-## ✨ Features
+## Current Version
 
-- Stash Tile panel configuration
-- Simple and clean configuration structure
-- Easy to download and use
-- Continuously maintainable and updateable
+**V2.0**
 
-## 📁 Files
+**Updated:** 2026-08-15
 
-| File | Description |
-|------|-------------|
-| `Default.yaml` | Stash Tile panel configuration |
+## Features
 
-## 🚀 Usage
+- 🛰️ International Exit
+- 🌐 Network Control Center
+- ⚡ Node Health
+- 📊 Network Quality
+- 🚀 QUIC / HTTP3
+- 🧬 Stash 3.6 Protocol Capability
+- 🧠 DNS Detection
+- 🛡️ WebRTC Detection
+- ▶️ YouTube
+- 🎵 TikTok
+- 𝕏 X
+- 📷 Instagram
+- 🔎 Google
+- 🎬 Netflix
+- 📋 Loog
 
-Download `Default.yaml` from this repository or use the Raw URL directly.
+## Detection Interval
 
-### Raw URL
+### Core Checks
 
-https://raw.githubusercontent.com/lihx0481-create/-Stash-config/main/Default.yaml
+- International Exit — 24 hours
+- Network Control Center — 24 hours
+- Node Health — 24 hours
+- Network Quality — 24 hours
+- QUIC / HTTP3 — 24 hours
+- Stash 3.6 Protocol Capability — 24 hours
+- DNS — 24 hours
+- WebRTC — 24 hours
 
-## 📌 Updates
+### Third-Party Services
 
-This project may be updated periodically with new configurations and improvements.
+- YouTube — 7 days
+- TikTok — 7 days
+- X — 7 days
+- Instagram — 7 days
+- Google — 7 days
+- Netflix — 7 days
 
-## 📄 License
+## Changelog
 
-License information will be added in a future update.
+### V2.0 — 2026-08-15
+
+- Rebuilt the entire Tile panel
+- Added Stash 3.6 protocol information
+- Added XHTTP / Gecko information
+- Improved node health latency classification
+- Improved DNS status display
+- Improved WebRTC status information
+- Improved QUIC / HTTP3 detection
+- Unified third-party service detection
+- Core checks run every 24 hours
+- Third-party checks run every 7 days
+- Removed duplicate DNS and Node Health Tiles
+- Added `#!replace` to prevent duplicate Tile definitions
+
+## Installation
+
+Add `Default.yaml` to Stash and enable the Tile configuration.
+
+## License
+
+MIT
