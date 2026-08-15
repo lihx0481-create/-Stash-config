@@ -1,6 +1,6 @@
 Stash Network Diagnostic Tiles
 
-![Stash Network Diagnostic Tiles](./stash-network-preview.gif)
+![Stash Network Diagnostic Tiles](./copy_DBB6470D-277A-44D3-9CDD-8EDCC0AC8DFC.GIF)
 适用于 Stash iOS 的网络诊断 Tile 配置。
 
 🔍 检测内容
@@ -23,6 +23,10 @@ DNS 泄漏：
 WebRTC 泄漏：
 [BrowserLeaks WebRTC Test](https://browserleaks.com/webrtc)
 
+📄 配置
+
+[Default.yaml Raw](https://raw.githubusercontent.com/lihx0481-create/-Stash-config/main/Default.yaml)
+
 ⚠️ 真实性说明
 
 本配置尽量只显示实际请求获得的数据。
@@ -33,10 +37,6 @@ WebRTC 服务可访问 ≠ WebRTC 无泄漏
 因此 DNS 和 WebRTC Tile 均保留 「手动检测 →」，用于进行真正的泄漏检测。
 
 无法可靠检测的项目不会伪造 ✓。
-
-📄 配置
-
-[Default.yaml Raw](https://raw.githubusercontent.com/lihx0481-create/-Stash-config/main/Default.yaml)
 
 本项目用于 Stash 网络状态、连通性及泄漏检测辅助。
 
