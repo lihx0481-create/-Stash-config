@@ -32,7 +32,7 @@ tiles: #!replace
 
   - name: tile-tls
     interval: 86400
-    title: "TLS / HTTPS"
+    title: "TLS 检测"
     content: "检测中..."
     icon: "lock.shield.fill"
     backgroundColor: "#344A63"
@@ -57,13 +57,6 @@ tiles: #!replace
     content: "检测中..."
     icon: "bolt.horizontal.circle.fill"
     backgroundColor: "#315D38"
-
-  - name: tile-stash36
-    interval: 86400
-    title: "3.6 协议能力"
-    content: "检测中..."
-    icon: "point.3.connected.trianglepath.dotted"
-    backgroundColor: "#493B63"
 
   - name: tile-youtube
     interval: 604800
@@ -113,20 +106,8 @@ tiles: #!replace
     backgroundColor: "#541F28"
     collapsed: true
 
-  - name: tile-loog
-    interval: 86400
-    title: "Loog"
-    content: "Stash 状态"
-    icon: "doc.text.magnifyingglass"
-    backgroundColor: "#3B3B3B"
-
 
 script-providers: #!replace
-
-
-  # ============================================================
-  # 国际出口
-  # ============================================================
 
   tile-international:
     interval: 86400
@@ -145,104 +126,57 @@ script-providers: #!replace
             response.status < 200 ||
             response.status >= 300
           ) {
-
             $done({
-              content:
-                "✕ 出口检测失败\n" +
-                "HTTP · " +
-                (
-                  response
-                    ? response.status
-                    : "连接失败"
-                )
+              content: "✕ 出口检测失败"
             });
-
             return;
           }
 
           try {
-
-            var x =
-              JSON.parse(data);
+            var x = JSON.parse(data);
 
             $done({
               content:
-                (x.ip || "Unknown") +
-                "\n" +
+                (x.ip || "Unknown") + "\n" +
                 (x.country || "Unknown") +
                 " · " +
-                (x.city || "Unknown") +
-                "\n" +
-                (x.org || "Unknown") +
-                "\n" +
-                "RTT · " +
-                ms +
-                "ms"
+                (x.city || "Unknown") + "\n" +
+                (x.org || "Unknown") + "\n" +
+                ms + "ms"
             });
 
           } catch (e) {
-
             $done({
-              content:
-                "✕ 数据解析失败"
+              content: "✕ 数据解析失败"
             });
-
           }
-
         }
       );
 
 
-  # ============================================================
-  # 网络控制中心
-  # ============================================================
-
   tile-network-control:
     interval: 86400
     payload: |
-
       var version =
-        $environment["stash-version"] ||
-        "Unknown";
+        $environment["stash-version"] || "Unknown";
 
       var build =
-        $environment["stash-build"] ||
-        "Unknown";
+        $environment["stash-build"] || "Unknown";
 
       $done({
         content:
-          "Stash · " +
-          version +
-          "\n" +
-          "Build · " +
-          build +
-          "\n" +
+          "Stash " + version + "\n" +
+          "Build · " + build + "\n" +
           "Network Engine · OK"
       });
 
-
-  # ============================================================
-  # DNS
-  #
-  # 自动检测：
-  #   Cloudflare DoH 实际 DNS 查询
-  #
-  # 手动检测：
-  #   DNSLeakTest 真正执行 DNS Leak Test
-  #
-  # 自动查询成功 ≠ DNS 无泄漏
-  # ============================================================
 
   tile-dns:
     interval: 86400
     payload: |
 
-      var start =
-        Date.now();
-
-      var finished =
-        false;
-
+      var start = Date.now();
+      var finished = false;
 
       function doneOnce(content) {
 
@@ -250,24 +184,20 @@ script-providers: #!replace
           return;
         }
 
-        finished =
-          true;
+        finished = true;
 
         $done({
-          content:
-            content
+          content: content
         });
-
       }
-
 
       setTimeout(function() {
 
         doneOnce(
-          "✕ DNS 查询超时\n" +
+          "✕ DNS 检测超时\n" +
           "DoH · Cloudflare\n" +
           "Resolver · 1.1.1.1\n" +
-          "手动检测 →"
+          "点击手动检测 →"
         );
 
       }, 6000);
@@ -279,12 +209,10 @@ script-providers: #!replace
             "https://1.1.1.1/dns-query?name=example.com&type=A",
 
           headers: {
-            "Accept":
-              "application/dns-json"
+            "Accept": "application/dns-json"
           },
 
-          timeout:
-            5
+          timeout: 5
         },
 
         function(error, response, data) {
@@ -294,8 +222,7 @@ script-providers: #!replace
           }
 
           var ms =
-            Date.now() -
-            start;
+            Date.now() - start;
 
 
           if (
@@ -309,14 +236,7 @@ script-providers: #!replace
               "✕ DNS 查询失败\n" +
               "DoH · Cloudflare\n" +
               "Resolver · 1.1.1.1\n" +
-              "HTTPS · " +
-              (
-                response
-                  ? response.status
-                  : "连接失败"
-              ) +
-              "\n" +
-              "手动检测 →"
+              "点击手动检测 →"
             );
 
             return;
@@ -329,22 +249,18 @@ script-providers: #!replace
               JSON.parse(data);
 
             var answers =
-              json.Answer ||
-              [];
+              json.Answer || [];
 
 
-            if (
-              answers.length === 0
-            ) {
+            if (answers.length === 0) {
 
               doneOnce(
-                "⚠ DNS 查询无 Answer\n" +
-                "DoH · Cloudflare\n" +
-                "Resolver · 1.1.1.1\n" +
-                "RTT · " +
+                "⚠ DNS 查询无记录 · " +
                 ms +
                 "ms\n" +
-                "手动检测 →"
+                "DoH · Cloudflare\n" +
+                "Resolver · 1.1.1.1\n" +
+                "点击手动检测 →"
               );
 
               return;
@@ -353,11 +269,6 @@ script-providers: #!replace
 
             var first =
               answers[0];
-
-            var ttl =
-              first.TTL !== undefined
-                ? first.TTL + "s"
-                : "未知";
 
 
             doneOnce(
@@ -373,24 +284,22 @@ script-providers: #!replace
               answers.length +
               "\n" +
               "TTL · " +
-              ttl +
+              (
+                first.TTL !== undefined
+                  ? first.TTL + "s"
+                  : "未知"
+              ) +
               "\n" +
-              "HTTPS · " +
-              response.status +
-              "\n" +
-              "手动检测 →"
+              "点击手动检测 →"
             );
 
 
           } catch (e) {
 
             doneOnce(
-              "✕ DNS 响应解析失败\n" +
+              "✕ DNS 数据解析失败\n" +
               "DoH · Cloudflare\n" +
-              "HTTPS · " +
-              response.status +
-              "\n" +
-              "手动检测 →"
+              "点击手动检测 →"
             );
 
           }
@@ -399,33 +308,18 @@ script-providers: #!replace
       );
 
 
-  # ============================================================
-  # WebRTC
-  #
-  # 自动：
-  #   BrowserLeaks 服务可达性
-  #
-  # 手动：
-  #   BrowserLeaks WebRTC API 实际检测
-  #
-  # 不伪造“无泄漏”
-  # ============================================================
-
   tile-webrtc:
     interval: 86400
     payload: |
 
-      var start =
-        Date.now();
-
+      var start = Date.now();
 
       $httpClient.get(
         "https://browserleaks.com/webrtc",
         function(error, response, data) {
 
           var ms =
-            Date.now() -
-            start;
+            Date.now() - start;
 
 
           if (
@@ -437,16 +331,8 @@ script-providers: #!replace
 
             $done({
               content:
-                "✕ 检测服务不可达\n" +
-                "BrowserLeaks\n" +
-                "HTTP · " +
-                (
-                  response
-                    ? response.status
-                    : "连接失败"
-                ) +
-                "\n" +
-                "手动检测 →"
+                "✕ WebRTC 检测失败\n" +
+                "点击手动检测 →"
             });
 
             return;
@@ -455,31 +341,16 @@ script-providers: #!replace
 
           $done({
             content:
-              "✓ 检测服务正常 · " +
+              "✓ WebRTC 服务正常 · " +
               ms +
               "ms\n" +
-              "自动检测 · 服务可用\n" +
-              "手动检测 →"
+              "自动检测 · 可用\n" +
+              "点击手动检测 →"
           });
 
         }
       );
 
-
-  # ============================================================
-  # TLS / HTTPS
-  #
-  # 这是 Stash Tile 能可靠取得的 TLS 信息：
-  #
-  # 1. 真实 HTTPS 请求
-  # 2. Cloudflare 返回的 TLS 版本
-  # 3. HTTP 协议
-  # 4. HTTPS 状态
-  # 5. Cloudflare POP
-  # 6. 实际 RTT
-  #
-  # 不伪造 Cipher / Certificate / OCSP 等信息
-  # ============================================================
 
   tile-tls:
     interval: 86400
@@ -490,22 +361,11 @@ script-providers: #!replace
 
 
       $httpClient.get(
-        {
-          url:
-            "https://www.cloudflare.com/cdn-cgi/trace",
-
-          timeout:
-            5,
-
-          insecure:
-            false
-        },
-
+        "https://www.cloudflare.com/cdn-cgi/trace",
         function(error, response, data) {
 
           var ms =
-            Date.now() -
-            start;
+            Date.now() - start;
 
 
           if (
@@ -517,11 +377,8 @@ script-providers: #!replace
 
             $done({
               content:
-                "✕ TLS / HTTPS 失败\n" +
-                "握手或 HTTPS 请求失败\n" +
-                "RTT · " +
-                ms +
-                "ms"
+                "✕ TLS 检测失败\n" +
+                "HTTPS 连接不可用"
             });
 
             return;
@@ -535,9 +392,6 @@ script-providers: #!replace
             "Unknown";
 
           var colo =
-            "Unknown";
-
-          var loc =
             "Unknown";
 
 
@@ -558,11 +412,6 @@ script-providers: #!replace
                 /(?:^|\n)colo=([^\n]+)/
               );
 
-            var locMatch =
-              data.match(
-                /(?:^|\n)loc=([^\n]+)/
-              );
-
 
             if (tlsMatch) {
               tls =
@@ -579,43 +428,27 @@ script-providers: #!replace
                 coloMatch[1];
             }
 
-            if (locMatch) {
-              loc =
-                locMatch[1];
-            }
-
           }
 
 
           $done({
             content:
-              "✓ TLS / HTTPS 正常\n" +
+              "✓ TLS 正常 · " +
+              ms +
+              "ms\n" +
               "TLS · " +
               tls +
               "\n" +
               "HTTP · " +
               http +
               "\n" +
-              "HTTPS · " +
-              response.status +
-              "\n" +
               "POP · " +
-              colo +
-              " · " +
-              loc +
-              "\n" +
-              "RTT · " +
-              ms +
-              "ms"
+              colo
           });
 
         }
       );
 
-
-  # ============================================================
-  # 网络质量
-  # ============================================================
 
   tile-network-quality:
     interval: 86400
@@ -630,15 +463,12 @@ script-providers: #!replace
         function(error, response, data) {
 
           var ms =
-            Date.now() -
-            start;
+            Date.now() - start;
 
 
           if (
             error ||
-            !response ||
-            response.status < 200 ||
-            response.status >= 400
+            !response
           ) {
 
             $done({
@@ -685,7 +515,7 @@ script-providers: #!replace
 
           $done({
             content:
-              "✓ HTTPS RTT · " +
+              "✓ " +
               ms +
               "ms\n" +
               "POP · " +
@@ -698,32 +528,91 @@ script-providers: #!replace
       );
 
 
-  # ============================================================
-  # QUIC / HTTP3
-  #
-  # 重要：
-  # Stash Script $httpClient 当前不能把这个请求
-  # 当作可靠的 HTTP/3 测试工具。
-  #
-  # 因此这里不伪造“HTTP/3 已连接”。
-  # ============================================================
-
   tile-quic-http3:
     interval: 86400
     payload: |
 
-      $done({
-        content:
-          "ℹ HTTP/3 自动检测受限\n" +
-          "Stash Script HTTP Client\n" +
-          "不将 HTTPS 请求冒充 HTTP/3\n" +
-          "需要实际 QUIC 连接才能判定"
-      });
+      var start =
+        Date.now();
+
+      $httpClient.get(
+        "https://cloudflare-quic.com/",
+        function(error, response, data) {
+
+          var ms =
+            Date.now() - start;
 
 
-  # ============================================================
-  # 节点健康
-  # ============================================================
+          if (
+            error ||
+            !response ||
+            response.status < 200 ||
+            response.status >= 400
+          ) {
+
+            $done({
+              content:
+                "✕ HTTP/3 不可用\n" +
+                "Endpoint · cloudflare-quic.com\n" +
+                "Latency · " +
+                ms +
+                "ms"
+            });
+
+            return;
+          }
+
+
+          var alt =
+            "";
+
+          try {
+
+            if (response.headers) {
+
+              alt =
+                response.headers["alt-svc"] ||
+                response.headers["Alt-Svc"] ||
+                "";
+
+            }
+
+          } catch (e) {}
+
+
+          if (
+            alt &&
+            alt.toLowerCase()
+              .indexOf("h3") !== -1
+          ) {
+
+            $done({
+              content:
+                "✓ HTTP/3 支持\n" +
+                "Endpoint · cloudflare-quic.com\n" +
+                "Latency · " +
+                ms +
+                "ms\n" +
+                "Alt-Svc · h3"
+            });
+
+          } else {
+
+            $done({
+              content:
+                "⚠ HTTP/3 状态未知\n" +
+                "Endpoint · cloudflare-quic.com\n" +
+                "Latency · " +
+                ms +
+                "ms\n" +
+                "Alt-Svc · 未检测到 h3"
+            });
+
+          }
+
+        }
+      );
+
 
   tile-node-health:
     interval: 86400
@@ -738,8 +627,7 @@ script-providers: #!replace
         function(error, response, data) {
 
           var ms =
-            Date.now() -
-            start;
+            Date.now() - start;
 
 
           if (
@@ -796,7 +684,6 @@ script-providers: #!replace
 
             level =
               "延迟较高";
-
           }
 
 
@@ -813,46 +700,6 @@ script-providers: #!replace
       );
 
 
-  # ============================================================
-  # Stash 3.6
-  #
-  # 这里只显示真实版本 / Build。
-  # 不再伪造 XHTTP / Gecko 检测结果。
-  # ============================================================
-
-  tile-stash36:
-    interval: 86400
-    payload: |
-
-      var version =
-        $environment["stash-version"] ||
-        "Unknown";
-
-      var build =
-        $environment["stash-build"] ||
-        "Unknown";
-
-
-      $done({
-        content:
-          "Stash · " +
-          version +
-          "\n" +
-          "Build · " +
-          build +
-          "\n" +
-          "Runtime · " +
-          (
-            $environment.system ||
-            "Unknown"
-          )
-      });
-
-
-  # ============================================================
-  # YouTube
-  # ============================================================
-
   tile-youtube:
     interval: 604800
     payload: |
@@ -866,8 +713,7 @@ script-providers: #!replace
         function(error, response, data) {
 
           var ms =
-            Date.now() -
-            start;
+            Date.now() - start;
 
 
           if (
@@ -878,18 +724,15 @@ script-providers: #!replace
           ) {
 
             $done({
-              icon:
-                "checkmark",
+              icon: "checkmark",
               content:
-                ms +
-                "ms"
+                ms + "ms"
             });
 
           } else {
 
             $done({
-              icon:
-                "xmark",
+              icon: "xmark",
               content:
                 "不可用"
             });
@@ -899,10 +742,6 @@ script-providers: #!replace
         }
       );
 
-
-  # ============================================================
-  # TikTok
-  # ============================================================
 
   tile-tiktok:
     interval: 604800
@@ -917,8 +756,7 @@ script-providers: #!replace
         function(error, response, data) {
 
           var ms =
-            Date.now() -
-            start;
+            Date.now() - start;
 
 
           if (
@@ -929,18 +767,15 @@ script-providers: #!replace
           ) {
 
             $done({
-              icon:
-                "checkmark",
+              icon: "checkmark",
               content:
-                ms +
-                "ms"
+                ms + "ms"
             });
 
           } else {
 
             $done({
-              icon:
-                "xmark",
+              icon: "xmark",
               content:
                 "不可用"
             });
@@ -950,10 +785,6 @@ script-providers: #!replace
         }
       );
 
-
-  # ============================================================
-  # X
-  # ============================================================
 
   tile-x:
     interval: 604800
@@ -968,8 +799,7 @@ script-providers: #!replace
         function(error, response, data) {
 
           var ms =
-            Date.now() -
-            start;
+            Date.now() - start;
 
 
           if (
@@ -980,18 +810,15 @@ script-providers: #!replace
           ) {
 
             $done({
-              icon:
-                "checkmark",
+              icon: "checkmark",
               content:
-                ms +
-                "ms"
+                ms + "ms"
             });
 
           } else {
 
             $done({
-              icon:
-                "xmark",
+              icon: "xmark",
               content:
                 "不可用"
             });
@@ -1001,10 +828,6 @@ script-providers: #!replace
         }
       );
 
-
-  # ============================================================
-  # Instagram
-  # ============================================================
 
   tile-instagram:
     interval: 604800
@@ -1019,8 +842,7 @@ script-providers: #!replace
         function(error, response, data) {
 
           var ms =
-            Date.now() -
-            start;
+            Date.now() - start;
 
 
           if (
@@ -1031,18 +853,15 @@ script-providers: #!replace
           ) {
 
             $done({
-              icon:
-                "checkmark",
+              icon: "checkmark",
               content:
-                ms +
-                "ms"
+                ms + "ms"
             });
 
           } else {
 
             $done({
-              icon:
-                "xmark",
+              icon: "xmark",
               content:
                 "不可用"
             });
@@ -1052,10 +871,6 @@ script-providers: #!replace
         }
       );
 
-
-  # ============================================================
-  # Google
-  # ============================================================
 
   tile-google:
     interval: 604800
@@ -1070,8 +885,7 @@ script-providers: #!replace
         function(error, response, data) {
 
           var ms =
-            Date.now() -
-            start;
+            Date.now() - start;
 
 
           if (
@@ -1082,18 +896,15 @@ script-providers: #!replace
           ) {
 
             $done({
-              icon:
-                "checkmark",
+              icon: "checkmark",
               content:
-                ms +
-                "ms"
+                ms + "ms"
             });
 
           } else {
 
             $done({
-              icon:
-                "xmark",
+              icon: "xmark",
               content:
                 "不可用"
             });
@@ -1103,10 +914,6 @@ script-providers: #!replace
         }
       );
 
-
-  # ============================================================
-  # Netflix
-  # ============================================================
 
   tile-netflix:
     interval: 604800
@@ -1121,8 +928,7 @@ script-providers: #!replace
         function(error, response, data) {
 
           var ms =
-            Date.now() -
-            start;
+            Date.now() - start;
 
 
           if (
@@ -1133,18 +939,15 @@ script-providers: #!replace
           ) {
 
             $done({
-              icon:
-                "checkmark",
+              icon: "checkmark",
               content:
-                ms +
-                "ms"
+                ms + "ms"
             });
 
           } else {
 
             $done({
-              icon:
-                "xmark",
+              icon: "xmark",
               content:
                 "不可用"
             });
@@ -1153,32 +956,3 @@ script-providers: #!replace
 
         }
       );
-
-
-  # ============================================================
-  # Loog
-  # ============================================================
-
-  tile-loog:
-    interval: 86400
-    payload: |
-
-      var version =
-        $environment["stash-version"] ||
-        "Unknown";
-
-      var build =
-        $environment["stash-build"] ||
-        "Unknown";
-
-
-      $done({
-        content:
-          "Stash · " +
-          version +
-          "\n" +
-          "Build · " +
-          build +
-          "\n" +
-          "Tile Engine · OK"
-      });
