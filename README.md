@@ -24,17 +24,13 @@ Stash iOS 网络检测 Tile 面板。
 - 🎬 Netflix
 
 ## URL
-
-**Stash:**
-
-`https://raw.githubusercontent.com/lihx0481-create/Stash-config/main/Default.yaml`
-
+https://raw.githubusercontent.com/lihx0481-create/Stash-config/main/Default.yaml
 ## Update
 
 **V2.0 — 2026-08-15**
 
 - 全新 Tile 面板
-- 适配 Stash 3.6
+- 适配 Stash （TestFlight3.6.0）
 - 核心检测：24 小时
 - 第三方检测：7 天
 - 修复重复 Tile
