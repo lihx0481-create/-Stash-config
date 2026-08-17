@@ -1,0 +1,21 @@
+name: '网易新闻综合去广告 · Zika'
+desc: 'Zika 自维护的网易新闻去广告规则，拦截已识别的广告投放请求，尽量避免影响新闻、视频及正常内容加载'
+author: 'zika'
+icon: 'https://raw.githubusercontent.com/lihx0481-create/-Stash-config/main/Stash/icon/NeteaseNews.png'
+category: '去广告'
+
+http:
+  url-rewrite:
+
+    # 网易广告投放服务
+    # 仅匹配网易新闻广告请求，不封整个 nex.163.com
+    - ^https?:\/\/nex\.163\.com\/q\?(?=.*(?:affiliate=news|affiliate=homepage))(?=.*(?:cat=homepage|cat=article))(?=.*(?:type=logo\d+x\d+|type=column\d+x\d+)).*$ - reject
+
+    # 网易新闻广告回传/反馈接口
+    - ^https?:\/\/g1\.163\.com\/madfeedback(?:\?.*)?$ - reject
+
+    # 网易新闻广告配置/推广资源
+    - ^https?:\/\/c\.m\.163\.com\/nc\/gl\/(?:.*)$ - reject
+
+    # 网易新闻广告搜索填充接口
+    - ^https?:\/\/client\.mail\.163\.com\/apptrack\/confinfo\/searchMultiAds(?:\?.*)?$ - reject
