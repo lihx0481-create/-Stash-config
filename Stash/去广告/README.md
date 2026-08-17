@@ -42,7 +42,9 @@
 
 [🟣 微博去广告规则](https://raw.githubusercontent.com/lihx0481-create/-Stash-config/main/Stash/%E5%8E%BB%E5%B9%BF%E5%91%8A/Weibo-No-Ads.stoverride)
 
+### 🔵 知乎
 
+[🔵 知乎去广告规则](https://raw.githubusercontent.com/lihx0481-create/-Stash-config/main/Stash/%E5%8E%BB%E5%B9%BF%E5%91%8A/Zhihu-No-Ads.stoverride)
 
 
 
