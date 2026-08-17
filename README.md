@@ -5,15 +5,7 @@ Stash Network Diagnostic Tiles
 
 🔍 检测内容
 
-* 🌐 国际出口 — 真实获取出口 IP、地区、网络组织及 RTT
-* 🟢 网络控制中心 — 显示 Stash 版本、Build 等运行信息
-* 🧠 DNS 检测 — 真实 Cloudflare DoH 查询，并提供手动 DNS 泄漏检测
-* 🛡️ WebRTC 检测 — 自动检测服务状态，并提供手动 WebRTC 泄漏检测
-* 🔐 TLS / HTTPS — 真实 HTTPS/TLS 连接、TLS 版本、HTTP 协议、状态及 RTT
-* 📊 网络质量 — 真实 HTTPS RTT 与 Cloudflare POP
-* ⚡ QUIC / HTTP3 — 不伪造检测结果，无法可靠验证时明确提示
-* 💚 节点健康 — 真实 HTTP 连通性与响应延迟
-* 🌍 第三方服务 — YouTube、TikTok、X、Instagram、Google、Netflix 真实访问检测
+* 🌐 国际出口 * 🟢 网络控制中心* 🧠 DNS* 🛡️ WebRTC 检测* 🔐 TLS / HTTPS* 📊 网络质量 * ⚡ QUIC / HTTP3 * 💚 节点健康 * 🌍 第三方服务 
 
 🔗 手动检测
 
