@@ -62,7 +62,9 @@
 
 [⚡ 快手去广告规则](https://raw.githubusercontent.com/lihx0481-create/-Stash-config/main/Stash/%E5%8E%BB%E5%B9%BF%E5%91%8A/Kuaishou-No-Ads-Zika.stoverride)
 
+### 📰 网易新闻
 
+[📰 网易新闻去广告规则](https://raw.githubusercontent.com/lihx0481-create/-Stash-config/main/Stash/%E5%8E%BB%E5%B9%BF%E5%91%8A/NeteaseNews-No-Ads-Zika.stoverride)
 
 
 
