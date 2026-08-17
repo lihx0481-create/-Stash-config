@@ -35,12 +35,12 @@ WebRTC 服务可访问 ≠ WebRTC 无泄漏
 检测结果受当前网络、节点、DNS 和目标服务器影响，仅代表检测时的实际状态。
 
 
-## 🛡️ 去广告复写
+## 🛡️ stash去广告复写
 
 - [美团去广告（Stash）](https://raw.githubusercontent.com/lihx0481-create/-Stash-config/main/Stash/%E5%8E%BB%E5%B9%BF%E5%91%8A/Meituan-No-Opening-Ads.stoverride)
 - [京东去广告](https://raw.githubusercontent.com/lihx0481-create/-Stash-config/main/Stash/%E5%8E%BB%E5%B9%BF%E5%91%8A/JD-No-Opening-Ads.stoverride)
 - [哔哩哔哩综合去广告](https://raw.githubusercontent.com/lihx0481-create/-Stash-config/main/Stash/%E5%8E%BB%E5%B9%BF%E5%91%8A/Bilibili-No-Ads.stoverride)
-
+- [爱奇艺综合去广告](https://raw.githubusercontent.com/lihx0481-create/-Stash-config/main/Stash/%E5%8E%BB%E5%B9%BF%E5%91%8A/IQiyi-No-Ads.stoverride)
 
 
 
