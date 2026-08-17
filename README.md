@@ -22,7 +22,7 @@ WebRTC 泄漏：
 
 ## 🛡️ stash去广告复写
        
-- [🇨🇳 国内软件去广告](./China-Apps/README.md)
+
 
 ⚠️ 面板真实性说明
 
