@@ -34,9 +34,6 @@ WebRTC 泄漏：
 - [🎵 网易云音乐综合去广告](https://raw.githubusercontent.com/lihx0481-create/-Stash-config/main/Stash/%E5%8E%BB%E5%B9%BF%E5%91%8A/NeteaseCloudMusic-No-Ads.stoverride)
 
 
-## 🎨 Stash 图标集
-
-- [🎨 Stash 图标集](https://github.com/lihx0481-create/-Stash-config/tree/main/Stash/Icon)
 
 
 ⚠️ 面板真实性说明
