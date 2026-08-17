@@ -1,0 +1,16 @@
+name: '抖音综合去广告 · Zika'
+desc: 'Zika 自维护的抖音去广告规则，优先处理明确广告资源，避免影响视频播放、搜索和正常推荐'
+author: 'zika'
+icon: 'https://raw.githubusercontent.com/lihx0481-create/-Stash-config/main/Stash/icon/Douyin.png'
+category: '去广告'
+
+http:
+  url-rewrite:
+    # 明确的广告资源路径
+    - ^https?:\/\/[^\/]+\/(?:ad|ads|advert|advertise|advertisement)\/.+$ - reject
+
+    # 明确以广告资源目录提供的图片/视频
+    - ^https?:\/\/[^\/]+\/.+\/(?:ad|ads|advert|advertise)\/.+\.(?:jpg|jpeg|png|webp|gif|mp4)(?:\?.*)?$ - reject
+
+    # 明确广告资源文件名
+    - ^https?:\/\/[^\/]+\/.+(?:^|[\/_-])(?:ad|ads|advert|advertise)[_-].+\.(?:jpg|jpeg|png|webp|gif|mp4)(?:\?.*)?$ - reject
