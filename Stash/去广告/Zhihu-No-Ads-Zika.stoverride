@@ -1,0 +1,17 @@
+name: '知乎综合去广告 · Zika'
+desc: 'Zika 自维护的知乎去广告规则，优先拦截明确的广告投放与广告回传请求，避免影响正常内容'
+author: 'zika'
+icon: 'https://raw.githubusercontent.com/lihx0481-create/-Stash-config/main/Stash/icon/Zhihu.png'
+category: '去广告'
+
+http:
+  url-rewrite:
+
+    # 知乎广告回传接口
+    - ^https?:\/\/sugar\.zhihu\.com\/plutus_adreaper_callback(?:\?.*)?$ - reject
+
+    # 知乎广告转化/监测请求
+    - ^https?:\/\/[^\/]*\.zhihu\.com\/.*(?:ad_reaper|ad_callback|advert_callback)(?:[\/?].*)?$ - reject
+
+    # 明确的广告点击/曝光监测参数
+    - ^https?:\/\/[^\/]*\.zhihu\.com\/.*[?&](?:ad_id|advert_id|campaign_id|creative_id)=.*$ - reject
