@@ -39,6 +39,4 @@ WebRTC 服务可访问 ≠ WebRTC 无泄漏
 
 ### 美团去开屏广告
 
-**Stash：**
-
-`https://raw.githubusercontent.com/lihx0481-create/-Stash-config/main/Stash/%E5%8E%BB%E5%B9%BF%E5%91%8A/Meituan-No-Opening-Ads.stoverride`
+[📋 点击复制粘贴到 Stash](https://raw.githubusercontent.com/lihx0481-create/-Stash-config/main/Stash/%E5%8E%BB%E5% 广告/Meituan-No-Opening-Ads.stoverride)
