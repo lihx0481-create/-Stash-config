@@ -1,0 +1,47 @@
+name: '哔哩哔哩综合去广告'
+desc: '移除哔哩哔哩 App 开屏、信息流、推荐、我的页面及部分广告'
+author: 'zika'
+icon: 'https://raw.githubusercontent.com/Koolson/Qure/master/IconSet/Color/bilibili.png'
+category: '去广告'
+
+http:
+  script:
+    # 1. 开屏广告
+    - match: '^https?:\/\/app\.bilibili\.com\/x\/v2\/splash\/list'
+      script-path: 'https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/script/bilibili/bilibili_plus.js'
+      require-body: true
+
+    # 2. 首页 / 推荐信息流
+    - match: '^https?:\/\/app\.bilibili\.com\/x\/v2\/feed\/index\?.*'
+      script-path: 'https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/script/bilibili/bilibili_plus.js'
+      require-body: true
+
+    # 2. 推荐相关
+    - match: '^https?:\/\/api\.bilibili\.com\/pgc\/season\/app\/related\/recommend\?.*'
+      script-path: 'https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/script/bilibili/bilibili_plus.js'
+      require-body: true
+
+    # 4. 标签页
+    - match: '^https?:\/\/app\.bilibili\.com\/x\/resource\/show\/tab'
+      script-path: 'https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/script/bilibili/bilibili_plus.js'
+      require-body: true
+
+    # 我的页面
+    - match: '^https?:\/\/app\.bilibili\.com\/x\/v2\/account\/mine'
+      script-path: 'https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/script/bilibili/bilibili_plus.js'
+      require-body: true
+
+    # 直播
+    - match: '^https?:\/\/api\.live\.bilibili\.com\/xlive\/app-room\/v1\/index\/getInfoByRoom'
+      script-path: 'https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/script/bilibili/bilibili_plus.js'
+      require-body: true
+
+    # 追番
+    - match: '^https?:\/\/api\.bilibili\.com\/pgc\/page\/bangumi'
+      script-path: 'https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/script/bilibili/bilibili_plus.js'
+      require-body: true
+
+  url-rewrite:
+    # 广告服务
+    - '^https?:\/\/cm\.bilibili\.com\/.*$ - reject'
+    - '^https?:\/\/api\.bilibili\.com\/x\/v2\/dm\/ad.*$ - reject'
