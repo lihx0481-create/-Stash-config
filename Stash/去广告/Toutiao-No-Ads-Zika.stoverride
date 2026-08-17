@@ -1,0 +1,17 @@
+name: '今日头条综合去广告 · Zika'
+desc: 'Zika 自维护的今日头条广告拦截规则'
+author: 'zika'
+icon: 'https://raw.githubusercontent.com/lihx0481-create/-Stash-config/main/Stash/icon/Toutiao.png'
+category: '去广告'
+
+http:
+  url-rewrite:
+
+    # 今日头条广告联盟：广告请求
+    - ^https?:\/\/api-access\.pangolin-sdk-toutiao\.com\/api\/ad\/union\/sdk\/get_ads(?:\?.*)?$ - reject
+
+    # 今日头条广告联盟：预请求 / Server Bidding
+    - ^https?:\/\/api-access\.pangolin-sdk-toutiao\.com\/api\/ad\/union\/server_bidding\/pre_fetch\/.*$ - reject
+
+    # Pangolin 广告素材渲染资源
+    - ^https?:\/\/sf3-fe-tos\.pglstatp-toutiao\.com\/obj\/ad-pattern\/renderer\/.*$ - reject
