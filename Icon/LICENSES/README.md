@@ -1,1 +1,0 @@
-This directory contains the license information for the icon sources used in this collection.
