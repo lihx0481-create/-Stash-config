@@ -1,0 +1,15 @@
+name: '网易云音乐综合去广告 · Zika'
+desc: 'Zika 自维护的网易云音乐广告拦截规则'
+author: 'zika'
+icon: 'https://raw.githubusercontent.com/lihx0481-create/-Stash-config/main/Stash/icon/NeteaseCloudMusic.png'
+category: '去广告'
+
+http:
+  url-rewrite:
+
+    # 网易云音乐广告效果回传
+    # 用于广告曝光、点击、下载及付费等广告转化事件
+    - ^https?:\/\/ad-effect\.music\.163\.com\/ad\/action(?:\?.*)?$ - reject
+
+    # 网易云音乐广告效果接口的 HTTPS 路径变体
+    - ^https?:\/\/ad-effect\.music\.163\.com\/ad\/action\/.*$ - reject
