@@ -4,6 +4,16 @@ Stash 国内软件去广告复写合集。
 
 ## 📱 软件列表
 
-### 🍔 美团
+### 🛒 京东
 
-https://raw.githubusercontent.com/lihx0481-create/-Stash-config/main/Stash/%E5%8E%BB%E5%B9%BF%E5%91%8A/Meituan-No-Opening-Ads.stoverride
+[🛒 京东去广告规则](https://raw.githubusercontent.com/lihx0481-create/-Stash-config/main/Stash/%E5%8E%BB%E5%B9%BF%E5%91%8A/JD-No-Opening-Ads.stoverride)
+
+
+
+
+
+
+
+
+
+
