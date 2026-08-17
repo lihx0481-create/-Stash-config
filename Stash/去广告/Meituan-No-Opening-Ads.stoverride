@@ -1,1 +1,11 @@
-https://raw.githubusercontent.com/lihx0481-create/-Stash-config/main/Stash/去广告/Meituan-No-Opening-Ads.stoverride
+name: 美团去开屏广告
+desc: 移除美团 App 开屏广告
+author: zika
+category: 去广告
+
+http:
+  url-rewrite:
+    - ^https?:\/\/wmapi\.meituan\.com\/api\/v\d+\/loadInfo\?.*$ - reject
+    - ^https?:\/\/wmapi\.meituan\.com\/api\/v\d+\/openscreen\?.*$ - reject-200
+    - ^https?:\/\/wmapi\.meituan\.com\/api\/v\d+\/startpicture.*$ - reject-200
+    - ^https?:\/\/www\.meituan\.com\/api\/v\d+\/appstatus\?.*$ - reject
