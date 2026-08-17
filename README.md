@@ -22,19 +22,9 @@ WebRTC 泄漏：
 
 ## 🛡️ stash去广告复写
        
-- [🍔 美团综合去广告](https://raw.githubusercontent.com/lihx0481-create/-Stash-config/main/Stash/%E5%8E%BB%E5%B9%BF%E5%91%8A/Meituan-No-Opening-Ads.stoverride)
-- [🛒 京东综合去广告](https://raw.githubusercontent.com/lihx0481-create/-Stash-config/main/Stash/%E5%8E%BB%E5%B9%BF%E5%91%8A/JD-No-Opening-Ads.stoverride)
-- [📺 哔哩哔哩综合去广告](https://raw.githubusercontent.com/lihx0481-create/-Stash-config/main/Stash/%E5%8E%BB%E5%B9%BF%E5%91%8A/Bilibili-No-Ads.stoverride)
-- [🥝 爱奇艺综合去广告](https://raw.githubusercontent.com/lihx0481-create/-Stash-config/main/Stash/%E5%8E%BB%E5%B9%BF%E5%91%8A/IQiyi-No-Ads.stoverride)
-- [▶️ 优酷综合去广告](https://raw.githubusercontent.com/lihx0481-create/-Stash-config/main/Stash/%E5%8E%BB%E5%B9%BF%E5%91%8A/Youku-No-Ads.stoverride)
-- [🎬 腾讯视频综合去广告](https://raw.githubusercontent.com/lihx0481-create/-Stash-config/main/Stash/%E5%8E%BB%E5%B9%BF%E5%91%8A/TencentVideo-No-Ads.stoverride)
-- [📕 小红书综合去广告](https://raw.githubusercontent.com/lihx0481-create/-Stash-config/main/Stash/%E5%8E%BB%E5%B9%BF%E5%91%8A/XiaoHongShu-No-Ads.stoverride)
-- [🛍️ 淘宝综合去广告](https://raw.githubusercontent.com/lihx0481-create/-Stash-config/main/Stash/%E5%8E%BB%E5%B9%BF%E5%91%8A/Taobao-No-Ads.stoverride)
-- [🛍️ 拼多多综合去广告](https://raw.githubusercontent.com/lihx0481-create/-Stash-config/main/Stash/%E5%8E%BB%E5%B9%BF%E5%91%8A/Pinduoduo-No-Ads.stoverride)
-- [🎵 网易云音乐综合去广告](https://raw.githubusercontent.com/lihx0481-create/-Stash-config/main/Stash/%E5%8E%BB%E5%B9%BF%E5%91%8A/NeteaseCloudMusic-No-Ads.stoverride)
+## 🇨🇳 国内软件去广告
 
-
-
+- [🇨🇳 国内软件去广告](./China-Apps-No-Ads.md)
 
 ⚠️ 面板真实性说明
 
