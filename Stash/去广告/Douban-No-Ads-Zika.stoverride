@@ -1,0 +1,23 @@
+name: '豆瓣综合去广告 · Zika'
+desc: 'Zika 自维护的豆瓣去广告规则，拦截已确认的广告请求，尽量避免影响正常内容、评论、电影及小组功能'
+author: 'zika'
+icon: 'https://raw.githubusercontent.com/lihx0481-create/-Stash-config/main/Stash/icon/Douban.png'
+category: '去广告'
+
+http:
+  url-rewrite:
+
+    # 豆瓣 App 广告接口
+    - ^https?:\/\/api\.douban\.com\/v2\/app_ads\/(?:\?.*)?$ - reject
+
+    # 豆瓣免费广告接口
+    - ^https?:\/\/frodo\.douban\.com\/api\/v2\/erebor\/free_ad(?:\?.*)?$ - reject
+
+    # 豆瓣广告投放服务
+    - ^https?:\/\/opehs\.tanx\.com\/japi(?:\?.*)?$ - reject
+
+    # Tanx 广告请求配置
+    - ^https?:\/\/sdk-config\.tanx\.com\/.*$ - reject
+
+    # 豆瓣广告联盟请求
+    - ^https?:\/\/dsp-x\.jd\.com\/adx\/sdk(?:\?.*)?$ - reject
