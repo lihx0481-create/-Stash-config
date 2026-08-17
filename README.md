@@ -15,8 +15,7 @@ DNS 泄漏：
 WebRTC 泄漏：
 [BrowserLeaks WebRTC Test](https://browserleaks.com/webrtc)
 
-📄ZIKA STASH CONFIG；
-
+📄ZIKASTASH配置文件；
 [Default.yaml Raw](https://raw.githubusercontent.com/lihx0481-create/-Stash-config/main/Default.yaml)
 
 
