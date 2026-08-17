@@ -2,6 +2,6 @@
 
 国内软件 Stash 去广告规则合集。
 
-点击下面的软件名称即可进入对应的 `.stoverride` 文件。
-
 ## 📱 软件列表
+
+- [🍔 美团综合去广告](./Meituan-No-Ads.stoverride)
