@@ -1,0 +1,16 @@
+name: '红果短剧综合去广告 · Zika'
+desc: 'Zika 自维护的红果短剧去广告规则，优先拦截明确广告资源，避免影响正常短剧播放'
+author: 'zika'
+icon: 'https://raw.githubusercontent.com/lihx0481-create/-Stash-config/main/Stash/icon/Hongguo.png'
+category: '去广告'
+
+http:
+  url-rewrite:
+    # 明确的广告路径
+    - ^https?:\/\/[^\/]+\/(?:ad|ads|advert|advertise|advertisement)(?:\/|\?|$).*$ - reject
+
+    # 明确的广告资源文件
+    - ^https?:\/\/[^\/]+\/.*(?:^|[\/_-])(?:ad|ads|advert|advertise)(?:[\/_.?-]).*\.(?:jpg|jpeg|png|webp|gif|mp4)(?:\?.*)?$ - reject
+
+    # 广告请求参数明确出现广告标识
+    - ^https?:\/\/[^\/]+\/.*[?&](?:ad_id|adid|advert_id|advertid|ad_type)=.*$ - reject
