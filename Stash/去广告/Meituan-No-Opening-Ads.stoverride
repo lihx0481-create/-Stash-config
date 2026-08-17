@@ -3,7 +3,7 @@
 name: '美团综合去广告'
 desc: '移除美团 App 开屏、信息流、Banner、弹窗及广告资源'
 author: 'zika'
-icon: 'https://api.iconify.design/simple-icons/meituan.svg'
+icon: 'https://raw.githubusercontent.com/Toperlock/Quantumult/main/icon/meituan.png'
 category: '去广告'
 
 http:
