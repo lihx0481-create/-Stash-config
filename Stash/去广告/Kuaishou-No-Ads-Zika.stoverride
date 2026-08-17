@@ -1,0 +1,20 @@
+name: '快手综合去广告 · Zika'
+desc: 'Zika 自维护的快手去广告规则，拦截明确广告请求及广告素材，避免影响正常视频、直播与内容加载'
+author: 'zika'
+icon: 'https://raw.githubusercontent.com/lihx0481-create/-Stash-config/main/Stash/icon/Kuaishou.png'
+category: '去广告'
+
+http:
+  url-rewrite:
+
+    # 快手广告 SDK：明确广告请求
+    - ^https?:\/\/[^\/]*kuaishou[^\/]*\/.*(?:\/|_)(?:ad|ads|advert|advertise)(?:\/|[?&]|$).*$ - reject
+
+    # 明确的开屏广告请求
+    - ^https?:\/\/[^\/]+\/.*(?:splash|startup|launch).*(?:ad|advert).*$ - reject
+
+    # 明确的广告素材路径
+    - ^https?:\/\/[^\/]+\/.*\/(?:ad|ads|advert|advertise)\/.*\.(?:jpg|jpeg|png|webp|gif|mp4)(?:\?.*)?$ - reject
+
+    # 广告素材文件名
+    - ^https?:\/\/[^\/]+\/.*(?:^|[\/_-])(?:ad|ads|advert|advertise)[_-].*\.(?:jpg|jpeg|png|webp|gif|mp4)(?:\?.*)?$ - reject
