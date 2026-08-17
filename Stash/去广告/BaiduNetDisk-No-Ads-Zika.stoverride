@@ -1,0 +1,69 @@
+name: '百度网盘综合去广告 · Zika'
+desc: 'Zika 自维护的百度网盘去广告规则｜2026'
+author: 'zika'
+icon: 'https://raw.githubusercontent.com/lihx0481-create/-Stash-config/main/Stash/icon/BaiduNetDisk.png'
+category: '去广告'
+
+http:
+  mitm:
+    - pan.baidu.com
+    - mobads.baidu.com
+    - mobads-logs.baidu.com
+    - cpro.baidustatic.com
+
+  url-rewrite:
+
+    # ==========================================
+    # 百度网盘 · 开屏广告
+    # ==========================================
+
+    # 百度网盘开屏调度/模式请求
+    - ^https?:\/\/pan\.baidu\.com\/.*(?:splashMode|splashSchedule)(?:[/?&].*)?$ - reject-dict
+
+    # 百度网盘开屏广告资源
+    - ^https?:\/\/pan\.baidu\.com\/.*(?:splash|startup|launch)[^/]*(?:[/?&].*)?$ - reject-dict
+
+
+    # ==========================================
+    # 百度网盘 · 广告配置
+    # ==========================================
+
+    - ^https?:\/\/pan\.baidu\.com\/rest\/\d+\.\d+\/pcs\/adv(?:\?.*)?$ - reject-dict
+
+
+    # ==========================================
+    # 百度网盘 · 活动/推广
+    # ==========================================
+
+    - ^https?:\/\/pan\.baidu\.com\/act\/api\/activityentry(?:\?.*)?$ - reject-dict
+
+    - ^https?:\/\/pan\.baidu\.com\/act\/v2\/welfare\/list(?:\?.*)?$ - reject-dict
+
+
+    # ==========================================
+    # 百度网盘 · 游戏推广
+    # ==========================================
+
+    - ^https?:\/\/pan\.baidu\.com\/rest\/2\.0\/membership\/user\?method=gamecenter(?:&.*)?$ - reject-dict
+
+
+    # ==========================================
+    # 百度广告服务
+    # ==========================================
+
+    - ^https?:\/\/mobads\.baidu\.com\/.*$ - reject
+
+    - ^https?:\/\/mobads-logs\.baidu\.com\/.*$ - reject
+
+    - ^https?:\/\/wn\.pos\.baidu\.com\/.*$ - reject
+
+    - ^https?:\/\/bgg\.baidu\.com\/.*$ - reject
+
+    - ^https?:\/\/als\.baidu\.com\/.*$ - reject
+
+
+    # ==========================================
+    # 百度广告素材
+    # ==========================================
+
+    - ^https?:\/\/cpro\.baidustatic\.com\/.*$ - reject
