@@ -1,0 +1,101 @@
+name: '红果短剧综合去广告 · Zika 2026'
+desc: 'Zika 自维护｜红果开屏、插播、全屏、信息流及广告素材'
+author: 'zika'
+icon: 'https://raw.githubusercontent.com/lihx0481-create/-Stash-config/main/Stash/icon/RedFruit.png'
+category: '去广告'
+
+http:
+  mitm:
+    - '*.pangolin-sdk-toutiao.com'
+    - '*.pglstatp-toutiao.com'
+    - '*.pstatp.com'
+    - 'i.snssdk.com'
+    - 'i-lq.snssdk.com'
+    - 'activity-ag.awemeughun.com'
+    - 'dig.bdurl.net'
+    - 'p6-ad-sign.byteimg.com'
+    - 'p9-ad-sign.byteimg.com'
+
+  url-rewrite:
+
+    # ==========================================
+    # ① 开屏广告
+    # ==========================================
+
+    # 穿山甲广告获取
+    - '^https?:\/\/[^\/]+\.pangolin-sdk-toutiao\.com\/api\/ad\/union\/sdk\/get_ads\/.*$' - reject-dict
+
+    # 广告配置
+    - '^https?:\/\/[^\/]+\.pangolin-sdk-toutiao\.com\/api\/ad\/union\/sdk\/settings\/.*$' - reject-dict
+
+
+    # ==========================================
+    # ② 剧集间插播 / 插屏 / 全屏广告
+    # ==========================================
+
+    # 广告获取
+    - '^https?:\/\/[^\/]+\.pangolin-sdk-toutiao\.com\/api\/ad\/union\/sdk\/get_ads\/.*$' - reject-dict
+
+    # 明确广告视频素材
+    - '^https?:\/\/[^\/]+\.(?:pglstatp-toutiao|pstatp)\.com\/(?:obj|img)\/(?:ad|ad-app-package)\/.*$' - reject
+
+    # 广告渲染资源
+    - '^https?:\/\/[^\/]+\.pstatp\.com\/obj\/ad-pattern\/.*$' - reject
+
+    # 广告 MP4 素材
+    - '^https?:\/\/[^\/]+\.(?:pglstatp-toutiao|pstatp)\.com\/.*(?:ad|ads|advert|advertisement).*\.mp4(?:\?.*)?$' - reject
+
+
+    # ==========================================
+    # ③ 信息流 / Banner 广告
+    # ==========================================
+
+    # 字节广告 API
+    - '^https?:\/\/(?:i|i-lq)\.snssdk\.com\/api\/ad\/.*$' - reject-dict
+
+    # 明确广告路径
+    - '^https?:\/\/(?:i|i-lq)\.snssdk\.com\/.*\/(?:ad|ads|advert|advertisement)\/.*$' - reject-dict
+
+
+    # ==========================================
+    # ④ 广告曝光 / 点击 / 转化
+    # ==========================================
+
+    - '^https?:\/\/[^\/]+\.pangolin-sdk-toutiao\.com\/api\/ad\/union\/sdk\/stats\/.*$' - reject
+
+    - '^https?:\/\/dig\.bdurl\.net\/.*$' - reject
+
+    - '^https?:\/\/activity-ag\.awemeughun\.com\/.*$' - reject
+
+
+    # ==========================================
+    # ⑤ 广告素材
+    # ==========================================
+
+    - '^https?:\/\/p6-ad-sign\.byteimg\.com\/.*$' - reject
+
+    - '^https?:\/\/p9-ad-sign\.byteimg\.com\/.*$' - reject
+
+    - '^https?:\/\/[^\/]+\.(?:pglstatp-toutiao|pstatp)\.com\/obj\/(?:ad|img\/ad)\/.*$' - reject
+
+
+    # ==========================================
+    # ⑥ 广告渲染
+    # ==========================================
+
+    - '^https?:\/\/[^\/]+\.pstatp\.com\/obj\/ad-pattern\/renderer\/.*$' - reject
+
+
+    # ==========================================
+    # ⑦ 安全边界
+    # ==========================================
+
+    # 不拦截：
+    #
+    # *.pstatp.com 普通视频
+    # *.byteimg.com 普通图片/CDN
+    # *.snssdk.com 普通 API
+    # *.bytedance.com 普通业务
+    #
+    # 仅拦截明确广告 API、广告素材、
+    # 广告渲染资源和广告回传。
