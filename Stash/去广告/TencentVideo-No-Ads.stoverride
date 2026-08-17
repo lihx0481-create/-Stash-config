@@ -1,7 +1,7 @@
 name: '腾讯视频综合去广告'
 desc: '移除腾讯视频 App 开屏、贴片及部分广告请求'
 author: 'zika'
-icon: 'https://raw.githubusercontent.com/Semporia/Hand-Painted-icon/master/Universal/TencentVideo.png'
+icon: 'https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/icon/qure/color/WeTV.png'
 category: '去广告'
 
 http:
