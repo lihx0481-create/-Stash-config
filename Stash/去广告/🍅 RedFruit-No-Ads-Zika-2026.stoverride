@@ -1,0 +1,99 @@
+name: '红果短剧综合去广告 · Zika 2026'
+desc: 'Zika 自维护｜红果开屏、插播、信息流、广告素材及广告回传'
+author: 'zika'
+icon: 'https://raw.githubusercontent.com/lihx0481-create/-Stash-config/main/Stash/icon/RedFruit.png'
+category: '去广告'
+
+http:
+  mitm:
+    - '*.pangolin-sdk-toutiao.com'
+    - '*.pglstatp-toutiao.com'
+    - '*.pstatp.com'
+    - 'i.snssdk.com'
+    - 'i-lq.snssdk.com'
+    - 'activity-ag.awemeughun.com'
+    - 'dig.bdurl.net'
+    - 'p6-ad-sign.byteimg.com'
+    - 'p9-ad-sign.byteimg.com'
+
+  url-rewrite:
+
+    # ==========================================
+    # ① 开屏广告
+    # ==========================================
+
+    # 穿山甲广告获取
+    - '^https?:\/\/[^\/]+\.pangolin-sdk-toutiao\.com\/api\/ad\/union\/sdk\/get_ads\/.*$' - reject-dict
+
+    # 开屏/广告配置
+    - '^https?:\/\/[^\/]+\.pangolin-sdk-toutiao\.com\/api\/ad\/union\/sdk\/settings\/.*$' - reject-dict
+
+
+    # ==========================================
+    # ② 剧集插播 / 全屏广告
+    # ==========================================
+
+    # 穿山甲广告素材/广告获取
+    - '^https?:\/\/[^\/]+\.pangolin-sdk-toutiao\.com\/api\/ad\/union\/sdk\/get_ads\/.*$' - reject-dict
+
+    # 穿山甲广告视频素材
+    - '^https?:\/\/[^\/]+\.(?:pglstatp-toutiao|pstatp)\.com\/(?:obj|img)\/(?:ad|ad-app-package)\/.*$' - reject
+
+    # 穿山甲广告渲染资源
+    - '^https?:\/\/[^\/]+\.pstatp\.com\/obj\/ad-pattern\/renderer\/.*$' - reject
+
+    # 明确广告 MP4 素材
+    - '^https?:\/\/[^\/]+\.pglstatp-toutiao\.com\/.+\/toutiao\.mp4(?:\?.*)?$' - reject
+
+
+    # ==========================================
+    # ③ 广告曝光 / 点击 / 转化回传
+    # ==========================================
+
+    - '^https?:\/\/[^\/]+\.pangolin-sdk-toutiao\.com\/api\/ad\/union\/sdk\/stats\/.*$' - reject
+
+    - '^https?:\/\/dig\.bdurl\.net\/.*$' - reject
+
+    - '^https?:\/\/activity-ag\.awemeughun\.com\/.*$' - reject
+
+
+    # ==========================================
+    # ④ 字节广告 API
+    # ==========================================
+
+    # 仅拦广告 API，不封整个 snssdk.com
+    - '^https?:\/\/(?:i|i-lq)\.snssdk\.com\/api\/ad\/.*$' - reject-dict
+
+    # 广告相关请求
+    - '^https?:\/\/(?:i|i-lq)\.snssdk\.com\/.*\/(?:ad|ads|advert|advertisement)\/.*$' - reject-dict
+
+
+    # ==========================================
+    # ⑤ 广告签名 / 广告素材
+    # ==========================================
+
+    - '^https?:\/\/p6-ad-sign\.byteimg\.com\/.*$' - reject
+
+    - '^https?:\/\/p9-ad-sign\.byteimg\.com\/.*$' - reject
+
+    - '^https?:\/\/[^\/]+\.(?:pglstatp-toutiao|pstatp)\.com\/obj\/(?:ad|img\/ad)\/.*$' - reject
+
+
+    # ==========================================
+    # ⑥ 广告模式 / 广告渲染资源
+    # ==========================================
+
+    - '^https?:\/\/[^\/]+\.pstatp\.com\/obj\/ad-pattern\/.*$' - reject
+
+
+    # ==========================================
+    # ⑦ 不处理正常视频流
+    # ==========================================
+
+    # 不拦：
+    # *.pstatp.com 普通视频
+    # *.byteimg.com 普通图片/CDN
+    # *.snssdk.com 普通 API
+    # *.bytedance.com 普通业务
+    #
+    # 只有明确进入广告路径/广告素材路径才拦截。
