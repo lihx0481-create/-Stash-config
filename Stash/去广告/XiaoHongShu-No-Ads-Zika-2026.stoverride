@@ -1,0 +1,66 @@
+name: '小红书综合去广告 · Zika 2026'
+desc: 'Zika 自维护的小红书去广告规则｜开屏优先'
+author: 'zika'
+icon: 'https://raw.githubusercontent.com/lihx0481-create/-Stash-config/main/Stash/icon/XiaoHongShu.png'
+category: '去广告'
+
+http:
+  mitm:
+    - edith.xiaohongshu.com
+    - www.xiaohongshu.com
+    - referee.xiaohongshu.com
+
+  url-rewrite:
+
+    # ==========================================
+    # ① 开屏广告
+    # ==========================================
+
+    # 小红书开屏广告配置
+    - ^https:\/\/edith\.xiaohongshu\.com\/api\/sns\/v\d+\/system_service\/splash_config(?:\?.*)?$ - reject-dict
+
+    # 开屏广告相关配置
+    - ^https:\/\/edith\.xiaohongshu\.com\/api\/sns\/v\d+\/system_service\/config(?:\?.*)?$ - reject-dict
+
+
+    # ==========================================
+    # ② 广告请求
+    # ==========================================
+
+    # 小红书广告接口
+    - ^https:\/\/www\.xiaohongshu\.com\/api\/sns\/v\d+\/(?:tag\/)?ads(?:\?.*)?$ - reject-dict
+
+    # 小红书新版广告接口兼容
+    - ^https:\/\/edith\.xiaohongshu\.com\/api\/sns\/v\d+\/(?:tag\/)?ads(?:\?.*)?$ - reject-dict
+
+
+    # ==========================================
+    # ③ 信息流广告
+    # ==========================================
+
+    # 首页信息流广告数据
+    - ^https:\/\/edith\.xiaohongshu\.com\/api\/sns\/v\d+\/homefeed(?:\?.*)?$ - reject-dict
+
+
+    # ==========================================
+    # ④ 搜索广告
+    # ==========================================
+
+    # 搜索结果中的广告请求
+    - ^https:\/\/edith\.xiaohongshu\.com\/api\/sns\/v\d+\/search\/(?:notes|banner|hot)_list(?:\?.*)?$ - reject-dict
+
+
+    # ==========================================
+    # ⑤ 广告/推广回传
+    # ==========================================
+
+    # 广告状态/归因回传
+    - ^https:\/\/referee\.xiaohongshu\.com\/v\d+\/stateReport(?:\?.*)?$ - reject
+
+
+    # ==========================================
+    # ⑥ 明确广告素材
+    # ==========================================
+
+    # 小红书广告图片/视频资源
+    - ^https:\/\/[^\/]*xiaohongshu\.com\/.*(?:\/ads?\/|\/advert(?:isement)?\/).*$ - reject
