@@ -1,0 +1,50 @@
+name: '知乎综合去广告 · Zika 2026'
+desc: 'Zika 自维护的知乎去广告规则｜开屏优先'
+author: 'zika'
+icon: 'https://raw.githubusercontent.com/lihx0481-create/-Stash-config/main/Stash/icon/Zhihu.png'
+category: '去广告'
+
+http:
+  mitm:
+    - api.zhihu.com
+    - www.zhihu.com
+
+  url-rewrite:
+
+    # ==========================================
+    # ① 开屏广告
+    # ==========================================
+
+    # 知乎启动广告配置
+    - ^https:\/\/api\.zhihu\.com\/(?:commercial|ad|ads)\/.*(?:splash|startup|launch).*$ - reject-dict
+
+    # 启动广告资源
+    - ^https:\/\/api\.zhihu\.com\/.*\/splash(?:\/.*)?(?:\?.*)?$ - reject-dict
+
+
+    # ==========================================
+    # ② 广告接口
+    # ==========================================
+
+    - ^https:\/\/api\.zhihu\.com\/(?:commercial|ad|ads)\/.*$ - reject-dict
+
+
+    # ==========================================
+    # ③ 信息流广告
+    # ==========================================
+
+    - ^https:\/\/api\.zhihu\.com\/(?:feed|topstory)\/.*(?:ad|ads|advert).*$ - reject-dict
+
+
+    # ==========================================
+    # ④ 广告统计/回传
+    # ==========================================
+
+    - ^https:\/\/api\.zhihu\.com\/.*(?:ad|ads)\/(?:click|view|track|report).*$ - reject
+
+
+    # ==========================================
+    # ⑤ 明确广告素材
+    # ==========================================
+
+    - ^https:\/\/[^\/]*zhihu\.com\/.*(?:\/ad\/|\/ads\/|\/advertisement\/).*$ - reject
