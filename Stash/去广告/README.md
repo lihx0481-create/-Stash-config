@@ -38,9 +38,9 @@
 
 [🎵 网易云音乐去广告规则](https://raw.githubusercontent.com/lihx0481-create/-Stash-config/main/Stash/%E5%8E%BB%E5%B9%BF%E5%91%8A/NeteaseCloudMusic-No-Ads-Zika.stoverride)
 
-### 🟣 微博
+### 🟥 微博
 
-[🟣 微博去广告规则](https://raw.githubusercontent.com/lihx0481-create/-Stash-config/main/Stash/%E5%8E%BB%E5%B9%BF%E5%91%8A/Weibo-No-Ads.stoverride)
+[🟥 微博去广告 · Zika 2026](https://raw.githubusercontent.com/lihx0481-create/-Stash-config/main/Stash/%E5%8E%BB%E5%B9%BF%E5%91%8A/Weibo-No-Ads-Zika-2026.stoverride)
 
 ### ❓ 知乎
 
