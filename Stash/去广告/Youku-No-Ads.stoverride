@@ -1,0 +1,33 @@
+name: '优酷综合去广告'
+desc: '移除优酷 App 开屏、信息流、贴片、Banner、弹窗及广告资源'
+author: 'zika'
+icon: 'https://raw.githubusercontent.com/Koolson/Qure/master/IconSet/Color/Youku.png'
+category: '去广告'
+
+http:
+  url-rewrite:
+    # 1. 开屏 / 启动广告
+    - ^https?:\/\/iyes\.youku\.com\/uts\/v\d+\/start.*$ - reject
+
+    # 2. 信息流 / 推荐相关
+    - ^https?:\/\/acs\.youku\.com\/gw\/mtop\.youku\.pisp\.scripts\.get.*$ - reject-dict
+
+    # 3. 视频贴片 / 播放广告
+    - ^https?:\/\/acs\.youku\.com\/gw\/mtop\.youku\.xspace\.play\.position\.preload\.query.*$ - reject-dict
+
+    # 4. Banner / 页面广告
+    - ^https?:\/\/acs\.youku\.com\/gw\/mtop\.youku\.xspace\.poplayer\.position\.query.*$ - reject-dict
+
+    # 5. 弹窗 / PopLayer
+    - ^https?:\/\/acs\.youku\.com\/gw\/mtop\.youku\.xspace\.poplayer\.position\.query.*$ - reject-dict
+
+    # 6. 广告配置 / 广告请求
+    - ^https?:\/\/ad\.api\.3g\.youku\.com\/.*$ - reject
+    - ^https?:\/\/api\.appsdk\.soku\.com\/bg\/r.*$ - reject
+    - ^https?:\/\/api\.appsdk\.soku\.com\/tag\/r.*$ - reject
+
+    # 7. 广告图片 / 视频资源
+    - ^https?:\/\/vali\.cp31\.ott\.cibntv\.net\/youku\/.*$ - reject
+    - ^https?:\/\/r\.l\.youku\.com\/rec_at_click.*$ - reject
+    - ^https?:\/\/r1\.ykimg\.com\/material\/.+\/\d{3,4}-\d{4}.*$ - reject
+    - ^https?:\/\/r1\.ykimg\.com\/material\/.+\/\d{6}\/\d{4}\/.*$ - reject
