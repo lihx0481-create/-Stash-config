@@ -1,0 +1,26 @@
+name: '小红书综合去广告 · Zika'
+desc: 'Zika 自维护的小红书去广告规则，针对已识别的广告与推广请求进行精确拦截，尽量避免影响正常笔记、搜索、评论和消息功能'
+author: 'zika'
+icon: 'https://raw.githubusercontent.com/lihx0481-create/-Stash-config/main/Stash/icon/XiaoHongShu.png'
+category: '去广告'
+
+http:
+  url-rewrite:
+
+    # 小红书广告资源接口
+    - ^https?:\/\/edith\.xiaohongshu\.com\/api\/sns\/v1\/ads\/resource(?:\?.*)?$ - reject
+
+    # 广告互动/点击相关请求
+    - ^https?:\/\/www\.xiaohongshu\.com\/api\/sns\/v1\/tag\/ads_engage(?:\?.*)?$ - reject
+
+    # 广告曝光/行为回传
+    - ^https?:\/\/www\.xiaohongshu\.com\/api\/sns\/v1\/ads\/apple\/record(?:\?.*)?$ - reject
+
+    # 营销弹窗/推广触发接口
+    - ^https?:\/\/www\.xiaohongshu\.com\/api\/marketing\/box\/trigger(?:\?.*)?$ - reject
+
+    # 惊喜盒子相关广告触发
+    - ^https?:\/\/edith\.xiaohongshu\.com\/api\/sns\/v1\/surprisebox\/(?:get_style|open|submit_action)(?:\?.*)?$ - reject
+
+    # 广告配置开关
+    - ^https?:\/\/pages\.xiaohongshu\.com\/data\/native\/matrix_switches(?:\?.*)?$ - reject
