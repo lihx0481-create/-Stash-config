@@ -1,0 +1,18 @@
+name: '拼多多综合去广告'
+desc: '移除拼多多 App 可直接拦截的广告请求'
+author: 'zika'
+icon: 'https://raw.githubusercontent.com/fmz200/wool_scripts/main/icons/apps/pinduoduo.png'
+category: '去广告'
+
+http:
+  url-rewrite:
+    # 广告/活动相关请求
+    - ^https?:\/\/api\.pinduoduo\.com\/.*\/ad.*$ - reject
+    - ^https?:\/\/api\.pinduoduo\.com\/.*\/advert.*$ - reject
+    - ^https?:\/\/api\.pinduoduo\.com\/.*\/ads.*$ - reject
+
+    # 广告资源
+    - ^https?:\/\/images\.pinduoduo\.com\/.*\/ad[s]?\/.*$ - reject
+
+    # 社交/推广广告
+    - ^https?:\/\/social\.pinduoduo\.com\/.*$ - reject
