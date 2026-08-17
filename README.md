@@ -37,4 +37,12 @@ WebRTC 服务可访问 ≠ WebRTC 无泄漏
 
 ## 🛡️ stash去广告复写
  
-- [美团去开屏广告](./Stash/去广告/Meituan-No-Opening-Ads.stoverride)
+## 🛡️ 去广告复写
+
+### 美团去开屏广告
+
+**远程 URL：**
+
+`https://raw.githubusercontent.com/lihx0481-create/-Stash-config/main/Stash/%E5%8E%BB%E5%B9%BF%E5%91%8A/Meituan-No-Opening-Ads.stoverride`
+
+复制上面的 URL → Stash → 覆写 → 添加 → URL。
