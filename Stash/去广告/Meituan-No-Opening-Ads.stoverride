@@ -1,0 +1,10 @@
+#!name=美团去开屏广告
+#!desc=移除美团 App 开屏广告
+#!author=zika
+#!category=去广告
+
+[URL Rewrite]
+^https?:\/\/wmapi\.meituan\.com\/api\/v\d+\/loadInfo\?.*$ url reject
+^https?:\/\/wmapi\.meituan\.com\/api\/v\d+\/openscreen\?.*$ url reject-200
+^https?:\/\/wmapi\.meituan\.com\/api\/v\d+\/startpicture.*$ url reject-200
+^https?:\/\/www\.meituan\.com\/api\/v\d+\/appstatus\?.*$ url reject
