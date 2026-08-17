@@ -1,0 +1,30 @@
+name: '知乎综合去广告'
+desc: '移除知乎 App 开屏、信息流、推广及部分广告请求'
+author: 'zika'
+icon: 'https://raw.githubusercontent.com/lodepuly/iconlibrary/master/App_icon/120px/Zhihu.png'
+category: '去广告'
+
+http:
+  url-rewrite:
+    # 开屏 / 商业广告
+    - ^https?:\/\/api\.zhihu\.com\/commercial_api\/launch_v2.*$ - reject
+    - ^https?:\/\/api\.zhihu\.com\/commercial_api\/real_time_launch_v2.*$ - reject
+
+    # 广告样式 / 广告请求
+    - ^https?:\/\/api\.zhihu\.com\/ad-style-service\/.*$ - reject
+    - ^https?:\/\/api\.zhihu\.com\/fringe\/ad.*$ - reject
+
+    # 回答底部广告
+    - ^https?:\/\/api\.zhihu\.com\/appview\/api\/v4\/answers\/.*\/recommendations.*$ - reject
+
+    # 评论广告
+    - ^https?:\/\/api\.zhihu\.com\/answers\/.*\/comments\/featured-comment-ad.*$ - reject
+
+    # 广告相关接口
+    - ^https?:\/\/api\.zhihu\.com\/(ab|adx|commercial|zst)\/.*$ - reject
+
+    # 知乎广告服务
+    - ^https?:\/\/appcloud\.zhihu\.com\/.*$ - reject
+    - ^https?:\/\/appcloud2\.in\.zhihu\.com\/.*$ - reject
+    - ^https?:\/\/crash2\.zhihu\.com\/.*$ - reject
+    - ^https?:\/\/sugar\.zhihu\.com\/.*$ - reject
