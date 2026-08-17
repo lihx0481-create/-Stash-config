@@ -41,3 +41,8 @@ WebRTC 服务可访问 ≠ WebRTC 无泄漏
 本项目用于 Stash 网络状态、连通性及泄漏检测辅助。
 
 检测结果受当前网络、节点、DNS 和目标服务器影响，仅代表检测时的实际状态。
+
+
+## 🛡️ stash去广告复写
+ 
+- [美团去开屏广告](./Stash/去广告/Meituan-No-Opening-Ads.stoverride)
