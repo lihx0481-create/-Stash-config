@@ -1,0 +1,22 @@
+name: '腾讯视频综合去广告'
+desc: '移除腾讯视频 App 开屏、贴片及部分广告请求'
+author: 'zika'
+icon: 'https://raw.githubusercontent.com/Semporia/Hand-Painted-icon/master/Universal/TencentVideo.png'
+category: '去广告'
+
+http:
+  url-rewrite:
+    # 1. 开屏 / 启动广告
+    - ^https?:\/\/.*\/splash\/getSplashV\d+\.action.*$ - reject
+
+    # 3. 视频贴片 / 广告视频
+    - ^https?:\/\/vmind\.qqvideo\.tc\.qq\.com\/[\w\/\.-]+[a-z]\d+\.mp4\?.*$ - reject
+
+    # 6. 广告配置 / 广告请求
+    - ^https?:\/\/ad\.tencentvideo\.com\/.*$ - reject
+    - ^https?:\/\/adstats\.tencentvideo\.com\/.*$ - reject
+
+    # 7. 广告资源
+    - ^https?:\/\/pgdt\.gtimg\.cn\/.*$ - reject
+    - ^https?:\/\/gdtimg\.com\/.*$ - reject
+    - ^https?:\/\/ugdtimg\.com\/.*$ - reject
