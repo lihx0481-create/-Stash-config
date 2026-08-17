@@ -22,7 +22,39 @@ WebRTC 泄漏：
 
 ## 🛡️ stash去广告复写
        
+## 🇨🇳 国内软件去广告
 
+Stash 国内软件去广告规则合集。
+
+### 🍔 美团
+`Meituan-No-Ads.stoverride`
+
+### 🛒 京东
+`JD-No-Ads.stoverride`
+
+### 📺 哔哩哔哩
+`Bilibili-No-Ads.stoverride`
+
+### 🥝 爱奇艺
+`IQiyi-No-Ads.stoverride`
+
+### ▶️ 优酷
+`Youku-No-Ads.stoverride`
+
+### 🎬 腾讯视频
+`TencentVideo-No-Ads.stoverride`
+
+### 📕 小红书
+`XiaoHongShu-No-Ads.stoverride`
+
+### 🛍️ 淘宝
+`Taobao-No-Ads.stoverride`
+
+### 🛍️ 拼多多
+`Pinduoduo-No-Ads.stoverride`
+
+### 🎵 网易云音乐
+`NeteaseCloudMusic-No-Ads.stoverride`
 
 ⚠️ 面板真实性说明
 
