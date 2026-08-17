@@ -1,0 +1,61 @@
+name: '百度贴吧综合去广告 · Zika'
+desc: 'Zika 自维护的百度贴吧 2026 去广告规则，优先处理开屏、Feed 广告及明确广告请求'
+author: 'zika'
+icon: 'https://raw.githubusercontent.com/lihx0481-create/-Stash-config/main/Stash/icon/Tieba.png'
+category: '去广告'
+
+http:
+  mitm:
+    - tiebac.baidu.com
+    - c.tieba.baidu.com
+    - tieba.baidu.com
+
+  url-rewrite:
+
+    # ─────────────────────────────
+    # ① 开屏广告
+    # ─────────────────────────────
+
+    # 贴吧启动时的开屏广告调度
+    - ^https?:\/\/(?:tiebac|c\.tieba)\.baidu\.com\/c\/s\/splashSchedule(?:\?.*)?$ - reject-dict
+
+    # 兼容不同客户端的开屏调度路径
+    - ^https?:\/\/[^\/]+\/c\/s\/splashSchedule(?:\?.*)?$ - reject-dict
+
+
+    # ─────────────────────────────
+    # ② Feed / 首页广告
+    # ─────────────────────────────
+
+    # 贴吧 Feed 广告接口
+    - ^https?:\/\/(?:tiebac|c\.tieba)\.baidu\.com\/c\/f\/ad\/getFeedAd(?:\?.*)?$ - reject-dict
+
+    # 贴吧广告信息接口
+    - ^https?:\/\/(?:tiebac|c\.tieba)\.baidu\.com\/c\/f\/forum\/getAdInfo(?:\?.*)?$ - reject-dict
+
+
+    # ─────────────────────────────
+    # ③ 百度广告联盟
+    # ─────────────────────────────
+
+    # 百度广告投放入口
+    - ^https?:\/\/afd\.baidu\.com\/.*$ - reject
+
+    # 百度移动广告服务
+    - ^https?:\/\/mobads\.baidu\.com\/.*$ - reject
+
+
+    # ─────────────────────────────
+    # ④ 贴吧广告资源
+    # ─────────────────────────────
+
+    # 明确的贴吧广告资源请求
+    - ^https?:\/\/(?:tiebac|c\.tieba)\.baidu\.com\/.*(?:tiebaads|\/ad\/).* - reject
+
+
+    # ─────────────────────────────
+    # ⑤ 开屏广告图片 / 视频素材
+    # ─────────────────────────────
+
+    # 贴吧开屏资源请求
+    - ^https?:\/\/[^\/]+\/.*splash.*\.(?:jpg|jpeg|png|webp|gif|mp4)(?:\?.*)?$ - reject
