@@ -1,0 +1,26 @@
+name: '腾讯视频综合去广告 · Zika'
+desc: 'Zika 自维护的腾讯视频去广告规则'
+author: 'zika'
+icon: 'https://raw.githubusercontent.com/lihx0481-create/-Stash-config/main/Stash/icon/TencentVideo.png'
+category: '去广告'
+
+http:
+  url-rewrite:
+
+    # 腾讯视频广告配置请求
+    - ^https?:\/\/appcfg\.v\.qq\.com\/.*(?:ad|advert|ads)(?:[\/?&].*)?$ - reject
+
+    # 腾讯视频广告分发请求
+    - ^https?:\/\/rdeliver\.qq\.com\/.*(?:ad|advert|ads)(?:[\/?&].*)?$ - reject
+
+    # 腾讯广告素材 CDN
+    - ^https?:\/\/(?:pgdt\.gtimg\.cn|adsmind\.gdtimg\.com)\/.*$ - reject
+
+    # 腾讯广告点击/曝光回传
+    - ^https?:\/\/(?:c|v|rpt)\.gdt\.qq\.com\/.*(?:gdt_|creative_|view|click|stats)(?:[\/?&].*)?$ - reject
+
+    # 腾讯视频广告图片资源
+    - ^https?:\/\/wa\.gtimg\.com\/adxcdn\/.*\.(?:jpg|jpeg|png|webp)(?:\?.*)?$ - reject
+
+    # 腾讯视频明确广告 MP4 素材
+    - ^https?:\/\/(?:video\.dispatch\.tc\.qq\.com|vmind\.qqvideo\.tc\.qq\.com)\/.*\.mp4(?:\?.*)?$ - reject
