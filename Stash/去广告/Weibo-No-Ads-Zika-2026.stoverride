@@ -1,0 +1,91 @@
+name: '微博综合去广告 · Zika 2026'
+desc: 'Zika 自维护的微博 2026 去广告规则｜开屏优先'
+author: 'zika'
+icon: 'https://raw.githubusercontent.com/lihx0481-create/-Stash-config/main/Stash/icon/Weibo.png'
+category: '去广告'
+
+http:
+  mitm:
+    - sdkapp.uve.weibo.com
+    - wbapp.uve.weibo.com
+    - bootpreload.uve.weibo.com
+    - bootrealtime.uve.weibo.com
+    - api.weibo.cn
+    - mapi.weibo.com
+    - card.weibo.com
+    - weibo.com
+
+  url-rewrite:
+
+    # ==========================================
+    # ① 微博开屏广告
+    # ==========================================
+
+    # SDK 开屏广告数据
+    - ^https:\/\/sdkapp\.uve\.weibo\.com\/interface\/sdk\/sdkad\.php(?:\?.*)?$ - reject-dict
+
+    # 开屏广告预加载
+    - ^https:\/\/bootpreload\.uve\.weibo\.com\/v[12]\/ad\/preload(?:\?.*)?$ - reject-dict
+
+    # 开屏广告实时请求
+    - ^https:\/\/bootrealtime\.uve\.weibo\.com\/v[23]\/ad\/realtime(?:\?.*)?$ - reject-dict
+
+    # 微博 App 广告预加载
+    - ^https:\/\/wbapp\.uve\.weibo\.com\/preload\/get_ad(?:\?.*)?$ - reject-dict
+
+    # 微博 App 广告拉取
+    - ^https:\/\/wbapp\.uve\.weibo\.com\/wbapplua\/wbpullad\.lua(?:\?.*)?$ - reject-dict
+
+
+    # ==========================================
+    # ② 微博广告 SDK 配置
+    # ==========================================
+
+    - ^https:\/\/sdkapp\.uve\.weibo\.com\/interface\/sdk\/sdkconfig\.php(?:\?.*)?$ - reject
+
+    # 广告 SDK 位置信息，仅针对 SDK 接口
+    - ^https:\/\/sdkapp\.uve\.weibo\.com\/interface\/sdk\/get-lbs-cell-info\.php(?:\?.*)?$ - reject
+
+
+    # ==========================================
+    # ③ 微博文章推广
+    # ==========================================
+
+    - ^https:\/\/card\.weibo\.com\/article\/m\/aj\/(?:reward|uvead)(?:\?.*)?$ - reject-dict
+
+    - ^https:\/\/weibo\.com\/ttarticle\/x\/m\/aj\/(?:reward|uvead)(?:\?.*)?$ - reject-dict
+
+
+    # ==========================================
+    # ④ 微博首页推广内容
+    # ==========================================
+
+    # 首页签到/推广组件
+    - ^https:\/\/api\.weibo\.cn\/2\/ug\/checkin\/list(?:\?.*)?$ - reject-dict
+
+    # 首页活动/推广推送
+    - ^https:\/\/api\.weibo\.cn\/2\/push\/daily(?:\?.*)?$ - reject-dict
+
+    # 首页直播推广列表
+    - ^https:\/\/api\.weibo\.cn\/2\/!\/live\/media_homelist(?:\?.*)?$ - reject-dict
+
+
+    # ==========================================
+    # ⑤ 微博广告域
+    # ==========================================
+
+    # 微博广告投放域
+    - ^https:\/\/(?:[^\/]+\.)?biz\.weibo\.com\/.*$ - reject
+
+    # 微博广告图片资源
+    - ^https:\/\/adimg\.uve\.weibo\.com\/.*$ - reject
+
+    # 微博推广服务
+    - ^https:\/\/(?:[^\/]+\.)?alitui\.weibo\.com(?:\.cn)?\/.*$ - reject
+
+
+    # ==========================================
+    # ⑥ 微博广告/推广素材
+    # ==========================================
+
+    - ^https:\/\/[^\/]*\.(?:uve|vue)\.weibo\.com\/.*(?:ad|ads|advert|promotion).*$ - reject
