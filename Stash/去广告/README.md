@@ -48,7 +48,9 @@
 
 ### 🍅 红果短剧
 
-[🍅 红果短剧去广告 · Zika 2026](https://raw.githubusercontent.com/lihx0481-create/-Stash-config/main/Stash/%E5%9B%BD%E5%86%85%E8%BD%AF%E4%BB%B6%E5%8E%BB%E5%B9%BF%E5%91%8A/RedFruit-No-Ads-Zika-2026.stoverride)
+[🍅 红果短剧去广告 · Zika 2026](https://raw.githubusercontent.com/lihx0481-create/-Stash-config/main/Stash/%E5%9B%BD%E5%86%85%E8%BD%AF%E4%BB%B6%E5%BB%BB%E5%B9%BF%E5%91%8A/Hongguo-No-Ads-Zika-2026.stoverride)
+
+
 ### 🎵 抖音
 
 [🎵 抖音去广告规则](https://raw.githubusercontent.com/lihx0481-create/-Stash-config/main/Stash/%E5%8E%BB%E5%B9%BF%E5%91%8A/Douyin-No-Ads-Zika.stoverride)
