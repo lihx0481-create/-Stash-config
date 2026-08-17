@@ -4,7 +4,7 @@
 
 ## 📱 软件列表
 
-- [🍔 美团综合去广告](https://raw.githubusercontent.com/lihx0481-create/-Stash-config/main/China-Apps/Meituan-No-Ads.stoverride)
+🍔 [美团](./Meituan-No-Ads.stoverride)
 - [🛒 京东综合去广告](./JD-No-Ads.stoverride)
 - [📺 哔哩哔哩综合去广告](./Bilibili-No-Ads.stoverride)
 - [🥝 爱奇艺综合去广告](./IQiyi-No-Ads.stoverride)
