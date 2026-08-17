@@ -1,11 +1,5 @@
-name: 美团去开屏广告
-desc: 移除美团 App 开屏广告
-author: zika
-category: 去广告
+## 🛡️ 去广告复写
 
-http:
-  url-rewrite:
-    - ^https?:\/\/wmapi\.meituan\.com\/api\/v\d+\/loadInfo\?.*$ - reject
-    - ^https?:\/\/wmapi\.meituan\.com\/api\/v\d+\/openscreen\?.*$ - reject-200
-    - ^https?:\/\/wmapi\.meituan\.com\/api\/v\d+\/startpicture.*$ - reject-200
-    - ^https?:\/\/www\.meituan\.com\/api\/v\d+\/appstatus\?.*$ - reject
+### 美团
+
+- [🔵 美团去开屏广告](https://raw.githubusercontent.com/lihx0481-create/-Stash-config/main/Stash/%E5%8E%BB%E5%B9%BF%E5%91%8A/Meituan-No-Opening-Ads.stoverride)
