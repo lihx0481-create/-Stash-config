@@ -58,7 +58,9 @@
 
 [📰 今日头条去广告规则](https://raw.githubusercontent.com/lihx0481-create/-Stash-config/main/Stash/%E5%8E%BB%E5%B9%BF%E5%91%8A/Toutiao-No-Ads-Zika.stoverride)
 
+### ⚡ 快手
 
+[⚡ 快手去广告规则](https://raw.githubusercontent.com/lihx0481-create/-Stash-config/main/Stash/%E5%8E%BB%E5%B9%BF%E5%91%8A/Kuaishou-No-Ads-Zika.stoverride)
 
 
 
