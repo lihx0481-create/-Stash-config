@@ -1,14 +1,27 @@
 ## 🛡️ 去广告复写
 
-name: 美团去开屏广告
-desc: 移除美团 App 开屏广告
-author: zika
-icon: 'https://p0.meituan.net/smartvenus/519f64f1d51d8470ecad1f9b5fce83591696.png'
-category: 去广告
+name: '美团综合去广告'
+desc: '移除美团 App 开屏、信息流、Banner、弹窗及广告资源'
+author: 'zika'
+icon: 'https://raw.githubusercontent.com/Koolson/Qure/master/IconSet/Color/Meituan.png'
+category: '去广告'
 
 http:
   url-rewrite:
+    # 1. 开屏广告
     - ^https?:\/\/wmapi\.meituan\.com\/api\/v\d+\/loadInfo\?.*$ - reject
-    - ^https?:\/\/wmapi\.meituan\.com\/api\/v\d+\/openscreen\?.*$ - reject-200
+    - ^https?:\/\/wmapi\.meituan\.com\/api\/v\d+\/openscreen\?ad.*$ - reject-200
     - ^https?:\/\/wmapi\.meituan\.com\/api\/v\d+\/startpicture.*$ - reject-200
+
+    # 2. 信息流 / 首页广告
     - ^https?:\/\/www\.meituan\.com\/api\/v\d+\/appstatus\?.*$ - reject
+
+    # 4. Banner / 广告展示资源
+    - ^https?:\/\/img\.meituan\.net\/adunion\/.*$ - reject
+    - ^https?:\/\/img\.meituan\.net\/display\/.*$ - reject
+    - ^https?:\/\/img\.meituan\.net\/dpmobile\/.*$ - reject
+    - ^https?:\/\/img\.meituan\.net\/midas\/.*$ - reject
+    - ^https?:\/\/img\.meituan\.net\/bizad\/bizad_brandCpt_\d+\.jpg$ - reject
+
+    # 7. 广告图片 / 视频资源
+    - ^https?:\/\/img\.meituan\.net\/(adunion|display|dpmobile|midas)\/.*$ - reject
