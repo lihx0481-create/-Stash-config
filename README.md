@@ -45,7 +45,7 @@ WebRTC 服务可访问 ≠ WebRTC 无泄漏
 - [🎬 腾讯视频综合去广告](https://raw.githubusercontent.com/lihx0481-create/-Stash-config/main/Stash/%E5%8E%BB%E5%B9%BF%E5%91%8A/TencentVideo-No-Ads.stoverride)
 - [📕 小红书综合去广告](https://raw.githubusercontent.com/lihx0481-create/-Stash-config/main/Stash/%E5%8E%BB%E5%B9%BF%E5%91%8A/XiaoHongShu-No-Ads.stoverride)
 - [🛍️ 淘宝综合去广告](https://raw.githubusercontent.com/lihx0481-create/-Stash-config/main/Stash/%E5%8E%BB%E5%B9%BF%E5%91%8A/Taobao-No-Ads.stoverride)
-
+- [🛍️ 拼多多综合去广告](https://raw.githubusercontent.com/lihx0481-create/-Stash-config/main/Stash/%E5%8E%BB%E5%B9%BF%E5%91%8A/Pinduoduo-No-Ads.stoverride)
 
 
 
