@@ -1,0 +1,30 @@
+name: '爱奇艺综合去广告'
+desc: '移除爱奇艺 App 可直接拦截的开屏相关、信息流、贴片、Banner、弹窗及广告请求'
+author: 'zika'
+icon: 'https://raw.githubusercontent.com/Koolson/Qure/master/IconSet/Color/iQIYI.png'
+category: '去广告'
+
+http:
+  url-rewrite:
+    # 1. 开屏 / 启动相关广告
+    - ^https?:\/\/iface\.iqiyi\.com\/api\/getNewAdInfo.*$ - reject
+
+    # 2. 信息流 / 推荐广告
+    - ^https?:\/\/iface2\.iqiyi\.com\/ivos\/interact\/video\/data\?.*$ - reject
+
+    # 3. 视频广告 / 贴片相关
+    - ^https?:\/\/iface2\.iqiyi\.com\/video\/3\.0\/v_interface_proxy\?.*$ - reject
+    - ^https?:\/\/intl\.iqiyi\.com\/video\/advertise.*$ - reject
+
+    # 4. Banner / 广告展示
+    - ^https?:\/\/iface2\.iqiyi\.com\/views_pop\/3\.0\/pop_control\?.*$ - reject
+
+    # 5. 弹窗 / 广告控制
+    - ^https?:\/\/iface2\.iqiyi\.com\/views_pop\/3\.0\/pop_control\?.*$ - reject
+
+    # 6. 广告配置
+    - ^https?:\/\/iface\.iqiyi\.com\/api\/getNewAdInfo.*$ - reject
+
+    # 7. 广告资源 / 外部广告
+    - ^https?:\/\/intl\.iqiyi\.com\/ad_external\/.*$ - reject
+    - ^https?:\/\/intl\.iqiyi\.com\/video\/advertise.*$ - reject
