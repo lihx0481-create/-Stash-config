@@ -68,7 +68,7 @@
 
 ### 🏮 百度贴吧
 
-[🏮 百度贴吧去广告规则](https://raw.githubusercontent.com/lihx0481-create/-Stash-config/main/Stash/%E5%8E%BB%E5%B9%BF%E5%91%8A/Tieba-No-Ads-Zika.stoverride）
+[🏮 百度贴吧去广告规则](https://raw.githubusercontent.com/lihx0481-create/-Stash-config/main/Stash/%E5%8E%BB%E5%B9%BF%E5%91%8A/Tieba-No-Ads-Zika.stoverride)
 
 ### 🎬 豆瓣
 
