@@ -1,6 +1,7 @@
-name: ‘微信去广告 · Zika 2026’
+name: 微信去广告 · Zika 2026
 desc: ‘Zika 自维护｜朋友圈 + 小程序广告过滤｜2026’
 author: ‘zika’
+icon: 'https://appicons.co/icons/100445'
 category: ‘去广告’
 
 http:
