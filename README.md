@@ -13,9 +13,6 @@ Zika 自维护的 Stash 配置、复写、规则集与网络检测工具集合�
 
 [🇨🇳 国内媒体去广告](https://github.com/lihx0481-create/-Stash-config/tree/main/Stash/%E5%8E%BB%E5%B9%BF%E5%91%8A)
 
-🌍 国际媒体去广告
-
-
 
 
 
