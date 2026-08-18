@@ -8,7 +8,7 @@
 
 ### 📺 哔哩哔哩
 
-[📺 哔哩哔哩去广告 · Zika 2026](https://raw.githubusercontent.com/lihx0481-create/-Stash-config/main/Stash/%E5%8E%BB%E5%B9%BF%E5%91%8A/Bilibili-No-Ads-Zika-2026.stoverride)
+[📺 哔哩哔哩去广告 · Zika 2026]https://raw.githubusercontent.com/lihx0481-create/-Stash-config/main/Stash/%E5%8E%BB%E5%B9%BF%E5%91%8A/Bilibili-No-Ads-Zika-2026.stoverride
 
 ### 🥝 爱奇艺
 
