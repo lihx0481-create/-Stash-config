@@ -1,0 +1,79 @@
+name: '汽水音乐综合去广告 · Zika 2026'
+desc: 'Zika 自维护的汽水音乐广告过滤规则｜开屏、弹窗、播放器推广、信息流及广告回传｜2026'
+author: 'zika'
+icon: 'https://raw.githubusercontent.com/lihx0481-create/-Stash-config/main/Stash/icon/Qishui.png'
+category: '去广告'
+
+http:
+  mitm:
+    - '*.qishui.douyin.com'
+    - '*.qishui.douyin.com'
+    - 'api.qishui.douyin.com'
+    - 'music-api.douyin.com'
+    - 'i.snssdk.com'
+    - 'i-lq.snssdk.com'
+    - 'mcs.snssdk.com'
+    - 'activity-ag.awemeughun.com'
+    - 'p6-ad-sign.byteimg.com'
+    - 'p9-ad-sign.byteimg.com'
+
+  url-rewrite:
+
+    # ==========================================
+    # ① 开屏广告
+    # ==========================================
+
+    # 汽水启动阶段广告请求
+    - ^https:\/\/[^\/]+\.qishui\.douyin\.com\/.*\/(?:splash|startup|launch|screen).*(?:ad|ads|advert).* - reject-dict
+
+
+    # ==========================================
+    # ② 弹窗 / 广告配置
+    # ==========================================
+
+    - ^https:\/\/[^\/]+\.qishui\.douyin\.com\/.*\/(?:ad|ads|advert|advertisement|commercial)\/.*$ - reject-dict
+
+
+    # ==========================================
+    # ③ 播放器推广
+    # ==========================================
+
+    - ^https:\/\/[^\/]+\.qishui\.douyin\.com\/.*\/(?:player|play)\/.*(?:ad|ads|advert|promotion).* - reject-dict
+
+
+    # ==========================================
+    # ④ 首页 / 信息流推广
+    # ==========================================
+
+    - ^https:\/\/[^\/]+\.qishui\.douyin\.com\/.*\/(?:feed|recommend|home)\/.*(?:ad|ads|advert|promotion).* - reject-dict
+
+
+    # ==========================================
+    # ⑤ 广告素材
+    # ==========================================
+
+    - ^https:\/\/p6-ad-sign\.byteimg\.com\/.*$ - reject
+
+    - ^https:\/\/p9-ad-sign\.byteimg\.com\/.*$ - reject
+
+
+    # ==========================================
+    # ⑥ 明确广告回传
+    # ==========================================
+
+    - ^https:\/\/activity-ag\.awemeughun\.com\/.*$ - reject
+
+    - ^https:\/\/[^\/]+\.qishui\.douyin\.com\/.*\/(?:ad|ads)\/.*(?:report|track|stats|log).* - reject
+
+
+    # ==========================================
+    # ⑦ 正常音乐业务保护
+    # ==========================================
+
+    # 不整域拦截：
+    # qishui.douyin.com
+    # snssdk.com
+    # byteimg.com
+    # douyinvod.com
+    
+   
