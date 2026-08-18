@@ -1,5 +1,5 @@
 🛡️ Stash Tiles
-
+![Stash Network Diagnostic](https://raw.githubusercontent.com/lihx0481-create/-Stash-config/main/copy_DBB6470D-277A-44D3-9CDD-8EDCC0AC8DFC.GIF)
 适用于 Stash iOS 的网络诊断 Tile 配置。
 
 ⸻
