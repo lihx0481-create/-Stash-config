@@ -1,20 +1,19 @@
-name: '京东综合去广告'
-desc: '移除京东 App 开屏、信息流及部分广告请求'
+name: '京东综合去广告 · Zika'
+desc: '移除京东 App 已确认的广告、开屏及营销请求，尽量避免影响正常功能'
 author: 'zika'
 icon: 'https://raw.githubusercontent.com/NobyDa/mini/master/Color/jd.png'
 category: '去广告'
 
 http:
   url-rewrite:
-    # 1. 开屏广告 / 启动广告配置
-    - ^https?:\/\/api\.m\.jd\.com\/client\.action\?functionId=start.*$ - reject
-    - ^https?:\/\/api\.m\.jd\.com\/client\.action\?functionId=home_launchConfig.*$ - reject
+    - ^https?:\/\/api\.m\.jd\.com\/client\.action\?functionId=start(?:&.*)?$ - reject
+    - ^https?:\/\/api\.m\.jd\.com\/client\.action\?functionId=home_launchConfig(?:&.*)?$ - reject
+    - ^https?:\/\/lop-proxy\.jd\.com\/queryAppHomePageMarketingRecommendRuleConfigInfo(?:\?.*)?$ - reject
+    - ^https?:\/\/(?:bdsp-x|dsp-x)\.jd\.com\/adx\/.*$ - reject
 
-    # 2. 信息流 / 首页营销广告
-    - ^https?:\/\/api\.m\.jd\.com\/client\.action\?functionId=getWidgetV1052.*$ - reject
-
-    # 5. 弹窗 / 营销相关
-    - ^https?:\/\/lop-proxy\.jd\.com\/queryAppHomePageMarketingRecommendRuleConfigInfo.*$ - reject
-
-    # 7. 广告加载资源
-    - ^https?:\/\/api\.smart\.jd\.com\/c\/service\/getLoadingLinks.*$ - reject
+mitm:
+  host:
+    - api.m.jd.com
+    - lop-proxy.jd.com
+    - bdsp-x.jd.com
+    - dsp-x.jd.com
