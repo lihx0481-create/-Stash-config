@@ -1,0 +1,70 @@
+name: ‘微信去广告 · Zika 2026’
+desc: ‘Zika 自维护｜朋友圈 + 小程序广告过滤｜2026’
+author: ‘zika’
+category: ‘去广告’
+
+http:
+mitm:
+- ‘.weixin.qq.com’
+- ’.wx.qq.com’
+- ‘*.wxs.qq.com’
+
+url-rewrite:
+
+# ==========================================
+# ① 微信广告服务入口
+# ==========================================
+- ^https:\/\/ad\.weixin\.qq\.com\/.*$ - reject-dict
+# ==========================================
+# ② 朋友圈广告
+# ==========================================
+# 明确的广告接口 / 广告配置
+- ^https:\/\/[^\/]+\.weixin\.qq\.com\/.*\/(?:ad|ads|advert|advertisement|adinfo|adconfig|adunit)(?:\/|\?|$).* - reject-dict
+# 广告曝光 / 点击 / 统计回传
+- ^https:\/\/[^\/]+\.weixin\.qq\.com\/.*\/(?:ad|ads)\/.*(?:report|track|click|exposure|impression|stat|stats|callback)(?:\/|\?|$).* - reject-dict
+# 明确广告素材
+- ^https:\/\/[^\/]+\.weixin\.qq\.com\/.*\/(?:ad|ads|advert|advertisement)\/.*\.(?:jpg|jpeg|png|webp|gif|mp4|m3u8)(?:\?.*)?$ - reject
+# ==========================================
+# ③ 小程序广告
+# ==========================================
+# Banner / Grid / Video 等广告接口
+- ^https:\/\/[^\/]+\.wx\.qq\.com\/.*\/(?:ad|ads|advert|advertisement|adinfo|adconfig|adunit)(?:\/|\?|$).* - reject-dict
+# 广告曝光 / 点击 / 回传
+- ^https:\/\/[^\/]+\.wx\.qq\.com\/.*\/(?:ad|ads)\/.*(?:report|track|click|exposure|impression|stat|stats|callback)(?:\/|\?|$).* - reject-dict
+# 广告图片 / 视频素材
+- ^https:\/\/[^\/]+\.wx\.qq\.com\/.*\/(?:ad|ads|advert|advertisement)\/.*\.(?:jpg|jpeg|png|webp|gif|mp4|m3u8)(?:\?.*)?$ - reject
+# ==========================================
+# ④ 微信广告资源 CDN
+# ==========================================
+# 只处理 URL 中明确带广告路径的资源，
+# 不整域拦截 wxs.qq.com。
+- ^https:\/\/[^\/]+\.wxs\.qq\.com\/.*\/(?:ad|ads|advert|advertisement)\/.*$ - reject
+- ^https:\/\/[^\/]+\.wxs\.qq\.com\/.*\/(?:ad|ads)\/.*\.(?:jpg|jpeg|png|webp|gif|mp4|m3u8)(?:\?.*)?$ - reject
+# ==========================================
+# ⑤ 明确广告参数
+# ==========================================
+- ^https:\/\/[^\/]+\.weixin\.qq\.com\/.*[?&](?:adid|ad_id|adunit|ad_unit|advertid|advert_id|promotionid|promotion_id)=.*$ - reject-dict
+- ^https:\/\/[^\/]+\.wx\.qq\.com\/.*[?&](?:adid|ad_id|adunit|ad_unit|advertid|advert_id|promotionid|promotion_id)=.*$ - reject-dict
+# ==========================================
+# ⑥ 广告推广 / 落地页
+# ==========================================
+- ^https:\/\/[^\/]+\.weixin\.qq\.com\/.*\/(?:ad|ads)\/.*(?:landing|promotion|promote|native)(?:\/|\?|$).* - reject-dict
+- ^https:\/\/[^\/]+\.wx\.qq\.com\/.*\/(?:ad|ads)\/.*(?:landing|promotion|promote|native)(?:\/|\?|$).* - reject-dict
+# ==========================================
+# ⑦ 安全边界
+# ==========================================
+# 不整域拦截：
+# *.weixin.qq.com
+# *.wx.qq.com
+# *.wxs.qq.com
+#
+# 不主动拦截：
+# 微信聊天
+# 朋友圈正常内容
+# 公众号
+# 小程序正常 API
+# 图片 / 视频
+# 登录 / 验证
+# 微信支付
+#
+# 仅针对明确广告语义的请求进行处理。
