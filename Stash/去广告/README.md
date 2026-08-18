@@ -86,6 +86,10 @@
 
 [🥤 汽水音乐去广告 · Zika 2026](https://raw.githubusercontent.com/lihx0481-create/-Stash-config/main/Stash/%E5%8E%BB%E5%B9%BF%E5%91%8A/Qishui-No-Ads-Zika-2026.stoverride)
 
+### 💬 微信
+
+[💬 微信小程序 · 朋友圈去广告 · Zika 2026](https://raw.githubusercontent.com/lihx0481-create/-Stash-config/main/Stash/%E5%8E%BB%E5%B9%BF%E5%91%8A/WeChat-Zika-2026.stoverride)
+
 
 
 
