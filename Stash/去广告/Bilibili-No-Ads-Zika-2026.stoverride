@@ -1,5 +1,5 @@
-name: '哔哩哔哩开屏去广告 · Zika 2026'
-desc: 'Zika 自维护｜Bilibili 开屏广告响应过滤'
+name: '哔哩哔哩去广告 · Zika 2026'
+desc: 'Zika 自维护｜Bilibili 开屏、Feed、动态与广告请求过滤｜2026'
 author: 'zika'
 icon: 'https://appicons.co/icons/147654'
 category: '去广告'
@@ -7,10 +7,15 @@ version: '1.0.1'
 date: '2026-08-19'
 
 http:
+  script:
+    - match: ^https?:\/\/app\.bilibili\.com\/x\/v2\/splash\/list
+      script: https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/script/startup/startup.js
+      requires-body: true
+
   url-rewrite:
     - ^https?:\/\/app\.bilibili\.com\/x\/v2\/splash\/show(?:\?.*)?$ - reject-dict
     - ^https?:\/\/api\.bilibili\.com\/x\/mengqi\/v1\/resource(?:\?.*)?$ - reject-dict
-    - ^http:\/\/[\d.]+:8000\/v1\/resource\/[A-Za-z0-9_-]+-1-SPLASH(?:\?.*)?$ - reject
+    - ^http:\/\/[\d.]+:8000\/v1\/resource\/[A-Za-z0-9_-]+-1-SPLASH(?:\?.*)?$ - reject-dict
     - ^https?:\/\/upos-[^\/]+\.bilivideo\.com\/.*\/[A-Za-z0-9_-]+-1-SPLASH(?:\?.*)?$ - reject
 
 mitm:
