@@ -1,86 +1,81 @@
-name: '哔哩哔哩综合去广告 · Zika 2026'
-desc: 'Zika 自维护的哔哩哔哩广告过滤规则｜开屏、播放页、卡片、搜索推广及广告回传｜2026'
-author: 'zika'
-icon: 'https://raw.githubusercontent.com/lihx0481-create/-Stash-config/main/Stash/icon/Bilibili.png'
-category: '去广告'
+name: ‘哔哩哔哩去广告 · Zika 2026’
+desc: ‘Zika 自维护｜Bilibili 开屏、Feed、动态与广告请求过滤｜2026’
+author: ‘zika’
+icon: ‘https://appicons.co/icons/147654’
+category: ‘去广告’
+version: ‘1.0.0’
+date: ‘2026-08-18’
 
 http:
-  mitm:
-    - app.bilibili.com
-    - api.bilibili.com
-    - biliapi.net
-    - api.biliapi.net
+force-http-engine:
+- ‘:4480’
+- ’:9102’
 
-  url-rewrite:
+mitm:
+- ‘app.bilibili.com’
+- ‘api.bilibili.com’
+- ‘api.live.bilibili.com’
+- ‘api.vc.bilibili.com’
+- ‘.bilivideo.com’
+- ’.bilivideo.cn’
+- ‘.mcdn.bilivideo.com’
+- ’.mcdn.bilivideo.cn’
 
-    # ==========================================
-    # ① 开屏广告
-    # ==========================================
+url-rewrite:
 
-    # 开屏广告展示
-    - ^https:\/\/app\.bilibili\.com\/x\/v2\/splash\/show(?:\?.*)?$ - reject-dict
-
-    # 开屏广告预加载
-    - ^https:\/\/app\.bilibili\.com\/x\/v2\/splash\/list(?:\?.*)?$ - reject-dict
-
-    # 开屏活动/品牌广告
-    - ^https:\/\/app\.bilibili\.com\/x\/v2\/splash\/(?:brand\/list|event\/list2)(?:\?.*)?$ - reject-dict
-
-
-    # ==========================================
-    # ② 播放页广告
-    # ==========================================
-
-    # 播放页弹窗/广告
-    - ^https:\/\/api\.bilibili\.com\/x\/v2\/dm\/ad(?:\?.*)?$ - reject-dict
-
-    # VIP 广告素材回传
-    - ^https:\/\/api\.bilibili\.com\/x\/vip\/ads\/material\/report(?:\?.*)?$ - reject-dict
-
-
-    # ==========================================
-    # ③ 视频卡片广告
-    # ==========================================
-
-    - ^https:\/\/api\.bilibili\.com\/pgc\/season\/player\/cards(?:\?.*)?$ - reject-dict
-
-
-    # ==========================================
-    # ④ 搜索推广
-    # ==========================================
-
-    # 搜索默认推广词
-    - ^https:\/\/app\.bilibili\.com\/x\/v2\/search\/defaultwords(?:\?.*)?$ - reject-dict
-
-    # 新版搜索默认词接口
-    - ^https:\/\/grpc\.biliapi\.net\/bilibili\.app\.interface\.v1\.Search\/DefaultWords(?:\?.*)?$ - reject-dict
-
-
-    # ==========================================
-    # ⑤ 顶部活动 / 推广
-    # ==========================================
-
-    - ^https:\/\/app\.bilibili\.com\/x\/resource\/top\/activity(?:\?.*)?$ - reject-dict
-
-
-    # ==========================================
-    # ⑥ 广告追踪 / 商业化回传
-    # ==========================================
-
-    - ^https:\/\/api\.bilibili\.com\/x\/vip\/ads\/.*$ - reject-dict
-
-    - ^https:\/\/api\.bilibili\.com\/x\/v2\/.*\/ad(?:\/.*)?(?:\?.*)?$ - reject-dict
-
-
-    # ==========================================
-    # ⑦ 正常视频流保护
-    # ==========================================
-
-    # 不拦：
-    # app.bilibili.com/x/v2/feed/index
-    # app.bilibili.com/x/v2/view
-    # api.bilibili.com/x/player/*
-    # grpc.biliapi.net 正常播放接口
-    # bilivideo.com / hdslb.com 视频 CDN
-    #
-    # 不整域封 Bilibili API。
+# ==========================================
+# ① 开屏广告
+# ==========================================
+- ^https?:\/\/app\.bilibili\.com\/x\/v2\/splash\/(?:list|show|brand\/list|event\/list2)(?:\?.*)?$ - reject-dict
+- ^https?:\/\/api\.bilibili\.com\/x\/mengqi\/v1\/resource(?:\?.*)?$ - reject-dict
+# ==========================================
+# ② 开屏广告素材
+# ==========================================
+- ^http:\/\/[^\/]+:8000\/v1\/resource\/[A-Za-z0-9_-]+-1-SPLASH(?:\?.*)?$ - reject-dict
+- ^https?:\/\/upos-[^\/]+\.bilivideo\.com\/.*\/[A-Za-z0-9_-]+-1-SPLASH(?:\?.*)?$ - reject
+# ==========================================
+# ③ 广告 / 推广资源
+# ==========================================
+- ^https?:\/\/app\.bilibili\.com\/.*(?:\/|_)(?:ad|ads|advert|advertisement|promotion|promote)(?:\/|\?|$).* - reject-dict
+- ^https?:\/\/api\.bilibili\.com\/.*(?:\/|_)(?:ad|ads|advert|advertisement|promotion|promote)(?:\/|\?|$).* - reject-dict
+# ==========================================
+# ④ 广告统计 / 曝光
+# ==========================================
+- ^https?:\/\/app\.bilibili\.com\/.*\/(?:ad|ads)\/.*(?:report|track|click|exposure|impression|stat|statistics|callback)(?:\/|\?|$).* - reject-dict
+- ^https?:\/\/api\.bilibili\.com\/.*\/(?:ad|ads)\/.*(?:report|track|click|exposure|impression|stat|statistics|callback)(?:\/|\?|$).* - reject-dict
+# ==========================================
+# ⑤ 弹幕广告相关
+# ==========================================
+- ^https?:\/\/api\.bilibili\.com\/x\/v2\/dm\/ad(?:\?.*)?$ - reject-dict
+# ==========================================
+# ⑥ 直播广告 / 电商推广信息
+# ==========================================
+- ^https?:\/\/api\.live\.bilibili\.com\/xlive\/e-commerce-interface\/.*(?:ad|promotion|promote|shopping)(?:\/|\?|$).* - reject-dict
+# ==========================================
+# ⑦ 满意度 / 调研类非核心内容
+# ==========================================
+- ^https?:\/\/api\.bilibili\.com\/x\/v2\/dm\/qoe\/show(?:\?.*)?$ - reject-dict
+# ==========================================
+# ⑧ 广告素材路径
+# ==========================================
+- ^https?:\/\/[^\/]+\.bilivideo\.com\/.*(?:\/|_)(?:ad|ads|advert|advertisement)\/.* - reject
+- ^https?:\/\/[^\/]+\.bilivideo\.cn\/.*(?:\/|_)(?:ad|ads|advert|advertisement)\/.* - reject
+# ==========================================
+# ⑨ 安全边界
+# ==========================================
+# 不整域 REJECT Bilibili。
+#
+# 不主动拦截：
+# - 视频播放
+# - 视频封面
+# - 评论
+# - 私信
+# - 登录
+# - 投稿
+# - 正常直播
+# - 正常 CDN 视频
+#
+# Feed / 动态中的广告如果嵌在正常 JSON
+# 内部，不通过粗暴 URL REJECT 处理。
+# 后续根据实际响应结构增加 Zika 自有
+# response-body 处理。
