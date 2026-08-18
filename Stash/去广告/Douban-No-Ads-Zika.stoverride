@@ -21,3 +21,11 @@ http:
 
     # 豆瓣广告联盟请求
     - ^https?:\/\/dsp-x\.jd\.com\/adx\/sdk(?:\?.*)?$ - reject
+
+mitm:
+  host:
+    - api.douban.com
+    - frodo.douban.com
+    - opehs.tanx.com
+    - sdk-config.tanx.com
+    - dsp-x.jd.com
