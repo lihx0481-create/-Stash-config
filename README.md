@@ -7,9 +7,9 @@ Zika 自维护的 Stash 配置、复写、规则集与网络检测工具集合�
 ## 📡 ZIKA STASH 配置文件
 
 📄 [Default.yaml Raw](https://raw.githubusercontent.com/lihx0481-create/-Stash-config/main/Default.yaml)
-⸻
 
-🛡️ Stash 去广告复写
+
+##🛡️ Stash 去广告复写
 
 [🇨🇳 国内媒体去广告](https://github.com/lihx0481-create/-Stash-config/tree/main/Stash/%E5%8E%BB%E5%B9%BF%E5%91%8A)
 
