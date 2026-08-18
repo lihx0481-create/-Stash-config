@@ -12,7 +12,7 @@ Zika 自维护的 Stash 配置、复写、规则集与网络检测工具集合�
 
 🛡️ Stash 去广告复写
 
-🇨🇳 国内软件去广告
+[🇨🇳 国内媒体去广告](https://github.com/lihx0481-create/-Stash-config/tree/main/Stash/%E5%8E%BB%E5%B9%BF%E5%91%8A)
 
 🌍 国际媒体去广告
 
@@ -47,22 +47,6 @@ WebRTC 泄漏
 
 ⸻
 
-📁 项目结构
-
--Stash-config/
-│
-├── README.md
-├── Default.yaml
-│
-└── Stash/
-    │
-    ├── 去广告/
-    │   ├── Qishui-No-Ads-Zika-2026.stoverride
-    │   └── WeChat-Zika-2026.stoverride
-    │
-    └── 国际媒体去广告/
-        ├── Instagram-Zika-2026.stoverride
-        └── Bilibili-Zika-2026.stoverride
 
 ⸻
 
