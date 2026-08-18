@@ -1,7 +1,7 @@
 🛡️ ZIKA STASH 配置中心
 
 Zika 自维护的 Stash 配置、复写、规则集与网络检测工具集合。
-
+![Stash Network Diagnostic](https://raw.githubusercontent.com/lihx0481-create/-Stash-config/main/copy_DBB6470D-277A-44D3-9CDD-8EDCC0AC8DFC.GIF)
 ⸻
 
 📡 ZIKA STASH 配置文件
