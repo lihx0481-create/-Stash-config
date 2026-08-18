@@ -82,3 +82,14 @@
 
 [📍 高德地图去广告 · Zika 2026](https://raw.githubusercontent.com/lihx0481-create/-Stash-config/main/Stash/%E5%8E%BB%E5%B9%BF%E5%91%8A/Amap-No-Ads-Zika-2026.stoverride)
 
+### 🥤 汽水音乐
+
+[🥤 汽水音乐去广告 · Zika 2026](https://raw.githubusercontent.com/lihx0481-create/-Stash-config/main/Stash/%E5%8E%BB%E5%B9%BF%E5%91%8A/Qishui-No-Ads-Zika-2026.stoverride)
+
+
+
+
+
+
+
+
