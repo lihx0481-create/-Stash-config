@@ -6,7 +6,7 @@ Zika 自维护的 Stash 配置、复写、规则集与网络检测工具集合�
 
 ## 📡 ZIKA STASH 配置文件
 
-📄 [Zika Network · Stash 3.6 Raw](https://raw.githubusercontent.com/lihx0481-create/-Stash-config/main/Stash/Zika-Network-Stash-3.6.yaml)
+[![一键导入 Zika Nexus](https://img.shields.io/badge/🚀%20一键导入-Zika%20Nexus-5865F2?style=for-the-badge)](https://link.stash.ws/install-config/raw.githubusercontent.com/lihx0481-create/-Stash-config/main/Default.yaml)
 
 ### 🚫 去广告复写
 
