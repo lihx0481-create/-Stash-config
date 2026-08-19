@@ -10,7 +10,7 @@ http:
   rewrite:
 
     # =====================================
-    # Bilibili 官方开屏广告接口
+    # Bilibili 官方开屏接口
     # =====================================
 
     # 开屏广告展示
@@ -22,7 +22,7 @@ http:
     # 开屏品牌广告
     - ^https?:\/\/app\.bilibili\.com\/x\/v2\/splash\/brand\/list(?:\?.*)?$ - reject-dict
 
-    # 开屏活动
+    # 开屏活动广告
     - ^https?:\/\/app\.bilibili\.com\/x\/v2\/splash\/event\/list2(?:\?.*)?$ - reject-dict
 
     # =====================================
@@ -44,9 +44,7 @@ http:
     - ^https?:\/\/upos-sz-static\.bilivideo\.com\/.*-1-SPLASH(?:\?.*)?$ - reject
 
     # =====================================
-    # Bilibili → 第三方 DSP
-    # 只拦 Bilibili 专用广告接口
-    # 不封整个 t-dsp.pinduoduo.com
+    # Bilibili 专用第三方 DSP 广告接口
     # =====================================
 
     - ^https?:\/\/t-dsp\.pinduoduo\.com\/dspcb\/i\/mrk_bilibili(?:\?.*)?$ - reject-200
