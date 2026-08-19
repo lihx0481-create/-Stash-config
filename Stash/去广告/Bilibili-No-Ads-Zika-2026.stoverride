@@ -10,48 +10,48 @@ http:
   rewrite:
 
     # =========================
-    # Bilibili 开屏广告接口
+    # Bilibili 开屏广告
     # =========================
 
     # 开屏广告展示接口
     - ^https?:\/\/app\.bilibili\.com\/x\/v2\/splash\/show(?:\?.*)?$ - reject-dict
 
-    # 开屏广告列表
+    # 开屏广告列表接口
     - ^https?:\/\/app\.bilibili\.com\/x\/v\d+\/splash\/list(?:\?.*)?$ - reject-dict
 
     # Mengqi 广告资源
     - ^https?:\/\/api\.bilibili\.com\/x\/mengqi\/v1\/resource(?:\?.*)?$ - reject-dict
 
-    # Peak 开屏资源
+    # Peak 广告资源
     - ^https?:\/\/app\.bilibili\.com\/x\/resource\/peak\/download(?:\?.*)?$ - reject-dict
 
-    # 本地/备用 SPLASH 资源
+    # 本地 SPLASH 资源
     - ^http:\/\/[\d.]+:8000\/v1\/resource\/[A-Za-z0-9_-]+-1-SPLASH(?:\?.*)?$ - reject-dict
 
     # Bilibili CDN SPLASH 资源
     - ^https?:\/\/upos-[^\/]+\.bilivideo\.com\/.*\/[A-Za-z0-9_-]+-1-SPLASH(?:\?.*)?$ - reject
 
-    # 静态 SPLASH 广告资源
-    - ^https?:\/\/upos-sz-static\.bilivideo\.com\/.*\/.*-1-SPLASH(?:\?.*)?$ - reject
+    # 静态 SPLASH 资源
+    - ^https?:\/\/upos-sz-static\.bilivideo\.com\/.*-1-SPLASH(?:\?.*)?$ - reject
+
+    # 常见开屏图片资源
+    - ^https?:\/\/.*\.bilivideo\.com\/.*\/SPLASH[^\/]*(?:\?.*)?$ - reject
 
   script:
-
-    # Bilibili 专用开屏 JSON 处理
     - match: ^https?:\/\/app\.bilibili\.com\/x\/v\d+\/splash\/list(?:\?.*)?$
       name: BiliBili_开屏去广告
       type: response
       timeout: 30
       require-body: true
-      max-size: 0
+      max-size: 3145728
 
 mitm:
   - app.bilibili.com
   - api.bilibili.com
-  - '*.bilibili.com'
   - '*.bilivideo.com'
   - '*.bilivideo.cn'
 
 script-providers:
   BiliBili_开屏去广告:
-    url: https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/script/bilibili/bilibili_plus.js
+    url: https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/script/startup/startup.js
     interval: 86400
