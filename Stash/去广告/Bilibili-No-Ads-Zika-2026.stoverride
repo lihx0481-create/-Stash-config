@@ -1,62 +1,96 @@
-name: '哔哩哔哩去广告 · Zika 2026'
-desc: 'Zika 自维护｜Bilibili 开屏广告与广告资源过滤｜2026'
-author: 'zika'
-icon: 'https://appicons.co/icons/147654'
-category: '去广告'
-version: '2.0.0'
-date: '2026-08-19'
+name: 哔哩哔哩
+desc: |-
+    Zika Bilibili 去广告复写
+    基于公开规则修改
+
+    - 美区 Bilibili | Bilibili HD 开屏广告
+    - 直播间
+        - 右下角横幅小组件
+        - 航海粉丝日
+        - 团战燃魂赛
+        - 推荐购买商品悬浮窗
+        - 大家都在买
+        - 一对一教学推荐
+        - 购物车
+        - banner
+        - match_card
+        - follow_card
+        - forecast_card
+        - wish_list_card
+        - 更多解说
+        - 人气榜打榜提醒弹窗
+        - 自动切换最高画质
+    - 视频
+        - 云视听小电视
+    - 首页
+        - 发现 N 条新内容提示
+        - banner 轮播
+        - 推荐广告
+        - 后台切前台闪屏广告
+
+category: ad
+
+icon: https://raw.githubusercontent.com/qsoyq/icons/main/assets/icon/bilibili-intl.png
 
 http:
-  rewrite:
+    mitm:
+        - app.bilibili.com
+        - api.live.bilibili.com
+        - i1.hdslb.com
+        - i2.hdslb.com
+        - www.bilibili.com
+        - m.bilibili.com
+        - bilibili.com
+        - live.bilibili.com
 
-    # =====================================
-    # Bilibili 开屏广告
-    # =====================================
+    force-http-engine:
+        - api.live.bilibili.com
+        - app.bilibili.com
+        - bilibili.com
+        - i1.hdslb.com
+        - i2.hdslb.com
+        - live.bilibili.com
+        - m.bilibili.com
+        - www.bilibili.com
 
-    # 开屏展示接口
-    - ^https?:\/\/app\.bilibili\.com\/x\/v2\/splash\/show(?:\?.*)?$ - reject
+    url-rewrite:
+        - https?://app.bilibili.com/x/v2/splash/show - reject
+        - https://api.live.bilibili.com/xlive/app-ucenter/v2/playTogether/GetPlayTogetherUserAnchorInfoV2 - reject
+        - https://api.live.bilibili.com/xlive/app-ucenter/v2/playTogether/PlayTogetherServiceCardDetail - reject
+        - https://i1.hdslb.com/bfs/activity-plat/static/9bdd988aed64a23976d6d5494533a450/vBISHozSu0.png - reject
+        - https://i2.hdslb.com/bfs/activity-plat/static/9bdd988aed64a23976d6d5494533a450/vBISHozSu0.png - reject
 
-    # 开屏广告资源接口
-    - ^https?:\/\/api\.bilibili\.com\/x\/mengqi\/v1\/resource(?:\?.*)?$ - reject-dict
+    body-rewrite:
+        - ^https?://app.bilibili.com/x/v2/feed/index.*$ response-jq if .data.items!=null then .data.items |= map(select(.card_type!="banner_ipad_v8")) end
+        - ^https?://app.bilibili.com/x/v2/feed/index.*$ response-jq if .data.items!=null then .data.items |= map(select(.card_goto!="ad_web_s")) end
+        - https?://app.bilibili.com/x/v2/splash/list response-jq .data={}
+        - https://api.live.bilibili.com/xlive/play-interface/widgetService/GetWidgetBannerList response-jq .data={}
+        - https://api.live.bilibili.com/xlive/e-commerce-interface/v1/ecommerce-user/get_shopping_info response-jq .data.recommend_card_detail={}
+        - https://api.live.bilibili.com/xlive/e-commerce-interface/v1/ecommerce-user/get_shopping_info response-jq .data.h5jump_popup=[]
+        - https://api.live.bilibili.com/xlive/e-commerce-interface/v1/ecommerce-user/get_shopping_info response-jq .data.selected_goods={}
+        - https://api.live.bilibili.com/xlive/e-commerce-interface/v1/ecommerce-user/get_shopping_info response-jq .data.bubbles_detail={}
+        - https://api.live.bilibili.com/xlive/e-commerce-interface/v1/ecommerce-user/get_shopping_info response-jq .data.shopping_card_detail={}
+        - https://api.live.bilibili.com/xlive/e-commerce-interface/v1/ecommerce-user/get_shopping_cart_list response-jq .data.goods_list=[]
+        - https://api.live.bilibili.com/xlive/e-commerce-interface/v1/ecommerce-user/get_shopping_info response-jq .data.has_next_page=false
+        - https://api.live.bilibili.com/xlive/e-commerce-interface/v1/ecommerce-user/get_shopping_info response-jq .data.introduce_goods=null
+        - https://api.live.bilibili.com/xlive/app-room/v1/index/getInfoByRoom response-jq .data.activity_banner_info={}
+        - https://api.live.bilibili.com/xlive/app-room/v1/index/getInfoByRoom response-jq .data.function_card=null
+        - https://api.live.bilibili.com/xlive/app-room/v1/index/getInfoByRoom response-jq .data.multi_view_info={}
+        - https://api.live.bilibili.com/xlive/app-room/v1/index/getInfoByUser response-jq .data.popular_rank_guide_card={}
+        - https://app.bilibili.com/x/v2/feed/index response-jq .data.config.toast=null
 
-    # 开屏资源下载
-    - ^https?:\/\/app\.bilibili\.com\/x\/resource\/peak\/download(?:\?.*)?$ - reject-dict
+    script:
+        - name: bilibili
+          binary-mode: false
+          match: https://live.bilibili.com/\d+
+          max-size: 2097152
+          require-body: true
+          timeout: 10
+          argument: ''
+          type: response
+          debug: false
 
-    # 本地 SPLASH 资源
-    - ^http:\/\/[\d.]+:8000\/v1\/resource\/[A-Za-z0-9_-]+-1-SPLASH(?:\?.*)?$ - reject-dict
-
-    # Bilibili 视频 CDN SPLASH 资源
-    - ^https?:\/\/upos-[^\/]+\.bilivideo\.com\/.*\/[A-Za-z0-9_-]+-1-SPLASH(?:\?.*)?$ - reject
-
-    # 静态 SPLASH 资源
-    - ^https?:\/\/upos-sz-static\.bilivideo\.com\/.*-1-SPLASH(?:\?.*)?$ - reject
-
-    # =====================================
-    # Bilibili 专用 DSP 广告
-    # =====================================
-
-    # 你实际抓到的：
-    # t-dsp.pinduoduo.com/dspcb/i/mrk_bilibili
-    - ^https?:\/\/t-dsp\.pinduoduo\.com\/dspcb\/i\/mrk_bilibili(?:\?.*)?$ - reject-200
-
-  body-rewrite:
-
-    # =====================================
-    # 核心：清空 Bilibili 开屏返回数据
-    # =====================================
-
-    # Bilibili HD / App 开屏
-    - ^https?:\/\/app\.bilibili\.com\/x\/v2\/splash\/list(?:\?.*)?$ response-jq .data={}
-
-    # 部分版本开屏活动数据
-    - ^https?:\/\/app\.bilibili\.com\/x\/v2\/splash\/event\/list2(?:\?.*)?$ response-jq .data={}
-
-    # 部分版本品牌开屏数据
-    - ^https?:\/\/app\.bilibili\.com\/x\/v2\/splash\/brand\/list(?:\?.*)?$ response-jq .data={}
-
-mitm:
-  - app.bilibili.com
-  - api.bilibili.com
-  - '*.bilivideo.com'
-  - '*.bilivideo.cn'
-  - t-dsp.pinduoduo.com
+script-providers:
+    bilibili:
+        url: https://raw.githubusercontent.com/qsoyq/stash/main/script/ad/bilibili.js
+        interval: 86400
