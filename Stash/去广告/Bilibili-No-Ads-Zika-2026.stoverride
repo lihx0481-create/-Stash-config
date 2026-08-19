@@ -1,36 +1,24 @@
 name: 哔哩哔哩
 desc: |-
-    Zika Bilibili 去广告复写
-    基于公开规则修改
-
-    - 美区 Bilibili | Bilibili HD 开屏广告
-    - 直播间
-        - 右下角横幅小组件
-        - 航海粉丝日
-        - 团战燃魂赛
-        - 推荐购买商品悬浮窗
-        - 大家都在买
-        - 一对一教学推荐
-        - 购物车
-        - banner
-        - match_card
-        - follow_card
-        - forecast_card
-        - wish_list_card
-        - 更多解说
-        - 人气榜打榜提醒弹窗
-        - 自动切换最高画质
-    - 视频
-        - 云视听小电视
-    - 首页
-        - 发现 N 条新内容提示
-        - banner 轮播
-        - 推荐广告
-        - 后台切前台闪屏广告
+    Zika Bilibili 去广告
+    - 开屏广告
+    - 首页推荐广告
+    - 首页 Banner
+    - 新内容提示
+    - 后台切前台闪屏
+    - 直播间 Banner
+    - 直播商品推荐
+    - 商品悬浮窗
+    - 购物车
+    - 活动卡片
+    - 人气榜引导
+    - 直播间推广组件
+    - 特定推广图片
+    - 直播网页广告及干扰内容
 
 category: ad
 
-icon: https://raw.githubusercontent.com/qsoyq/icons/main/assets/icon/bilibili-intl.png
+icon: https://appicons.co/icons/147654
 
 http:
     mitm:
@@ -54,29 +42,65 @@ http:
         - www.bilibili.com
 
     url-rewrite:
+        # 开屏广告
         - https?://app.bilibili.com/x/v2/splash/show - reject
+
+        # 直播间活动/互动推广
         - https://api.live.bilibili.com/xlive/app-ucenter/v2/playTogether/GetPlayTogetherUserAnchorInfoV2 - reject
         - https://api.live.bilibili.com/xlive/app-ucenter/v2/playTogether/PlayTogetherServiceCardDetail - reject
+
+        # 特定推广图片
         - https://i1.hdslb.com/bfs/activity-plat/static/9bdd988aed64a23976d6d5494533a450/vBISHozSu0.png - reject
         - https://i2.hdslb.com/bfs/activity-plat/static/9bdd988aed64a23976d6d5494533a450/vBISHozSu0.png - reject
 
     body-rewrite:
+        # 首页推荐：过滤 Banner
         - ^https?://app.bilibili.com/x/v2/feed/index.*$ response-jq if .data.items!=null then .data.items |= map(select(.card_type!="banner_ipad_v8")) end
+
+        # 首页推荐：过滤广告卡片
         - ^https?://app.bilibili.com/x/v2/feed/index.*$ response-jq if .data.items!=null then .data.items |= map(select(.card_goto!="ad_web_s")) end
+
+        # 开屏数据
         - https?://app.bilibili.com/x/v2/splash/list response-jq .data={}
+
+        # 直播 Banner
         - https://api.live.bilibili.com/xlive/play-interface/widgetService/GetWidgetBannerList response-jq .data={}
+
+        # 直播商品推荐
         - https://api.live.bilibili.com/xlive/e-commerce-interface/v1/ecommerce-user/get_shopping_info response-jq .data.recommend_card_detail={}
+
+        # 商品跳转弹窗
         - https://api.live.bilibili.com/xlive/e-commerce-interface/v1/ecommerce-user/get_shopping_info response-jq .data.h5jump_popup=[]
+
+        # 当前推荐商品
         - https://api.live.bilibili.com/xlive/e-commerce-interface/v1/ecommerce-user/get_shopping_info response-jq .data.selected_goods={}
+
+        # 商品气泡
         - https://api.live.bilibili.com/xlive/e-commerce-interface/v1/ecommerce-user/get_shopping_info response-jq .data.bubbles_detail={}
+
+        # 商品卡片
         - https://api.live.bilibili.com/xlive/e-commerce-interface/v1/ecommerce-user/get_shopping_info response-jq .data.shopping_card_detail={}
+
+        # 直播购物车
         - https://api.live.bilibili.com/xlive/e-commerce-interface/v1/ecommerce-user/get_shopping_cart_list response-jq .data.goods_list=[]
-        - https://api.live.bilibili.com/xlive/e-commerce-interface/v1/ecommerce-user/get_shopping_info response-jq .data.has_next_page=false
-        - https://api.live.bilibili.com/xlive/e-commerce-interface/v1/ecommerce-user/get_shopping_info response-jq .data.introduce_goods=null
+
+        - https://api.live.bilibili.com/xlive/e-commerce-interface/v1/ecommerce-user/get_shopping_cart_list response-jq .data.has_next_page=false
+
+        - https://api.live.bilibili.com/xlive/e-commerce-interface/v1/ecommerce-user/get_shopping_cart_list response-jq .data.introduce_goods=null
+
+        # 直播间活动 Banner
         - https://api.live.bilibili.com/xlive/app-room/v1/index/getInfoByRoom response-jq .data.activity_banner_info={}
+
+        # 直播间功能卡片
         - https://api.live.bilibili.com/xlive/app-room/v1/index/getInfoByRoom response-jq .data.function_card=null
+
+        # 多视角推荐
         - https://api.live.bilibili.com/xlive/app-room/v1/index/getInfoByRoom response-jq .data.multi_view_info={}
+
+        # 人气榜引导
         - https://api.live.bilibili.com/xlive/app-room/v1/index/getInfoByUser response-jq .data.popular_rank_guide_card={}
+
+        # 首页 Toast / 新内容提示
         - https://app.bilibili.com/x/v2/feed/index response-jq .data.config.toast=null
 
     script:
