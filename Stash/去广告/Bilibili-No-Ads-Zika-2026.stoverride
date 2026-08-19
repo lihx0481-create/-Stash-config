@@ -3,15 +3,25 @@ desc: 'Zika 自维护｜Bilibili 开屏广告与广告资源过滤｜2026'
 author: 'zika'
 icon: 'https://appicons.co/icons/147654'
 category: '去广告'
-version: '1.0.2'
+version: '1.0.3'
 date: '2026-08-19'
 
 http:
   rewrite:
+
+    # Bilibili 开屏广告接口
     - ^https?:\/\/app\.bilibili\.com\/x\/v2\/splash\/show(?:\?.*)?$ - reject-dict
+    - ^https?:\/\/app\.bilibili\.com\/x\/v2\/splash\/list(?:\?.*)?$ - reject-dict
+
+    # 开屏广告资源接口
     - ^https?:\/\/api\.bilibili\.com\/x\/mengqi\/v1\/resource(?:\?.*)?$ - reject-dict
     - ^http:\/\/[\d.]+:8000\/v1\/resource\/[A-Za-z0-9_-]+-1-SPLASH(?:\?.*)?$ - reject-dict
+
+    # Bilibili 视频 CDN 中的 SPLASH 资源
     - ^https?:\/\/upos-[^\/]+\.bilivideo\.com\/.*\/[A-Za-z0-9_-]+-1-SPLASH(?:\?.*)?$ - reject
+
+    # 常见广告资源路径
+    - ^https?:\/\/.*\.bilibili\.com\/.*\/(ad|ads|advertisement|advertising|splash)(?:[\/?].*)?$ - reject-dict
 
   script:
     - match: ^https?:\/\/app\.bilibili\.com\/x\/v2\/splash\/list(?:\?.*)?$
@@ -24,6 +34,7 @@ http:
 mitm:
   - app.bilibili.com
   - api.bilibili.com
+  - '*.bilibili.com'
   - '*.bilivideo.com'
   - '*.bilivideo.cn'
 
