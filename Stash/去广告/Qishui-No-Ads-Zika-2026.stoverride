@@ -1,79 +1,155 @@
-name: '汽水音乐综合去广告 · Zika 2026'
-desc: 'Zika 自维护的汽水音乐广告过滤规则｜开屏、弹窗、播放器推广、信息流及广告回传｜2026'
-author: 'zika'
-icon: 'https://is1-ssl.mzstatic.com/image/thumb/Purple211/v4/7b/3f/0e/7b3f0e7e-0d6c-7e56-4f0c-3a1e5b1c7b4c/AppIcon-0-0-1x_U007emarketing-0-7-0-85-220.png/512x512bb.jpg'
-category: '去广告'
+name: 汽水音乐
+desc: |-
+    Zika 汽水音乐去广告
+    - 视频广告
+    - 通用广告
+    - 位置请求
+    - 广告弹窗
+    - TAGS 推荐
+    - 我的页面推广
+    - 会员免费听整月提示
+    - 热门搜索
+    - 搜索界面活动
+    - 音乐流推广
+    - DNS 请求
+    - 广告回传
+    - 广告素材
+
+category: ad
+
+icon: https://is1-ssl.mzstatic.com/image/thumb/Purple211/v4/7b/3f/0e/7b3f0e7e-0d6c-7e56-4f0c-3a1e5b1c7b4c/AppIcon-0-0-1x_U007emarketing-0-7-0-85-220.png/512x512bb.jpg
 
 http:
-  mitm:
-    - '*.qishui.douyin.com'
-    - '*.qishui.douyin.com'
-    - 'api.qishui.douyin.com'
-    - 'music-api.douyin.com'
-    - 'i.snssdk.com'
-    - 'i-lq.snssdk.com'
-    - 'mcs.snssdk.com'
-    - 'activity-ag.awemeughun.com'
-    - 'p6-ad-sign.byteimg.com'
-    - 'p9-ad-sign.byteimg.com'
+    mitm:
+        - beta-luna.douyin.com
+        - api.qishui.com
+        - tnc*-*.zijieapi.com
+        - '*.qishui.douyin.com'
+        - music-api.douyin.com
+        - i.snssdk.com
+        - i-lq.snssdk.com
+        - mcs.snssdk.com
+        - activity-ag.awemeughun.com
+        - p6-ad-sign.byteimg.com
+        - p9-ad-sign.byteimg.com
 
-  url-rewrite:
+    force-http-engine:
+        - beta-luna.douyin.com
+        - api.qishui.com
+        - tnc*-*.zijieapi.com
+        - '*.qishui.douyin.com'
+        - music-api.douyin.com
+        - i.snssdk.com
+        - i-lq.snssdk.com
+        - mcs.snssdk.com
+        - activity-ag.awemeughun.com
+        - p6-ad-sign.byteimg.com
+        - p9-ad-sign.byteimg.com
 
-    # ==========================================
-    # ① 开屏广告
-    # ==========================================
+    url-rewrite:
 
-    # 汽水启动阶段广告请求
-    - ^https:\/\/[^\/]+\.qishui\.douyin\.com\/.*\/(?:splash|startup|launch|screen).*(?:ad|ads|advert).* - reject-dict
+        # ==============================
+        # Luna 视频广告
+        # ==============================
 
+        - ^https:\/\/[a-zA-Z0-9_-]+(\.[a-zA-Z0-9_-]+){1,3}\/luna\/media_ads(?:\?.*)?$ - reject-200
 
-    # ==========================================
-    # ② 弹窗 / 广告配置
-    # ==========================================
+        # ==============================
+        # Luna 通用广告
+        # ==============================
 
-    - ^https:\/\/[^\/]+\.qishui\.douyin\.com\/.*\/(?:ad|ads|advert|advertisement|commercial)\/.*$ - reject-dict
+        - ^https:\/\/[a-zA-Z0-9_-]+(\.[a-zA-Z0-9_-]+){1,3}\/luna\/ads(?:\?.*)?$ - reject-200
 
+        # ==============================
+        # 位置请求
+        # ==============================
 
-    # ==========================================
-    # ③ 播放器推广
-    # ==========================================
+        - ^https:\/\/[a-zA-Z0-9_-]+(\.[a-zA-Z0-9_-]+){1,3}\/location\/info(?:\?.*)?$ - reject-200
 
-    - ^https:\/\/[^\/]+\.qishui\.douyin\.com\/.*\/(?:player|play)\/.*(?:ad|ads|advert|promotion).* - reject-dict
+        # ==============================
+        # 广告弹窗 / 商业推广
+        # ==============================
 
+        - ^https:\/\/[a-zA-Z0-9_-]+(\.[a-zA-Z0-9_-]+){1,3}\/luna\/commerce(?:\?.*)?$ - reject-200
 
-    # ==========================================
-    # ④ 首页 / 信息流推广
-    # ==========================================
+        # ==============================
+        # TAGS 推荐
+        # ==============================
 
-    - ^https:\/\/[^\/]+\.qishui\.douyin\.com\/.*\/(?:feed|recommend|home)\/.*(?:ad|ads|advert|promotion).* - reject-dict
+        - ^https:\/\/[a-zA-Z0-9_-]+(\.[a-zA-Z0-9_-]+){1,3}\/luna\/hashtag\/recommend(?:\?.*)?$ - reject-200
 
+        # ==============================
+        # DNS 域名配置请求
+        # ==============================
 
-    # ==========================================
-    # ⑤ 广告素材
-    # ==========================================
+        - ^https:\/\/tnc.*zijieapi\.com\/get_domains(?:\?.*)?$ - reject-200
 
-    - ^https:\/\/p6-ad-sign\.byteimg\.com\/.*$ - reject
+        # ==============================
+        # 广告素材
+        # ==============================
 
-    - ^https:\/\/p9-ad-sign\.byteimg\.com\/.*$ - reject
+        - ^https:\/\/p6-ad-sign\.byteimg\.com\/.*$ - reject
 
+        - ^https:\/\/p9-ad-sign\.byteimg\.com\/.*$ - reject
 
-    # ==========================================
-    # ⑥ 明确广告回传
-    # ==========================================
+        # ==============================
+        # 活动广告回传
+        # ==============================
 
-    - ^https:\/\/activity-ag\.awemeughun\.com\/.*$ - reject
+        - ^https:\/\/activity-ag\.awemeughun\.com\/.*$ - reject
 
-    - ^https:\/\/[^\/]+\.qishui\.douyin\.com\/.*\/(?:ad|ads)\/.*(?:report|track|stats|log).* - reject
+        # ==============================
+        # 广告回传 / 统计
+        # ==============================
 
+        - ^https:\/\/[^\/]+\.qishui\.douyin\.com\/.*\/(?:ad|ads)\/.*(?:report|track|stats|log).*$ - reject
 
-    # ==========================================
-    # ⑦ 正常音乐业务保护
-    # ==========================================
+        # ==============================
+        # 旧版 / 泛化广告路径
+        # ==============================
 
-    # 不整域拦截：
-    # qishui.douyin.com
-    # snssdk.com
-    # byteimg.com
-    # douyinvod.com
-    
-   
+        - ^https:\/\/[^\/]+\.qishui\.douyin\.com\/.*\/(?:ad|ads|advert|advertisement|commercial)\/.*$ - reject-dict
+
+        # ==============================
+        # 播放器推广
+        # ==============================
+
+        - ^https:\/\/[^\/]+\.qishui\.douyin\.com\/.*\/(?:player|play)\/.*(?:ad|ads|advert|promotion).*$ - reject-dict
+
+        # ==============================
+        # 首页 / 信息流推广
+        # ==============================
+
+        - ^https:\/\/[^\/]+\.qishui\.douyin\.com\/.*\/(?:feed|recommend|home)\/.*(?:ad|ads|advert|promotion).*$ - reject-dict
+
+    body-rewrite:
+
+        # ==============================
+        # 我的页面推广
+        # ==============================
+
+        - ^https:\/\/[a-zA-Z0-9_-]+(\.[a-zA-Z0-9_-]+){1,3}\/luna\/me\?.*$ response-jq del(.reward_ad_banner)
+
+        # ==============================
+        # 会员免费听整月提示
+        # ==============================
+
+        - ^https:\/\/[a-zA-Z0-9_-]+(\.[a-zA-Z0-9_-]+){1,3}\/luna\/card(?:\?.*)?$ response-jq del(.preview_guide)
+
+        # ==============================
+        # 热门搜索
+        # ==============================
+
+        - ^https:\/\/[a-zA-Z0-9_-]+(\.[a-zA-Z0-9_-]+){1,3}\/luna\/search-block(?:\?.*)?$ response-jq del(.search_chart_block)
+
+        # ==============================
+        # 搜索界面活动
+        # ==============================
+
+        - ^https:\/\/[a-zA-Z0-9_-]+(\.[a-zA-Z0-9_-]+){1,3}\/luna\/activities(?:\?.*)?$ response-jq del(.activity_map)
+
+        # ==============================
+        # 音乐流推广
+        # ==============================
+
+        - ^https:\/\/[a-zA-Z0-9_-]+(\.[a-zA-Z0-9_-]+){1,3}\/luna\/feed\/song-tab(?:\?.*)?$ response-jq .items |= map(select(.type == "track"))
