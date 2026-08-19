@@ -4,9 +4,11 @@ Zika 自维护的 Stash 配置、复写、规则集与网络检测工具集合�
 ![Stash Network Diagnostic](https://raw.githubusercontent.com/lihx0481-create/-Stash-config/main/copy_DBB6470D-277A-44D3-9CDD-8EDCC0AC8DFC.GIF)
 
 
-## 📡 ZIKA STASH 配置文件
 
-[![一键导入 Zika Nexus](https://img.shields.io/badge/🚀%20一键导入-Zika%20Nexus-5865F2?style=for-the-badge)](https://link.stash.ws/install-config/raw.githubusercontent.com/lihx0481-create/-Stash-config/main/Default.yaml)
+
+## 🚀 一键导入 Zika Nexus
+
+[![一键导入 Zika Nexus](https://img.shields.io/badge/一键导入-Zika%20Nexus-5865F2?style=for-the-badge)](stash://install-config?url=https%3A%2F%2Fraw.githubusercontent.com%2Flihx0481-create%2F-Stash-config%2Fmain%2FZika-Nexus.yaml)
 
 ### 🚫 去广告复写
 
