@@ -1,29 +1,49 @@
+name: Zika Nexus
+
 # ============================================================
-# Zika Stash Public Config
-# 2026
+# Zika Nexus
+# Universal Stash 3.6.x Public Configuration
 #
-# 公共基础配置
-#
-# ✓ 不包含机场订阅
-# ✓ 不包含个人节点
-# ✓ 自动读取用户代理
-# ✓ 自动地区识别
-# ✓ 自动节点测速
-# ✓ 软件独立分流
-# ✓ DNS
-# ✓ QUIC 控制
-# ✓ 网络诊断 Tiles
-#
-# 去广告请使用独立 .stoverride
+# 设计原则：
+# 1. 不内置任何机场订阅
+# 2. 不内置去广告规则
+# 3. 用户自行添加机场 / Proxy Provider
+# 4. 自动识别节点地区
+# 5. 软件 / 服务独立分流
+# 6. DNS 尽量避免本地 DNS 泄漏
+# 7. Tiles 仅负责网络状态检测
 # ============================================================
 
 
 # ============================================================
-# 基础
+# 基础设置
 # ============================================================
 
 mode: rule
+
 log-level: warning
+
+ipv6: true
+
+
+# ============================================================
+# Proxy Providers
+#
+# 公开配置不写死任何机场。
+#
+# 用户可以：
+# Stash → 配置 → 代理 / Proxy Provider
+# 自行添加机场订阅。
+#
+# 所有策略组均使用 include-all: true，
+# 因此用户加入自己的机场后会自动进入对应策略组。
+# ============================================================
+
+# proxy-providers:
+#
+#   example:
+#     url: https://example.com/your-subscription
+#     interval: 3600
 
 
 # ============================================================
@@ -32,13 +52,13 @@ log-level: warning
 
 proxy-groups:
 
-  # ==========================================================
-  # 主代理
-  # ==========================================================
+  # ----------------------------------------------------------
+  # 总代理
+  # ----------------------------------------------------------
 
   - name: 选择代理
-    type: select
     icon: https://fastly.jsdelivr.net/gh/Koolson/Qure/IconSet/Color/Proxy.png
+    type: select
     proxies:
       - 自动选择
       - 手动选择
@@ -52,584 +72,456 @@ proxy-groups:
       - GB 英国
       - DE 德国
       - FR 法国
-      - NL 荷兰
       - AU 澳大利亚
-      - TR 土耳其
       - IN 印度
-      - PH 菲律宾
+      - RU 俄罗斯
+      - 其他地区
+      - DIRECT
+
+
+  # ----------------------------------------------------------
+  # 默认
+  # ----------------------------------------------------------
+
+  - name: 默认
+    icon: https://fastly.jsdelivr.net/gh/Koolson/Qure/IconSet/Color/Final.png
+    type: select
+    proxies:
+      - 选择代理
       - DIRECT
 
 
   # ==========================================================
-  # 自动选择
-  # ==========================================================
-
-  - name: 自动选择
-    type: url-test
-    icon: https://fastly.jsdelivr.net/gh/Koolson/Qure/IconSet/Color/Auto.png
-    include-all: true
-    interval: 300
-    tolerance: 80
-    lazy: true
-
-
-  # ==========================================================
-  # 手动选择
-  # ==========================================================
-
-  - name: 手动选择
-    type: select
-    icon: https://fastly.jsdelivr.net/gh/Koolson/Qure/IconSet/Color/Static.png
-    include-all: true
-
-
-  # ==========================================================
-  # 香港
-  # ==========================================================
-
-  - name: HK 香港
-    type: url-test
-    icon: https://fastly.jsdelivr.net/gh/Koolson/Qure/IconSet/Color/Hong_Kong.png
-    include-all: true
-    filter: "港|香港|🇭🇰|HK|HKG|Hong.?Kong|澳门|🇲🇴|MO"
-    interval: 300
-    tolerance: 80
-    lazy: true
-
-
-  # ==========================================================
-  # 台湾
-  # ==========================================================
-
-  - name: TW 台湾
-    type: url-test
-    icon: https://fastly.jsdelivr.net/gh/Koolson/Qure/IconSet/Color/Taiwan.png
-    include-all: true
-    filter: "台|台湾|🇹🇼|TW|TWN|Taiwan|Taipei"
-    interval: 300
-    tolerance: 80
-    lazy: true
-
-
-  # ==========================================================
-  # 新加坡
-  # ==========================================================
-
-  - name: SG 新加坡
-    type: url-test
-    icon: https://fastly.jsdelivr.net/gh/Koolson/Qure/IconSet/Color/Singapore.png
-    include-all: true
-    filter: "新加坡|狮城|🇸🇬|SG|SGP|Singapore"
-    interval: 300
-    tolerance: 80
-    lazy: true
-
-
-  # ==========================================================
-  # 日本
-  # ==========================================================
-
-  - name: JP 日本
-    type: url-test
-    icon: https://fastly.jsdelivr.net/gh/Koolson/Qure/IconSet/Color/Japan.png
-    include-all: true
-    filter: "日本|东京|大阪|🇯🇵|JP|JPN|Japan|Tokyo|Osaka"
-    interval: 300
-    tolerance: 80
-    lazy: true
-
-
-  # ==========================================================
-  # 韩国
-  # ==========================================================
-
-  - name: KR 韩国
-    type: url-test
-    icon: https://fastly.jsdelivr.net/gh/Koolson/Qure/IconSet/Color/South_Korea.png
-    include-all: true
-    filter: "韩国|首尔|🇰🇷|KR|KOR|Korea|Seoul"
-    interval: 300
-    tolerance: 80
-    lazy: true
-
-
-  # ==========================================================
-  # 美国
-  # ==========================================================
-
-  - name: US 美国
-    type: url-test
-    icon: https://fastly.jsdelivr.net/gh/Koolson/Qure/IconSet/Color/United_States.png
-    include-all: true
-    filter: "美国|美|洛杉矶|纽约|西雅图|🇺🇸|US|USA|United.?States|America|Los.?Angeles|New.?York|Seattle"
-    interval: 300
-    tolerance: 80
-    lazy: true
-
-
-  # ==========================================================
-  # 加拿大
-  # ==========================================================
-
-  - name: CA 加拿大
-    type: url-test
-    icon: https://fastly.jsdelivr.net/gh/Koolson/Qure/IconSet/Color/Canada.png
-    include-all: true
-    filter: "加拿大|多伦多|温哥华|蒙特利尔|🇨🇦|CA|CAN|Canada|Toronto|Vancouver|Montreal"
-    interval: 300
-    tolerance: 80
-    lazy: true
-
-
-  # ==========================================================
-  # 英国
-  # ==========================================================
-
-  - name: GB 英国
-    type: url-test
-    icon: https://fastly.jsdelivr.net/gh/Koolson/Qure/IconSet/Color/United_Kingdom.png
-    include-all: true
-    filter: "英国|伦敦|🇬🇧|UK|GB|GBR|United.?Kingdom|Britain|London"
-    interval: 300
-    tolerance: 80
-    lazy: true
-
-
-  # ==========================================================
-  # 德国
-  # ==========================================================
-
-  - name: DE 德国
-    type: url-test
-    icon: https://fastly.jsdelivr.net/gh/Koolson/Qure/IconSet/Color/Germany.png
-    include-all: true
-    filter: "德国|法兰克福|🇩🇪|DE|DEU|Germany|Frankfurt"
-    interval: 300
-    tolerance: 80
-    lazy: true
-
-
-  # ==========================================================
-  # 法国
-  # ==========================================================
-
-  - name: FR 法国
-    type: url-test
-    icon: https://fastly.jsdelivr.net/gh/Koolson/Qure/IconSet/Color/France.png
-    include-all: true
-    filter: "法国|巴黎|🇫🇷|FR|FRA|France|Paris"
-    interval: 300
-    tolerance: 80
-    lazy: true
-
-
-  # ==========================================================
-  # 荷兰
-  # ==========================================================
-
-  - name: NL 荷兰
-    type: url-test
-    icon: https://fastly.jsdelivr.net/gh/Koolson/Qure/IconSet/Color/Netherlands.png
-    include-all: true
-    filter: "荷兰|阿姆斯特丹|🇳🇱|NL|NLD|Netherlands|Amsterdam"
-    interval: 300
-    tolerance: 80
-    lazy: true
-
-
-  # ==========================================================
-  # 澳大利亚
-  # ==========================================================
-
-  - name: AU 澳大利亚
-    type: url-test
-    icon: https://fastly.jsdelivr.net/gh/Koolson/Qure/IconSet/Color/Australia.png
-    include-all: true
-    filter: "澳大利亚|澳洲|悉尼|墨尔本|🇦🇺|AU|AUS|Australia|Sydney|Melbourne"
-    interval: 300
-    tolerance: 80
-    lazy: true
-
-
-  # ==========================================================
-  # 土耳其
-  # ==========================================================
-
-  - name: TR 土耳其
-    type: url-test
-    icon: https://fastly.jsdelivr.net/gh/Koolson/Qure/IconSet/Color/Turkey.png
-    include-all: true
-    filter: "土耳其|伊斯坦布尔|🇹🇷|TR|TUR|Turkey|Istanbul"
-    interval: 300
-    tolerance: 80
-    lazy: true
-
-
-  # ==========================================================
-  # 印度
-  # ==========================================================
-
-  - name: IN 印度
-    type: url-test
-    icon: https://fastly.jsdelivr.net/gh/Koolson/Qure/IconSet/Color/India.png
-    include-all: true
-    filter: "印度|孟买|新德里|🇮🇳|IN|IND|India|Mumbai|Delhi"
-    interval: 300
-    tolerance: 80
-    lazy: true
-
-
-  # ==========================================================
-  # 菲律宾
-  # ==========================================================
-
-  - name: PH 菲律宾
-    type: url-test
-    icon: https://fastly.jsdelivr.net/gh/Koolson/Qure/IconSet/Color/Philippines.png
-    include-all: true
-    filter: "菲律宾|马尼拉|🇵🇭|PH|PHL|Philippines|Manila"
-    interval: 300
-    tolerance: 80
-    lazy: true
-
-
-  # ==========================================================
-  # 软件策略组
+  # 服务分流
   # ==========================================================
 
   - name: Apple
+    icon: https://fastly.jsdelivr.net/gh/Koolson/Qure/IconSet/Color/Apple.png
     type: select
     proxies:
       - DIRECT
       - 自动选择
       - 手动选择
-      - HK 香港
-      - TW 台湾
-      - SG 新加坡
-      - JP 日本
       - US 美国
-      - CA 加拿大
+      - HK 香港
+      - JP 日本
+      - SG 新加坡
+      - TW 台湾
 
 
   - name: Google
+    icon: https://fastly.jsdelivr.net/gh/Koolson/Qure/IconSet/Color/Google.png
     type: select
     proxies:
       - 自动选择
       - 手动选择
-      - HK 香港
-      - TW 台湾
-      - SG 新加坡
-      - JP 日本
-      - KR 韩国
       - US 美国
-      - CA 加拿大
-      - GB 英国
-      - DE 德国
-      - NL 荷兰
-      - DIRECT
-
-
-  - name: Microsoft
-    type: select
-    proxies:
-      - 自动选择
-      - 手动选择
-      - HK 香港
-      - SG 新加坡
       - JP 日本
-      - KR 韩国
-      - US 美国
-      - CA 加拿大
-      - GB 英国
-      - DE 德国
-      - NL 荷兰
-      - DIRECT
-
-
-  - name: Telegram
-    type: select
-    proxies:
-      - 自动选择
-      - 手动选择
-      - HK 香港
       - SG 新加坡
-      - JP 日本
-      - KR 韩国
-      - US 美国
-      - CA 加拿大
-      - GB 英国
-      - DE 德国
-      - NL 荷兰
-      - DIRECT
-
-
-  - name: Discord
-    type: select
-    proxies:
-      - 自动选择
-      - 手动选择
       - HK 香港
-      - SG 新加坡
-      - JP 日本
-      - US 美国
-      - CA 加拿大
-      - GB 英国
-      - DE 德国
-      - NL 荷兰
-      - DIRECT
-
-
-  - name: GitHub
-    type: select
-    proxies:
-      - 自动选择
-      - 手动选择
-      - HK 香港
-      - TW 台湾
-      - SG 新加坡
-      - JP 日本
-      - US 美国
-      - CA 加拿大
-      - GB 英国
-      - DE 德国
-      - NL 荷兰
       - DIRECT
 
 
   - name: YouTube
+    icon: https://fastly.jsdelivr.net/gh/Koolson/Qure/IconSet/Color/YouTube.png
     type: select
     proxies:
       - 自动选择
       - 手动选择
+      - US 美国
+      - JP 日本
+      - SG 新加坡
       - HK 香港
       - TW 台湾
-      - SG 新加坡
-      - JP 日本
-      - KR 韩国
-      - US 美国
       - CA 加拿大
-      - GB 英国
-      - DE 德国
-      - FR 法国
-      - NL 荷兰
-      - AU 澳大利亚
-      - DIRECT
-
-
-  - name: TikTok
-    type: select
-    proxies:
-      - 自动选择
-      - 手动选择
-      - US 美国
-      - CA 加拿大
-      - JP 日本
-      - SG 新加坡
-      - KR 韩国
-      - GB 英国
-      - DE 德国
-      - FR 法国
-      - NL 荷兰
-      - AU 澳大利亚
-      - DIRECT
-
-
-  - name: X
-    type: select
-    proxies:
-      - 自动选择
-      - 手动选择
-      - US 美国
-      - CA 加拿大
-      - JP 日本
-      - SG 新加坡
-      - GB 英国
-      - DE 德国
-      - NL 荷兰
-      - DIRECT
-
-
-  - name: Instagram
-    type: select
-    proxies:
-      - 自动选择
-      - 手动选择
-      - US 美国
-      - CA 加拿大
-      - JP 日本
-      - SG 新加坡
-      - GB 英国
-      - DE 德国
-      - NL 荷兰
-      - DIRECT
-
-
-  - name: Facebook
-    type: select
-    proxies:
-      - 自动选择
-      - 手动选择
-      - US 美国
-      - CA 加拿大
-      - JP 日本
-      - SG 新加坡
-      - GB 英国
-      - DE 德国
-      - NL 荷兰
-      - DIRECT
-
-
-  - name: Spotify
-    type: select
-    proxies:
-      - 自动选择
-      - 手动选择
-      - HK 香港
-      - TW 台湾
-      - SG 新加坡
-      - JP 日本
-      - KR 韩国
-      - US 美国
-      - CA 加拿大
-      - GB 英国
-      - DE 德国
-      - FR 法国
-      - NL 荷兰
-      - AU 澳大利亚
       - DIRECT
 
 
   - name: Netflix
+    icon: https://fastly.jsdelivr.net/gh/Koolson/Qure/IconSet/Color/Netflix.png
     type: select
     proxies:
       - 自动选择
       - 手动选择
+      - US 美国
+      - JP 日本
+      - SG 新加坡
       - HK 香港
       - TW 台湾
-      - SG 新加坡
-      - JP 日本
-      - KR 韩国
-      - US 美国
       - CA 加拿大
       - GB 英国
       - DE 德国
-      - FR 法国
-      - NL 荷兰
-      - AU 澳大利亚
       - DIRECT
 
 
   - name: Disney+
+    icon: https://fastly.jsdelivr.net/gh/Koolson/Qure/IconSet/Color/Disney%2B.png
     type: select
     proxies:
       - 自动选择
       - 手动选择
-      - HK 香港
-      - TW 台湾
-      - SG 新加坡
-      - JP 日本
-      - KR 韩国
       - US 美国
+      - JP 日本
+      - SG 新加坡
+      - HK 香港
       - CA 加拿大
       - GB 英国
       - DE 德国
-      - FR 法国
-      - NL 荷兰
-      - AU 澳大利亚
+      - DIRECT
+
+
+  - name: Spotify
+    icon: https://fastly.jsdelivr.net/gh/Koolson/Qure/IconSet/Color/Spotify.png
+    type: select
+    proxies:
+      - 自动选择
+      - 手动选择
+      - US 美国
+      - JP 日本
+      - SG 新加坡
+      - HK 香港
+      - GB 英国
+      - DE 德国
+      - CA 加拿大
+      - DIRECT
+
+
+  - name: Telegram
+    icon: https://fastly.jsdelivr.net/gh/Koolson/Qure/IconSet/Color/Telegram.png
+    type: select
+    proxies:
+      - 自动选择
+      - 手动选择
+      - SG 新加坡
+      - HK 香港
+      - JP 日本
+      - US 美国
+      - TW 台湾
+      - DIRECT
+
+
+  - name: GitHub
+    icon: https://fastly.jsdelivr.net/gh/Koolson/Qure/IconSet/Color/GitHub.png
+    type: select
+    proxies:
+      - 自动选择
+      - 手动选择
+      - US 美国
+      - SG 新加坡
+      - JP 日本
+      - HK 香港
+      - DIRECT
+
+
+  - name: X
+    icon: https://fastly.jsdelivr.net/gh/Koolson/Qure/IconSet/Color/X.png
+    type: select
+    proxies:
+      - 自动选择
+      - 手动选择
+      - US 美国
+      - JP 日本
+      - SG 新加坡
+      - HK 香港
+      - CA 加拿大
+      - DIRECT
+
+
+  - name: Instagram
+    icon: https://fastly.jsdelivr.net/gh/Koolson/Qure/IconSet/Color/Instagram.png
+    type: select
+    proxies:
+      - 自动选择
+      - 手动选择
+      - US 美国
+      - SG 新加坡
+      - JP 日本
+      - HK 香港
+      - JP 日本
+      - DIRECT
+
+
+  - name: Facebook
+    icon: https://fastly.jsdelivr.net/gh/Koolson/Qure/IconSet/Color/Facebook.png
+    type: select
+    proxies:
+      - 自动选择
+      - 手动选择
+      - US 美国
+      - SG 新加坡
+      - HK 香港
+      - JP 日本
+      - DIRECT
+
+
+  - name: TikTok
+    icon: https://fastly.jsdelivr.net/gh/Koolson/Qure/IconSet/Color/TikTok.png
+    type: select
+    proxies:
+      - 自动选择
+      - 手动选择
+      - US 美国
+      - SG 新加坡
+      - JP 日本
+      - HK 香港
+      - TW 台湾
+      - DIRECT
+
+
+  - name: Microsoft
+    icon: https://fastly.jsdelivr.net/gh/Koolson/Qure/IconSet/Color/Microsoft.png
+    type: select
+    proxies:
+      - 自动选择
+      - 手动选择
+      - US 美国
+      - JP 日本
+      - SG 新加坡
+      - HK 香港
+      - JP 日本
+      - DIRECT
+
+
+  - name: Xbox
+    icon: https://fastly.jsdelivr.net/gh/Koolson/Qure/IconSet/Color/Xbox.png
+    type: select
+    proxies:
+      - 自动选择
+      - 手动选择
+      - US 美国
+      - GB 英国
+      - DE 德国
+      - JP 日本
+      - SG 新加坡
+      - HK 香港
       - DIRECT
 
 
   - name: Steam
+    icon: https://fastly.jsdelivr.net/gh/Koolson/Qure/IconSet/Color/Steam.png
     type: select
     proxies:
-      - DIRECT
       - 自动选择
       - 手动选择
       - HK 香港
       - TW 台湾
-      - SG 新加坡
-      - JP 日本
-      - KR 韩国
-      - US 美国
-      - CA 加拿大
-      - GB 英国
-      - DE 德国
-      - NL 荷兰
-
-
-  - name: AI
-    type: select
-    proxies:
-      - 自动选择
-      - 手动选择
-      - US 美国
-      - CA 加拿大
       - JP 日本
       - SG 新加坡
-      - GB 英国
-      - DE 德国
-      - FR 法国
-      - NL 荷兰
-      - AU 澳大利亚
+      - US 美国
       - DIRECT
 
 
   - name: Speedtest
+    icon: https://fastly.jsdelivr.net/gh/Koolson/Qure/IconSet/Color/Speedtest.png
     type: select
     proxies:
       - 自动选择
       - 手动选择
-      - HK 香港
-      - TW 台湾
-      - SG 新加坡
-      - JP 日本
-      - KR 韩国
+      - DIRECT
+
+
+  # ==========================================================
+  # AI
+  # ==========================================================
+
+  - name: AI
+    icon: https://fastly.jsdelivr.net/gh/Koolson/Qure/IconSet/Color/OpenAI.png
+    type: select
+    proxies:
+      - 自动选择
+      - 手动选择
       - US 美国
       - CA 加拿大
+      - JP 日本
+      - SG 新加坡
       - GB 英国
       - DE 德国
-      - NL 荷兰
-      - AU 澳大利亚
-      - DIRECT
-
-
-  - name: Emby
-    type: select
-    proxies:
-      - 自动选择
-      - 手动选择
-      - HK 香港
-      - TW 台湾
-      - SG 新加坡
-      - JP 日本
-      - US 美国
-      - CA 加拿大
-      - DIRECT
-
-
-  - name: Bahamut
-    type: select
-    proxies:
-      - TW 台湾
-      - 自动选择
-      - 手动选择
-      - HK 香港
-      - JP 日本
-      - SG 新加坡
-      - US 美国
       - DIRECT
 
 
   # ==========================================================
-  # 默认
+  # 游戏
   # ==========================================================
 
-  - name: 默认
+  - name: 游戏
+    icon: https://fastly.jsdelivr.net/gh/Koolson/Qure/IconSet/Color/Game.png
     type: select
-    icon: https://fastly.jsdelivr.net/gh/Koolson/Qure/IconSet/Color/Final.png
     proxies:
-      - 选择代理
       - DIRECT
+      - 自动选择
+      - 手动选择
+      - HK 香港
+      - TW 台湾
+      - JP 日本
+      - SG 新加坡
+      - US 美国
+
+
+  # ==========================================================
+  # 地区策略组
+  # ==========================================================
+
+  - name: HK 香港
+    icon: https://fastly.jsdelivr.net/gh/Koolson/Qure/IconSet/Color/Hong_Kong.png
+    type: url-test
+    filter: "港|香港|🇭🇰|HK|Hong Kong|HongKong|HKG"
+    include-all: true
+    interval: 300
+    tolerance: 80
+    lazy: true
+
+
+  - name: TW 台湾
+    icon: https://fastly.jsdelivr.net/gh/Koolson/Qure/IconSet/Color/Taiwan.png
+    type: url-test
+    filter: "台|台湾|臺灣|🇹🇼|TW|Taiwan|TWN"
+    include-all: true
+    interval: 300
+    tolerance: 80
+    lazy: true
+
+
+  - name: SG 新加坡
+    icon: https://fastly.jsdelivr.net/gh/Koolson/Qure/IconSet/Color/Singapore.png
+    type: url-test
+    filter: "新加坡|狮城|🇸🇬|SG|Singapore|SIN"
+    include-all: true
+    interval: 300
+    tolerance: 80
+    lazy: true
+
+
+  - name: JP 日本
+    icon: https://fastly.jsdelivr.net/gh/Koolson/Qure/IconSet/Color/Japan.png
+    type: url-test
+    filter: "日|日本|东京|東京|大阪|🇯🇵|JP|Japan|JPN"
+    include-all: true
+    interval: 300
+    tolerance: 80
+    lazy: true
+
+
+  - name: KR 韩国
+    icon: https://fastly.jsdelivr.net/gh/Koolson/Qure/IconSet/Color/South_Korea.png
+    type: url-test
+    filter: "韩|韩国|南韩|🇰🇷|KR|Korea|KOR"
+    include-all: true
+    interval: 300
+    tolerance: 80
+    lazy: true
+
+
+  - name: US 美国
+    icon: https://fastly.jsdelivr.net/gh/Koolson/Qure/IconSet/Color/United_States.png
+    type: url-test
+    filter: "美|美国|🇺🇸|US|USA|United States|America"
+    include-all: true
+    interval: 300
+    tolerance: 80
+    lazy: true
+
+
+  - name: CA 加拿大
+    icon: https://fastly.jsdelivr.net/gh/Koolson/Qure/IconSet/Color/Canada.png
+    type: url-test
+    filter: "加|加拿大|🇨🇦|CA|Canada|CAN"
+    include-all: true
+    interval: 300
+    tolerance: 80
+    lazy: true
+
+
+  - name: GB 英国
+    icon: https://fastly.jsdelivr.net/gh/Koolson/Qure/IconSet/Color/United_Kingdom.png
+    type: url-test
+    filter: "英|英国|🇬🇧|UK|GB|United Kingdom|Britain"
+    include-all: true
+    interval: 300
+    tolerance: 80
+    lazy: true
+
+
+  - name: DE 德国
+    icon: https://fastly.jsdelivr.net/gh/Koolson/Qure/IconSet/Color/Germany.png
+    type: url-test
+    filter: "德|德国|🇩🇪|DE|Germany|Deutschland"
+    include-all: true
+    interval: 300
+    tolerance: 80
+    lazy: true
+
+
+  - name: FR 法国
+    icon: https://fastly.jsdelivr.net/gh/Koolson/Qure/IconSet/Color/France.png
+    type: url-test
+    filter: "法|法国|巴黎|🇫🇷|FR|France"
+    include-all: true
+    interval: 300
+    tolerance: 80
+    lazy: true
+
+
+  - name: AU 澳大利亚
+    icon: https://fastly.jsdelivr.net/gh/Koolson/Qure/IconSet/Color/Australia.png
+    type: url-test
+    filter: "澳|澳大利亚|澳洲|🇦🇺|AU|Australia"
+    include-all: true
+    interval: 300
+    tolerance: 80
+    lazy: true
+
+
+  - name: IN 印度
+    icon: https://fastly.jsdelivr.net/gh/Koolson/Qure/IconSet/Color/India.png
+    type: url-test
+    filter: "印|印度|🇮🇳|IN|India"
+    include-all: true
+    interval: 300
+    tolerance: 80
+    lazy: true
+
+
+  - name: RU 俄罗斯
+    icon: https://fastly.jsdelivr.net/gh/Koolson/Qure/IconSet/Color/Russia.png
+    type: url-test
+    filter: "俄|俄罗斯|🇷🇺|RU|Russia"
+    include-all: true
+    interval: 300
+    tolerance: 80
+    lazy: true
+
+
+  - name: 其他地区
+    icon: https://fastly.jsdelivr.net/gh/Koolson/Qure/IconSet/Color/Global.png
+    type: url-test
+    filter: "^(?!.*(港|香港|🇭🇰|HK|Hong Kong|HongKong|HKG|台|台湾|臺灣|🇹🇼|TW|Taiwan|TWN|新加坡|狮城|🇸🇬|SG|Singapore|SIN|日|日本|东京|東京|大阪|🇯🇵|JP|Japan|JPN|韩|韩国|南韩|🇰🇷|KR|Korea|KOR|美|美国|🇺🇸|US|USA|United States|America|加|加拿大|🇨🇦|CA|Canada|CAN|英|英国|🇬🇧|UK|GB|United Kingdom|Britain|德|德国|🇩🇪|DE|Germany|Deutschland|法|法国|巴黎|🇫🇷|FR|France|澳|澳大利亚|澳洲|🇦🇺|AU|Australia|印|印度|🇮🇳|IN|India|俄|俄罗斯|🇷🇺|RU|Russia)).*$"
+    include-all: true
+    interval: 300
+    tolerance: 80
+    lazy: true
+
+
+  # ----------------------------------------------------------
+  # 自动选择
+  # ----------------------------------------------------------
+
+  - name: 自动选择
+    icon: https://fastly.jsdelivr.net/gh/Koolson/Qure/IconSet/Color/Auto.png
+    type: url-test
+    include-all: true
+    interval: 300
+    tolerance: 80
+    lazy: true
+
+
+  # ----------------------------------------------------------
+  # 手动选择
+  # ----------------------------------------------------------
+
+  - name: 手动选择
+    icon: https://fastly.jsdelivr.net/gh/Koolson/Qure/IconSet/Color/Static.png
+    type: select
+    include-all: true
 
 
 # ============================================================
@@ -638,33 +530,73 @@ proxy-groups:
 
 dns:
 
+  # 用于解析 DNS 服务自身的域名
   default-nameserver:
     - 223.5.5.5
     - 119.29.29.29
 
+  # 只保留两个上游，降低移动设备功耗
   nameserver:
-    - https://doh.pub/dns-query
-    - https://dns.alidns.com/dns-query
+    - https://223.5.5.5/dns-query
+    - https://1.1.1.1/dns-query
 
+  # 不让 DNS 请求跟随代理规则，
+  # 避免 DNS → Proxy → DNS 的递归问题
+  follow-rule: false
+
+  # 兼容部分 DoH 环境
+  skip-cert-verify: false
+
+  # 国内域名使用国内 DNS，
+  # 国际域名继续使用默认 DNS。
   nameserver-policy:
 
     "geosite:cn":
       - 223.5.5.5
       - 119.29.29.29
 
-  follow-rule: false
+    "geosite:apple":
+      - https://1.1.1.1/dns-query
 
+    "geosite:google":
+      - https://1.1.1.1/dns-query
+
+    "geosite:telegram":
+      - https://1.1.1.1/dns-query
+
+    "geosite:twitter":
+      - https://1.1.1.1/dns-query
+
+    "geosite:facebook":
+      - https://1.1.1.1/dns-query
+
+    "geosite:youtube":
+      - https://1.1.1.1/dns-query
+
+  # Fake IP 排除
   fake-ip-filter:
-    - "*.lan"
-    - "*.local"
+
+    # STUN / WebRTC
     - "+.stun.*.*"
     - "+.stun.*.*.*"
     - "+.stun.*.*.*.*"
     - "+.stun.*.*.*.*.*"
+
+    # Apple
     - "lens.l.google.com"
+
+    # Nintendo
     - "*.n.n.srv.nintendo.net"
+
+    # PlayStation
     - "+.stun.playstation.net"
-    - "+.push.apple.com"
+
+    # Xbox
+    - "+.stun.xboxlive.com"
+
+    # WebRTC 常用
+    - "+.stun.services.mozilla.com"
+    - "+.stun.cloudflare.com"
 
 
 # ============================================================
@@ -675,6 +607,8 @@ script:
 
   shortcuts:
 
+    # 禁用 QUIC / HTTP3 UDP 443。
+    # 对部分代理协议可以明显提高稳定性。
     quic: network == 'udp' and dst_port == 443
 
 
@@ -684,163 +618,192 @@ script:
 
 rules:
 
+  # ----------------------------------------------------------
   # QUIC
+  # ----------------------------------------------------------
+
   - SCRIPT,quic,REJECT
 
 
+  # ----------------------------------------------------------
   # LAN
+  # ----------------------------------------------------------
+
   - GEOIP,LAN,DIRECT
 
 
+  # ----------------------------------------------------------
   # Apple
+  # ----------------------------------------------------------
+
   - DOMAIN-SUFFIX,apple.com,Apple
   - DOMAIN-SUFFIX,icloud.com,Apple
-  - DOMAIN-SUFFIX,icloud.com.cn,Apple
-  - DOMAIN-SUFFIX,me.com,Apple
+  - DOMAIN-SUFFIX,icloud-content.com,Apple
+  - DOMAIN-SUFFIX,apple-cloudkit.com,Apple
   - DOMAIN-SUFFIX,mzstatic.com,Apple
   - DOMAIN-SUFFIX,itunes.apple.com,Apple
-  - DOMAIN-SUFFIX,apps.apple.com,Apple
 
+  # Apple LBS / Push
   - DOMAIN-SUFFIX,iphone-ld.apple.com,DIRECT
   - DOMAIN-SUFFIX,lcdn-locator.apple.com,DIRECT
   - DOMAIN-SUFFIX,lcdn-registration.apple.com,DIRECT
   - DOMAIN-SUFFIX,push.apple.com,DIRECT
 
-
-  # Google
-  - DOMAIN-SUFFIX,google.com,Google
-  - DOMAIN-SUFFIX,googleapis.com,Google
-  - DOMAIN-SUFFIX,gstatic.com,Google
-  - DOMAIN-SUFFIX,googleusercontent.com,Google
-  - DOMAIN-SUFFIX,googlevideo.com,Google
-  - DOMAIN-SUFFIX,ggpht.com,Google
-  - DOMAIN-SUFFIX,gmail.com,Google
+  # Apple OCSP / Trust
+  - PROCESS-NAME,trustd,Apple
 
 
-  # Microsoft
-  - DOMAIN-SUFFIX,microsoft.com,Microsoft
-  - DOMAIN-SUFFIX,microsoftonline.com,Microsoft
-  - DOMAIN-SUFFIX,live.com,Microsoft
-  - DOMAIN-SUFFIX,office.com,Microsoft
-  - DOMAIN-SUFFIX,office.net,Microsoft
-  - DOMAIN-SUFFIX,windows.com,Microsoft
-  - DOMAIN-SUFFIX,xbox.com,Microsoft
-  - DOMAIN-SUFFIX,xboxlive.com,Microsoft
-
-
-  # Telegram
-  - DOMAIN-SUFFIX,telegram.org,Telegram
-  - DOMAIN-SUFFIX,telegram.me,Telegram
-  - DOMAIN-SUFFIX,t.me,Telegram
-  - DOMAIN-SUFFIX,telegra.ph,Telegram
-
-
-  # Discord
-  - DOMAIN-SUFFIX,discord.com,Discord
-  - DOMAIN-SUFFIX,discordapp.com,Discord
-  - DOMAIN-SUFFIX,discordapp.net,Discord
-
-
-  # GitHub
-  - DOMAIN-SUFFIX,github.com,GitHub
-  - DOMAIN-SUFFIX,githubusercontent.com,GitHub
-  - DOMAIN-SUFFIX,githubassets.com,GitHub
-  - DOMAIN-SUFFIX,github.io,GitHub
-
-
+  # ----------------------------------------------------------
   # YouTube
-  - DOMAIN-SUFFIX,youtube.com,YouTube
-  - DOMAIN-SUFFIX,youtu.be,YouTube
-  - DOMAIN-SUFFIX,youtube-nocookie.com,YouTube
-  - DOMAIN-SUFFIX,googlevideo.com,YouTube
-  - DOMAIN-SUFFIX,ytimg.com,YouTube
+  # ----------------------------------------------------------
+
+  - GEOSITE,youtube,YouTube
 
 
-  # TikTok
-  - DOMAIN-SUFFIX,tiktok.com,TikTok
-  - DOMAIN-SUFFIX,tiktokv.com,TikTok
-  - DOMAIN-SUFFIX,tiktokcdn.com,TikTok
-  - DOMAIN-SUFFIX,ibytedtos.com,TikTok
-  - DOMAIN-SUFFIX,byteoversea.com,TikTok
+  # ----------------------------------------------------------
+  # Google
+  # ----------------------------------------------------------
+
+  - GEOSITE,google,Google
 
 
-  # X
-  - DOMAIN-SUFFIX,x.com,X
-  - DOMAIN-SUFFIX,twitter.com,X
-  - DOMAIN-SUFFIX,t.co,X
-  - DOMAIN-SUFFIX,twimg.com,X
-
-
-  # Instagram
-  - DOMAIN-SUFFIX,instagram.com,Instagram
-  - DOMAIN-SUFFIX,cdninstagram.com,Instagram
-
-
-  # Facebook
-  - DOMAIN-SUFFIX,facebook.com,Facebook
-  - DOMAIN-SUFFIX,facebook.net,Facebook
-  - DOMAIN-SUFFIX,fbcdn.net,Facebook
-  - DOMAIN-SUFFIX,fbsbx.com,Facebook
-
-
-  # Spotify
-  - DOMAIN-SUFFIX,spotify.com,Spotify
-  - DOMAIN-SUFFIX,spotifycdn.com,Spotify
-
-
+  # ----------------------------------------------------------
   # Netflix
-  - DOMAIN-SUFFIX,netflix.com,Netflix
-  - DOMAIN-SUFFIX,netflix.net,Netflix
-  - DOMAIN-SUFFIX,nflxvideo.net,Netflix
-  - DOMAIN-SUFFIX,nflximg.net,Netflix
-  - DOMAIN-SUFFIX,nflxso.net,Netflix
-  - DOMAIN-SUFFIX,nflxext.com,Netflix
+  # ----------------------------------------------------------
+
+  - GEOSITE,netflix,Netflix
 
 
+  # ----------------------------------------------------------
   # Disney+
-  - DOMAIN-SUFFIX,disneyplus.com,Disney+
-  - DOMAIN-SUFFIX,disney-plus.net,Disney+
-  - DOMAIN-SUFFIX,bamgrid.com,Disney+
-  - DOMAIN-SUFFIX,disney.com,Disney+
-  - DOMAIN-SUFFIX,disney.io,Disney+
+  # ----------------------------------------------------------
+
+  - GEOSITE,disney,Disney+
 
 
+  # ----------------------------------------------------------
+  # Spotify
+  # ----------------------------------------------------------
+
+  - GEOSITE,spotify,Spotify
+
+
+  # ----------------------------------------------------------
+  # Telegram
+  # ----------------------------------------------------------
+
+  - GEOSITE,telegram,Telegram
+
+  - IP-ASN,62014,Telegram,no-resolve
+  - IP-ASN,59930,Telegram,no-resolve
+  - IP-ASN,44907,Telegram,no-resolve
+  - IP-ASN,211157,Telegram,no-resolve
+
+  - PROCESS-NAME,Telegram.exe,Telegram
+  - PROCESS-NAME,Telegram,Telegram
+
+
+  # ----------------------------------------------------------
+  # GitHub
+  # ----------------------------------------------------------
+
+  - GEOSITE,github,GitHub
+
+
+  # ----------------------------------------------------------
+  # X / Twitter
+  # ----------------------------------------------------------
+
+  - GEOSITE,twitter,X
+  - DOMAIN-SUFFIX,tapbots.com,X
+
+
+  # ----------------------------------------------------------
+  # Instagram
+  # ----------------------------------------------------------
+
+  - GEOSITE,instagram,Instagram
+
+
+  # ----------------------------------------------------------
+  # Facebook
+  # ----------------------------------------------------------
+
+  - GEOSITE,facebook,Facebook
+
+
+  # ----------------------------------------------------------
+  # TikTok
+  # ----------------------------------------------------------
+
+  - GEOSITE,tiktok,TikTok
+
+
+  # ----------------------------------------------------------
+  # Microsoft
+  # ----------------------------------------------------------
+
+  - GEOSITE,microsoft@cn,DIRECT
+  - GEOSITE,microsoft,Microsoft
+
+
+  # ----------------------------------------------------------
+  # Xbox
+  # ----------------------------------------------------------
+
+  - GEOSITE,xbox,Xbox
+
+
+  # ----------------------------------------------------------
   # Steam
-  - DOMAIN-SUFFIX,steampowered.com,Steam
-  - DOMAIN-SUFFIX,steamcommunity.com,Steam
-  - DOMAIN-SUFFIX,steamstatic.com,Steam
-  - DOMAIN-SUFFIX,steamcontent.com,Steam
-  - DOMAIN-SUFFIX,steamserver.net,Steam
+  # ----------------------------------------------------------
+
+  - GEOSITE,steam@cn,DIRECT
+  - GEOSITE,steam,Steam
 
 
+  # ----------------------------------------------------------
+  # Speedtest
+  # ----------------------------------------------------------
+
+  - GEOSITE,speedtest,Speedtest
+
+
+  # ----------------------------------------------------------
   # AI
+  # ----------------------------------------------------------
+
   - DOMAIN-SUFFIX,openai.com,AI
   - DOMAIN-SUFFIX,chatgpt.com,AI
-  - DOMAIN-SUFFIX,chat.openai.com,AI
   - DOMAIN-SUFFIX,oaistatic.com,AI
   - DOMAIN-SUFFIX,oaiusercontent.com,AI
   - DOMAIN-SUFFIX,anthropic.com,AI
   - DOMAIN-SUFFIX,claude.ai,AI
   - DOMAIN-SUFFIX,gemini.google.com,AI
-  - DOMAIN-SUFFIX,generativelanguage.googleapis.com,AI
+  - DOMAIN-SUFFIX,ai.google,AI
+  - DOMAIN-SUFFIX,perplexity.ai,AI
+  - DOMAIN-SUFFIX,poe.com,AI
+  - DOMAIN-SUFFIX,character.ai,AI
+  - DOMAIN-SUFFIX,cohere.com,AI
+  - DOMAIN-SUFFIX,huggingface.co,AI
 
 
-  # Speedtest
-  - DOMAIN-SUFFIX,speedtest.net,Speedtest
-  - DOMAIN-SUFFIX,ookla.com,Speedtest
+  # ----------------------------------------------------------
+  # 游戏
+  # ----------------------------------------------------------
+
+  - DOMAIN-SUFFIX,playstation.com,游戏
+  - DOMAIN-SUFFIX,playstation.net,游戏
+  - DOMAIN-SUFFIX,xboxlive.com,游戏
+  - DOMAIN-SUFFIX,nintendo.com,游戏
+  - DOMAIN-SUFFIX,nintendo.net,游戏
+  - DOMAIN-SUFFIX,epicgames.com,游戏
 
 
-  # Emby
-  - DOMAIN-SUFFIX,emby.media,Emby
+  # ----------------------------------------------------------
+  # 常见代理客户端进程
+  # ----------------------------------------------------------
 
-
-  # Bahamut
-  - DOMAIN-SUFFIX,gamer.com.tw,Bahamut
-  - DOMAIN-SUFFIX,bahamut.com.tw,Bahamut
-  - DOMAIN-SUFFIX,bahamut.com,Bahamut
-
-
-  # Proxy tools
   - PROCESS-NAME,v2ray,DIRECT
   - PROCESS-NAME,Surge,DIRECT
   - PROCESS-NAME,ss-local,DIRECT
@@ -852,19 +815,41 @@ rules:
   - PROCESS-NAME,Cloudflare WARP,DIRECT
 
 
-  # Download
+  # ----------------------------------------------------------
+  # Cloudflare WARP
+  # ----------------------------------------------------------
+
+  - IP-CIDR,162.159.193.0/24,DIRECT,no-resolve
+
+
+  # ----------------------------------------------------------
+  # Download / P2P
+  # ----------------------------------------------------------
+
+  - PROCESS-NAME,p4pclient,DIRECT
+  - PROCESS-NAME,Thunder,DIRECT
+  - PROCESS-NAME,DownloadService,DIRECT
   - PROCESS-NAME,qbittorrent,DIRECT
   - PROCESS-NAME,Transmission,DIRECT
+  - PROCESS-NAME,fdm,DIRECT
   - PROCESS-NAME,aria2c,DIRECT
+  - PROCESS-NAME,Folx,DIRECT
+  - PROCESS-NAME,NetTransport,DIRECT
   - PROCESS-NAME,uTorrent,DIRECT
   - PROCESS-NAME,WebTorrent,DIRECT
 
 
-  # China
+  # ----------------------------------------------------------
+  # 中国大陆
+  # ----------------------------------------------------------
+
   - GEOIP,CN,DIRECT
 
 
-  # Final
+  # ----------------------------------------------------------
+  # 最终规则
+  # ----------------------------------------------------------
+
   - MATCH,默认
 
 
@@ -872,34 +857,34 @@ rules:
 # Tiles
 # ============================================================
 
-tiles: #!replace
+tiles:
 
   # ==========================================================
-  # 01 网络质量
+  # 网络质量
   # ==========================================================
 
   - name: tile-network-quality
     interval: 600
     title: "网络质量"
-    content: "节点测速中..."
+    content: "检测中..."
     icon: "speedometer"
     backgroundColor: "#3E315F"
 
 
   # ==========================================================
-  # 02 节点健康
+  # 节点健康
   # ==========================================================
 
   - name: tile-node-health
     interval: 600
     title: "节点健康"
-    content: "节点检测中..."
+    content: "检测中..."
     icon: "bolt.horizontal.circle.fill"
     backgroundColor: "#315D38"
 
 
   # ==========================================================
-  # 03 国际出口
+  # 国际出口
   # ==========================================================
 
   - name: tile-international
@@ -911,7 +896,7 @@ tiles: #!replace
 
 
   # ==========================================================
-  # 04 网络控制中心
+  # 网络控制中心
   # ==========================================================
 
   - name: tile-network-control
@@ -923,7 +908,7 @@ tiles: #!replace
 
 
   # ==========================================================
-  # 05 DNS
+  # DNS
   # ==========================================================
 
   - name: tile-dns
@@ -936,7 +921,7 @@ tiles: #!replace
 
 
   # ==========================================================
-  # 06 WebRTC
+  # WebRTC
   # ==========================================================
 
   - name: tile-webrtc
@@ -949,7 +934,7 @@ tiles: #!replace
 
 
   # ==========================================================
-  # 07 TLS
+  # TLS
   # ==========================================================
 
   - name: tile-tls
@@ -961,7 +946,7 @@ tiles: #!replace
 
 
   # ==========================================================
-  # 08 HTTP/3
+  # HTTP/3
   # ==========================================================
 
   - name: tile-quic-http3
@@ -973,7 +958,7 @@ tiles: #!replace
 
 
   # ==========================================================
-  # 09 YouTube
+  # YouTube
   # ==========================================================
 
   - name: tile-youtube
@@ -986,7 +971,7 @@ tiles: #!replace
 
 
   # ==========================================================
-  # 10 TikTok
+  # TikTok
   # ==========================================================
 
   - name: tile-tiktok
@@ -999,7 +984,7 @@ tiles: #!replace
 
 
   # ==========================================================
-  # 11 X
+  # X
   # ==========================================================
 
   - name: tile-x
@@ -1012,7 +997,7 @@ tiles: #!replace
 
 
   # ==========================================================
-  # 12 Instagram
+  # Instagram
   # ==========================================================
 
   - name: tile-instagram
@@ -1025,7 +1010,7 @@ tiles: #!replace
 
 
   # ==========================================================
-  # 13 Google
+  # Google
   # ==========================================================
 
   - name: tile-google
@@ -1038,7 +1023,7 @@ tiles: #!replace
 
 
   # ==========================================================
-  # 14 Netflix
+  # Netflix
   # ==========================================================
 
   - name: tile-netflix
@@ -1051,11 +1036,10 @@ tiles: #!replace
 
 
 # ============================================================
-# Tile Script Providers
+# Tile Scripts
 # ============================================================
 
-script-providers: #!replace
-
+script-providers:
 
   # ==========================================================
   # 网络质量
@@ -1068,18 +1052,24 @@ script-providers: #!replace
       var start = Date.now();
       var finished = false;
 
-      function finish(content) {
-        if (finished) return;
+      function finish(content, icon) {
+        if (finished) {
+          return;
+        }
+
         finished = true;
+
         $done({
-          content: content
+          content: content,
+          icon: icon
         });
       }
 
       setTimeout(function() {
         finish(
           "✕ 节点测速超时\n" +
-          "状态 · Timeout"
+          "状态 · Timeout",
+          "xmark"
         );
       }, 6000);
 
@@ -1090,7 +1080,9 @@ script-providers: #!replace
         },
         function(error, response, data) {
 
-          if (finished) return;
+          if (finished) {
+            return;
+          }
 
           var ms = Date.now() - start;
 
@@ -1100,10 +1092,13 @@ script-providers: #!replace
             response.status < 200 ||
             response.status >= 400
           ) {
+
             finish(
               "✕ 节点不可用\n" +
-              "状态 · Failed"
+              "状态 · Failed",
+              "xmark"
             );
+
             return;
           }
 
@@ -1124,7 +1119,8 @@ script-providers: #!replace
           finish(
             "✓ 节点测速正常\n" +
             "延迟 · " + ms + "ms\n" +
-            "质量 · " + quality
+            "质量 · " + quality,
+            "checkmark"
           );
         }
       );
@@ -1141,19 +1137,28 @@ script-providers: #!replace
       var start = Date.now();
       var finished = false;
 
-      function finish(content) {
-        if (finished) return;
+      function finish(content, icon) {
+
+        if (finished) {
+          return;
+        }
+
         finished = true;
+
         $done({
-          content: content
+          content: content,
+          icon: icon
         });
       }
 
       setTimeout(function() {
+
         finish(
           "✕ 当前节点异常\n" +
-          "状态 · Timeout"
+          "状态 · Timeout",
+          "xmark"
         );
+
       }, 6000);
 
       $httpClient.head(
@@ -1161,9 +1166,12 @@ script-providers: #!replace
           url: "https://www.apple.com/",
           timeout: 5
         },
+
         function(error, response, data) {
 
-          if (finished) return;
+          if (finished) {
+            return;
+          }
 
           var ms = Date.now() - start;
 
@@ -1173,17 +1181,21 @@ script-providers: #!replace
             response.status < 200 ||
             response.status >= 400
           ) {
+
             finish(
               "✕ 当前节点异常\n" +
-              "状态 · Failed"
+              "状态 · Failed",
+              "xmark"
             );
+
             return;
           }
 
           finish(
             "✓ 当前节点正常\n" +
             "延迟 · " + ms + "ms\n" +
-            "状态 · Healthy"
+            "状态 · Healthy",
+            "checkmark"
           );
         }
       );
@@ -1198,10 +1210,7 @@ script-providers: #!replace
     payload: |
 
       $httpClient.get(
-        {
-          url: "https://ipinfo.io/json",
-          timeout: 5
-        },
+        "https://ipinfo.io/json",
         function(error, response, data) {
 
           if (
@@ -1212,7 +1221,8 @@ script-providers: #!replace
           ) {
 
             $done({
-              content: "✕ 出口检测失败"
+              content: "✕ 出口检测失败",
+              icon: "xmark"
             });
 
             return;
@@ -1230,13 +1240,15 @@ script-providers: #!replace
                 " · " +
                 (x.city || "Unknown") + "\n" +
                 "ISP · " +
-                (x.org || "Unknown")
+                (x.org || "Unknown"),
+              icon: "checkmark"
             });
 
           } catch (e) {
 
             $done({
-              content: "✕ 出口数据解析失败"
+              content: "✕ 出口数据解析失败",
+              icon: "xmark"
             });
 
           }
@@ -1262,7 +1274,8 @@ script-providers: #!replace
         content:
           "Stash · " + version + "\n" +
           "Build · " + build + "\n" +
-          "Network Engine · OK"
+          "Network Engine · OK",
+        icon: "checkmark"
       });
 
 
@@ -1277,14 +1290,17 @@ script-providers: #!replace
       var start = Date.now();
       var finished = false;
 
-      function finish(content) {
+      function finish(content, icon) {
 
-        if (finished) return;
+        if (finished) {
+          return;
+        }
 
         finished = true;
 
         $done({
-          content: content
+          content: content,
+          icon: icon
         });
       }
 
@@ -1294,7 +1310,8 @@ script-providers: #!replace
           "✕ DNS 查询超时\n" +
           "DoH · Cloudflare\n" +
           "Resolver · 1.1.1.1\n" +
-          "点击手动检测 →"
+          "点击手动检测 →",
+          "xmark"
         );
 
       }, 6000);
@@ -1313,7 +1330,9 @@ script-providers: #!replace
 
         function(error, response, data) {
 
-          if (finished) return;
+          if (finished) {
+            return;
+          }
 
           var ms = Date.now() - start;
 
@@ -1328,7 +1347,8 @@ script-providers: #!replace
               "✕ DNS 查询失败\n" +
               "DoH · Cloudflare\n" +
               "Resolver · 1.1.1.1\n" +
-              "点击手动检测 →"
+              "点击手动检测 →",
+              "xmark"
             );
 
             return;
@@ -1345,7 +1365,8 @@ script-providers: #!replace
                 "⚠ DNS 无 Answer\n" +
                 "查询 · example.com\n" +
                 "耗时 · " + ms + "ms\n" +
-                "点击手动检测 →"
+                "点击手动检测 →",
+                "exclamationmark.triangle"
               );
 
               return;
@@ -1359,14 +1380,17 @@ script-providers: #!replace
               "Resolver · 1.1.1.1\n" +
               "A · " + first.data + "\n" +
               "Answer · " + answers.length + "\n" +
-              "耗时 · " + ms + "ms"
+              "耗时 · " + ms + "ms\n" +
+              "点击手动检测 →",
+              "checkmark"
             );
 
           } catch (e) {
 
             finish(
               "✕ DNS 数据解析失败\n" +
-              "点击手动检测 →"
+              "点击手动检测 →",
+              "xmark"
             );
 
           }
@@ -1383,10 +1407,7 @@ script-providers: #!replace
     payload: |
 
       $httpClient.get(
-        {
-          url: "https://browserleaks.com/webrtc",
-          timeout: 5
-        },
+        "https://browserleaks.com/webrtc",
         function(error, response, data) {
 
           if (
@@ -1399,7 +1420,8 @@ script-providers: #!replace
             $done({
               content:
                 "✕ WebRTC 检测入口不可用\n" +
-                "点击手动检测 →"
+                "点击手动检测 →",
+              icon: "xmark"
             });
 
             return;
@@ -1408,9 +1430,9 @@ script-providers: #!replace
           $done({
             content:
               "✓ WebRTC 检测入口正常\n" +
-              "点击手动检测 →"
+              "点击手动检测 →",
+            icon: "checkmark"
           });
-
         }
       );
 
@@ -1426,11 +1448,7 @@ script-providers: #!replace
       var start = Date.now();
 
       $httpClient.get(
-        {
-          url:
-            "https://www.cloudflare.com/cdn-cgi/trace",
-          timeout: 5
-        },
+        "https://www.cloudflare.com/cdn-cgi/trace",
         function(error, response, data) {
 
           var ms = Date.now() - start;
@@ -1443,8 +1461,8 @@ script-providers: #!replace
           ) {
 
             $done({
-              content:
-                "✕ TLS 检测失败"
+              content: "✕ TLS 检测失败",
+              icon: "xmark"
             });
 
             return;
@@ -1465,9 +1483,17 @@ script-providers: #!replace
             var c =
               data.match(/(?:^|\n)colo=([^\n]+)/);
 
-            if (a) tls = a[1];
-            if (b) http = b[1];
-            if (c) colo = c[1];
+            if (a) {
+              tls = a[1];
+            }
+
+            if (b) {
+              http = b[1];
+            }
+
+            if (c) {
+              colo = c[1];
+            }
           }
 
           $done({
@@ -1476,7 +1502,8 @@ script-providers: #!replace
               "TLS · " + tls + "\n" +
               "HTTP · " + http + "\n" +
               "POP · " + colo + "\n" +
-              "链路 · " + ms + "ms"
+              "链路 · " + ms + "ms",
+            icon: "checkmark"
           });
 
         }
@@ -1484,7 +1511,7 @@ script-providers: #!replace
 
 
   # ==========================================================
-  # QUIC / HTTP3
+  # HTTP/3
   # ==========================================================
 
   tile-quic-http3:
@@ -1494,10 +1521,7 @@ script-providers: #!replace
       var start = Date.now();
 
       $httpClient.get(
-        {
-          url: "https://cloudflare-quic.com/",
-          timeout: 5
-        },
+        "https://cloudflare-quic.com/",
         function(error, response, data) {
 
           var ms = Date.now() - start;
@@ -1513,7 +1537,8 @@ script-providers: #!replace
               content:
                 "✕ HTTP/3 端点不可用\n" +
                 "状态 · Failed\n" +
-                "链路 · " + ms + "ms"
+                "链路 · " + ms + "ms",
+              icon: "xmark"
             });
 
             return;
@@ -1521,13 +1546,17 @@ script-providers: #!replace
 
           var alt = "";
 
-          if (response.headers) {
+          try {
 
-            alt =
-              response.headers["alt-svc"] ||
-              response.headers["Alt-Svc"] ||
-              "";
-          }
+            if (response.headers) {
+
+              alt =
+                response.headers["alt-svc"] ||
+                response.headers["Alt-Svc"] ||
+                "";
+            }
+
+          } catch (e) {}
 
           if (
             alt &&
@@ -1539,7 +1568,8 @@ script-providers: #!replace
                 "✓ HTTP/3 端点可用\n" +
                 "状态 · OK\n" +
                 "链路 · " + ms + "ms\n" +
-                "Alt-Svc · h3"
+                "Alt-Svc · h3",
+              icon: "checkmark"
             });
 
           } else {
@@ -1549,7 +1579,8 @@ script-providers: #!replace
                 "⚠ HTTP/3 未确认\n" +
                 "状态 · OK\n" +
                 "链路 · " + ms + "ms\n" +
-                "Alt-Svc · 未发现 h3"
+                "Alt-Svc · 未发现 h3",
+              icon: "exclamationmark.triangle"
             });
 
           }
@@ -1568,11 +1599,7 @@ script-providers: #!replace
       var start = Date.now();
 
       $httpClient.get(
-        {
-          url:
-            "https://www.youtube.com/generate_204",
-          timeout: 5
-        },
+        "https://www.youtube.com/generate_204",
         function(error, response, data) {
 
           var ms = Date.now() - start;
@@ -1613,11 +1640,7 @@ script-providers: #!replace
       var start = Date.now();
 
       $httpClient.get(
-        {
-          url:
-            "https://www.tiktok.com/robots.txt",
-          timeout: 5
-        },
+        "https://www.tiktok.com/robots.txt",
         function(error, response, data) {
 
           var ms = Date.now() - start;
@@ -1658,10 +1681,7 @@ script-providers: #!replace
       var start = Date.now();
 
       $httpClient.get(
-        {
-          url: "https://x.com/robots.txt",
-          timeout: 5
-        },
+        "https://x.com/robots.txt",
         function(error, response, data) {
 
           var ms = Date.now() - start;
@@ -1702,11 +1722,7 @@ script-providers: #!replace
       var start = Date.now();
 
       $httpClient.get(
-        {
-          url:
-            "https://www.instagram.com/robots.txt",
-          timeout: 5
-        },
+        "https://www.instagram.com/robots.txt",
         function(error, response, data) {
 
           var ms = Date.now() - start;
@@ -1747,11 +1763,7 @@ script-providers: #!replace
       var start = Date.now();
 
       $httpClient.get(
-        {
-          url:
-            "https://www.google.com/generate_204",
-          timeout: 5
-        },
+        "https://www.google.com/generate_204",
         function(error, response, data) {
 
           var ms = Date.now() - start;
@@ -1792,11 +1804,7 @@ script-providers: #!replace
       var start = Date.now();
 
       $httpClient.get(
-        {
-          url:
-            "https://www.netflix.com/robots.txt",
-          timeout: 5
-        },
+        "https://www.netflix.com/robots.txt",
         function(error, response, data) {
 
           var ms = Date.now() - start;
