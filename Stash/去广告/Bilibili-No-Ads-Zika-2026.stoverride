@@ -9,9 +9,9 @@ date: '2026-08-19'
 http:
   rewrite:
 
-    # =========================================
+    # =====================================
     # Bilibili 开屏广告
-    # =========================================
+    # =====================================
 
     # 开屏展示接口
     - ^https?:\/\/app\.bilibili\.com\/x\/v2\/splash\/show(?:\?.*)?$ - reject
@@ -25,31 +25,33 @@ http:
     # 本地 SPLASH 资源
     - ^http:\/\/[\d.]+:8000\/v1\/resource\/[A-Za-z0-9_-]+-1-SPLASH(?:\?.*)?$ - reject-dict
 
-    # Bilibili CDN SPLASH 资源
+    # Bilibili 视频 CDN SPLASH 资源
     - ^https?:\/\/upos-[^\/]+\.bilivideo\.com\/.*\/[A-Za-z0-9_-]+-1-SPLASH(?:\?.*)?$ - reject
 
     # 静态 SPLASH 资源
     - ^https?:\/\/upos-sz-static\.bilivideo\.com\/.*-1-SPLASH(?:\?.*)?$ - reject
 
-    # =========================================
-    # Bilibili → 第三方 DSP
-    # 仅拦 Bilibili 专用广告接口
-    # =========================================
+    # =====================================
+    # Bilibili 专用 DSP 广告
+    # =====================================
 
+    # 你实际抓到的：
+    # t-dsp.pinduoduo.com/dspcb/i/mrk_bilibili
     - ^https?:\/\/t-dsp\.pinduoduo\.com\/dspcb\/i\/mrk_bilibili(?:\?.*)?$ - reject-200
 
   body-rewrite:
 
-    # =========================================
+    # =====================================
     # 核心：清空 Bilibili 开屏返回数据
-    # =========================================
+    # =====================================
 
+    # Bilibili HD / App 开屏
     - ^https?:\/\/app\.bilibili\.com\/x\/v2\/splash\/list(?:\?.*)?$ response-jq .data={}
 
-    # 部分版本的开屏活动接口
+    # 部分版本开屏活动数据
     - ^https?:\/\/app\.bilibili\.com\/x\/v2\/splash\/event\/list2(?:\?.*)?$ response-jq .data={}
 
-    # 部分版本的品牌开屏接口
+    # 部分版本品牌开屏数据
     - ^https?:\/\/app\.bilibili\.com\/x\/v2\/splash\/brand\/list(?:\?.*)?$ response-jq .data={}
 
 mitm:
