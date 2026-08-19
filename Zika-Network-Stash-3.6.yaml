@@ -4,19 +4,13 @@ name: Zika Nexus
 # Zika Nexus
 # Universal Stash 3.6.x Public Configuration
 #
-# 公共主配置
+# 国家自动识别
+# 自动选择 / 手动选择
+# 软件独立策略组
+# DNS / QUIC / Tiles
 #
-# ✓ 不内置机场订阅
-# ✓ 不内置去广告
-# ✓ 用户自行添加 Proxy Provider
-# ✓ 自动将用户节点加入策略组
-# ✓ 根据节点名称自动地区分类
-# ✓ 软件 / 服务独立分流
-# ✓ DNS 优化
-# ✓ QUIC / HTTP3 控制
-# ✓ 网络状态 Tiles
-#
-# 去广告请使用独立 .stoverride
+# URL 保持不变：
+# https://link.stash.ws/install-config/raw.githubusercontent.com/lihx0481-create/-Stash-config/main/Zika-Network-Stash-3.6.yaml
 # ============================================================
 
 
@@ -29,30 +23,6 @@ mode: rule
 log-level: warning
 
 ipv6: true
-
-
-# ============================================================
-# Proxy Providers
-#
-# 本配置故意不写死任何机场。
-#
-# 用户导入后：
-#
-# Stash
-# → 配置
-# → 代理 / Proxy Provider
-# → 添加自己的机场订阅
-#
-# 由于策略组使用 include-all: true，
-# 添加的节点会自动进入相关策略组。
-#
-# ============================================================
-
-# proxy-providers:
-#
-#   example:
-#     url: https://example.com/subscription
-#     interval: 3600
 
 
 # ============================================================
@@ -72,7 +42,6 @@ proxy-groups:
     proxies:
       - 自动选择
       - 手动选择
-
       - HK 香港
       - TW 台湾
       - SG 新加坡
@@ -84,20 +53,17 @@ proxy-groups:
       - DE 德国
       - FR 法国
       - AU 澳大利亚
-
       - NL 荷兰
       - CH 瑞士
       - IT 意大利
       - ES 西班牙
       - SE 瑞典
       - PL 波兰
-
       - MY 马来西亚
       - TH 泰国
       - VN 越南
       - PH 菲律宾
       - ID 印尼
-
       - IN 印度
       - AE 阿联酋
       - TR 土耳其
@@ -105,7 +71,6 @@ proxy-groups:
       - MX 墨西哥
       - NZ 新西兰
       - RU 俄罗斯
-
       - 其他地区
       - DIRECT
 
@@ -120,17 +85,62 @@ proxy-groups:
     proxies:
       - 选择代理
       - 自动选择
+      - 手动选择
       - DIRECT
 
 
   # ==========================================================
   # 自动选择
+  #
+  # 核心改变：
+  # 不再只使用 include-all。
+  #
+  # 自动选择会直接测试各国家策略组，
+  # 国家策略组再测试该国家的实际节点。
+  #
+  # 结构：
+  #
+  # 自动选择
+  #   ↓
+  # 国家策略组
+  #   ↓
+  # 实际节点
   # ==========================================================
 
   - name: 自动选择
     type: url-test
     icon: https://fastly.jsdelivr.net/gh/Koolson/Qure/IconSet/Color/Auto.png
-    include-all: true
+    proxies:
+      - HK 香港
+      - TW 台湾
+      - SG 新加坡
+      - JP 日本
+      - KR 韩国
+      - US 美国
+      - CA 加拿大
+      - GB 英国
+      - DE 德国
+      - FR 法国
+      - AU 澳大利亚
+      - NL 荷兰
+      - CH 瑞士
+      - IT 意大利
+      - ES 西班牙
+      - SE 瑞典
+      - PL 波兰
+      - MY 马来西亚
+      - TH 泰国
+      - VN 越南
+      - PH 菲律宾
+      - ID 印尼
+      - IN 印度
+      - AE 阿联酋
+      - TR 土耳其
+      - BR 巴西
+      - MX 墨西哥
+      - NZ 新西兰
+      - RU 俄罗斯
+      - 其他地区
     interval: 300
     tolerance: 100
     lazy: true
@@ -138,12 +148,47 @@ proxy-groups:
 
   # ==========================================================
   # 手动选择
+  #
+  # 手动选择现在明确包含所有国家策略组。
+  #
+  # 不再依赖 include-all 来寻找国家组。
   # ==========================================================
 
   - name: 手动选择
     type: select
     icon: https://fastly.jsdelivr.net/gh/Koolson/Qure/IconSet/Color/Static.png
-    include-all: true
+    proxies:
+      - HK 香港
+      - TW 台湾
+      - SG 新加坡
+      - JP 日本
+      - KR 韩国
+      - US 美国
+      - CA 加拿大
+      - GB 英国
+      - DE 德国
+      - FR 法国
+      - AU 澳大利亚
+      - NL 荷兰
+      - CH 瑞士
+      - IT 意大利
+      - ES 西班牙
+      - SE 瑞典
+      - PL 波兰
+      - MY 马来西亚
+      - TH 泰国
+      - VN 越南
+      - PH 菲律宾
+      - ID 印尼
+      - IN 印度
+      - AE 阿联酋
+      - TR 土耳其
+      - BR 巴西
+      - MX 墨西哥
+      - NZ 新西兰
+      - RU 俄罗斯
+      - 其他地区
+      - DIRECT
 
 
   # ==========================================================
@@ -154,15 +199,39 @@ proxy-groups:
     type: select
     icon: https://fastly.jsdelivr.net/gh/Koolson/Qure/IconSet/Color/Apple.png
     proxies:
-      - DIRECT
       - 自动选择
       - 手动选择
-      - US 美国
-      - CA 加拿大
-      - JP 日本
-      - SG 新加坡
       - HK 香港
       - TW 台湾
+      - SG 新加坡
+      - JP 日本
+      - KR 韩国
+      - US 美国
+      - CA 加拿大
+      - GB 英国
+      - DE 德国
+      - FR 法国
+      - AU 澳大利亚
+      - NL 荷兰
+      - CH 瑞士
+      - IT 意大利
+      - ES 西班牙
+      - SE 瑞典
+      - PL 波兰
+      - MY 马来西亚
+      - TH 泰国
+      - VN 越南
+      - PH 菲律宾
+      - ID 印尼
+      - IN 印度
+      - AE 阿联酋
+      - TR 土耳其
+      - BR 巴西
+      - MX 墨西哥
+      - NZ 新西兰
+      - RU 俄罗斯
+      - 其他地区
+      - DIRECT
 
 
   # ==========================================================
@@ -176,10 +245,33 @@ proxy-groups:
       - 自动选择
       - 手动选择
       - US 美国
+      - CA 加拿大
       - JP 日本
       - SG 新加坡
       - HK 香港
-      - CA 加拿大
+      - TW 台湾
+      - KR 韩国
+      - GB 英国
+      - DE 德国
+      - FR 法国
+      - AU 澳大利亚
+      - NL 荷兰
+      - CH 瑞士
+      - IT 意大利
+      - ES 西班牙
+      - SE 瑞典
+      - PL 波兰
+      - MY 马来西亚
+      - TH 泰国
+      - VN 越南
+      - IN 印度
+      - AE 阿联酋
+      - TR 土耳其
+      - BR 巴西
+      - MX 墨西哥
+      - NZ 新西兰
+      - RU 俄罗斯
+      - 其他地区
       - DIRECT
 
 
@@ -199,8 +291,28 @@ proxy-groups:
       - SG 新加坡
       - HK 香港
       - TW 台湾
+      - KR 韩国
       - GB 英国
       - DE 德国
+      - FR 法国
+      - AU 澳大利亚
+      - NL 荷兰
+      - CH 瑞士
+      - IT 意大利
+      - ES 西班牙
+      - SE 瑞典
+      - PL 波兰
+      - MY 马来西亚
+      - TH 泰国
+      - VN 越南
+      - IN 印度
+      - AE 阿联酋
+      - TR 土耳其
+      - BR 巴西
+      - MX 墨西哥
+      - NZ 新西兰
+      - RU 俄罗斯
+      - 其他地区
       - DIRECT
 
 
@@ -220,9 +332,28 @@ proxy-groups:
       - SG 新加坡
       - HK 香港
       - TW 台湾
+      - KR 韩国
       - GB 英国
       - DE 德国
       - FR 法国
+      - AU 澳大利亚
+      - NL 荷兰
+      - CH 瑞士
+      - IT 意大利
+      - ES 西班牙
+      - SE 瑞典
+      - PL 波兰
+      - MY 马来西亚
+      - TH 泰国
+      - VN 越南
+      - IN 印度
+      - AE 阿联酋
+      - TR 土耳其
+      - BR 巴西
+      - MX 墨西哥
+      - NZ 新西兰
+      - RU 俄罗斯
+      - 其他地区
       - DIRECT
 
 
@@ -240,10 +371,30 @@ proxy-groups:
       - CA 加拿大
       - JP 日本
       - SG 新加坡
+      - HK 香港
+      - TW 台湾
+      - KR 韩国
       - GB 英国
       - DE 德国
       - FR 法国
       - AU 澳大利亚
+      - NL 荷兰
+      - CH 瑞士
+      - IT 意大利
+      - ES 西班牙
+      - SE 瑞典
+      - PL 波兰
+      - MY 马来西亚
+      - TH 泰国
+      - VN 越南
+      - IN 印度
+      - AE 阿联酋
+      - TR 土耳其
+      - BR 巴西
+      - MX 墨西哥
+      - NZ 新西兰
+      - RU 俄罗斯
+      - 其他地区
       - DIRECT
 
 
@@ -263,6 +414,22 @@ proxy-groups:
       - DE 德国
       - JP 日本
       - SG 新加坡
+      - HK 香港
+      - TW 台湾
+      - FR 法国
+      - AU 澳大利亚
+      - NL 荷兰
+      - CH 瑞士
+      - IT 意大利
+      - ES 西班牙
+      - SE 瑞典
+      - PL 波兰
+      - MY 马来西亚
+      - TH 泰国
+      - IN 印度
+      - BR 巴西
+      - MX 墨西哥
+      - 其他地区
       - DIRECT
 
 
@@ -282,7 +449,18 @@ proxy-groups:
       - US 美国
       - CA 加拿大
       - TW 台湾
+      - KR 韩国
       - DE 德国
+      - FR 法国
+      - GB 英国
+      - AU 澳大利亚
+      - NL 荷兰
+      - CH 瑞士
+      - IT 意大利
+      - ES 西班牙
+      - SE 瑞典
+      - PL 波兰
+      - 其他地区
       - DIRECT
 
 
@@ -301,7 +479,14 @@ proxy-groups:
       - SG 新加坡
       - JP 日本
       - HK 香港
+      - TW 台湾
+      - GB 英国
       - DE 德国
+      - FR 法国
+      - AU 澳大利亚
+      - NL 荷兰
+      - CH 瑞士
+      - 其他地区
       - DIRECT
 
 
@@ -319,8 +504,15 @@ proxy-groups:
       - CA 加拿大
       - SG 新加坡
       - JP 日本
+      - HK 香港
+      - TW 台湾
       - GB 英国
       - DE 德国
+      - FR 法国
+      - AU 澳大利亚
+      - NL 荷兰
+      - CH 瑞士
+      - 其他地区
       - DIRECT
 
 
@@ -338,8 +530,14 @@ proxy-groups:
       - CA 加拿大
       - SG 新加坡
       - JP 日本
+      - HK 香港
+      - TW 台湾
       - GB 英国
       - DE 德国
+      - FR 法国
+      - AU 澳大利亚
+      - NL 荷兰
+      - 其他地区
       - DIRECT
 
 
@@ -357,8 +555,14 @@ proxy-groups:
       - CA 加拿大
       - SG 新加坡
       - JP 日本
+      - HK 香港
+      - TW 台湾
       - GB 英国
       - DE 德国
+      - FR 法国
+      - AU 澳大利亚
+      - NL 荷兰
+      - 其他地区
       - DIRECT
 
 
@@ -373,13 +577,20 @@ proxy-groups:
       - 自动选择
       - 手动选择
       - US 美国
+      - CA 加拿大
       - SG 新加坡
       - JP 日本
       - HK 香港
       - TW 台湾
-      - CA 加拿大
+      - KR 韩国
       - GB 英国
       - DE 德国
+      - FR 法国
+      - AU 澳大利亚
+      - NL 荷兰
+      - TH 泰国
+      - MY 马来西亚
+      - 其他地区
       - DIRECT
 
 
@@ -399,6 +610,12 @@ proxy-groups:
       - DE 德国
       - JP 日本
       - SG 新加坡
+      - HK 香港
+      - TW 台湾
+      - FR 法国
+      - AU 澳大利亚
+      - NL 荷兰
+      - 其他地区
       - DIRECT
 
 
@@ -419,6 +636,11 @@ proxy-groups:
       - JP 日本
       - SG 新加坡
       - HK 香港
+      - TW 台湾
+      - FR 法国
+      - AU 澳大利亚
+      - NL 荷兰
+      - 其他地区
       - DIRECT
 
 
@@ -438,7 +660,13 @@ proxy-groups:
       - SG 新加坡
       - US 美国
       - CA 加拿大
+      - KR 韩国
       - DE 德国
+      - FR 法国
+      - GB 英国
+      - AU 澳大利亚
+      - NL 荷兰
+      - 其他地区
       - DIRECT
 
 
@@ -452,6 +680,36 @@ proxy-groups:
     proxies:
       - 自动选择
       - 手动选择
+      - HK 香港
+      - TW 台湾
+      - SG 新加坡
+      - JP 日本
+      - KR 韩国
+      - US 美国
+      - CA 加拿大
+      - GB 英国
+      - DE 德国
+      - FR 法国
+      - AU 澳大利亚
+      - NL 荷兰
+      - CH 瑞士
+      - IT 意大利
+      - ES 西班牙
+      - SE 瑞典
+      - PL 波兰
+      - MY 马来西亚
+      - TH 泰国
+      - VN 越南
+      - PH 菲律宾
+      - ID 印尼
+      - IN 印度
+      - AE 阿联酋
+      - TR 土耳其
+      - BR 巴西
+      - MX 墨西哥
+      - NZ 新西兰
+      - RU 俄罗斯
+      - 其他地区
       - DIRECT
 
 
@@ -471,8 +729,23 @@ proxy-groups:
       - DE 德国
       - JP 日本
       - SG 新加坡
+      - HK 香港
+      - TW 台湾
       - FR 法国
       - AU 澳大利亚
+      - NL 荷兰
+      - CH 瑞士
+      - IT 意大利
+      - ES 西班牙
+      - SE 瑞典
+      - PL 波兰
+      - IN 印度
+      - AE 阿联酋
+      - TR 土耳其
+      - BR 巴西
+      - MX 墨西哥
+      - NZ 新西兰
+      - 其他地区
       - DIRECT
 
 
@@ -489,16 +762,21 @@ proxy-groups:
       - 手动选择
       - HK 香港
       - TW 台湾
-      - JP 日本
       - SG 新加坡
+      - JP 日本
+      - KR 韩国
       - US 美国
       - CA 加拿大
+      - GB 英国
+      - DE 德国
+      - FR 法国
+      - AU 澳大利亚
+      - NL 荷兰
+      - 其他地区
 
 
   # ==========================================================
-  # 地区策略组
-  #
-  # 通过节点名称自动分类
+  # 国家地区策略组
   # ==========================================================
 
   - name: HK 香港
@@ -525,7 +803,7 @@ proxy-groups:
     type: url-test
     icon: https://fastly.jsdelivr.net/gh/Koolson/Qure/IconSet/Color/Singapore.png
     include-all: true
-    filter: "新加坡|狮城|🇸🇬|SG|SIN|Singapore"
+    filter: "新加坡|狮城|獅城|🇸🇬|SG|SIN|Singapore"
     interval: 300
     tolerance: 100
     lazy: true
@@ -535,7 +813,7 @@ proxy-groups:
     type: url-test
     icon: https://fastly.jsdelivr.net/gh/Koolson/Qure/IconSet/Color/Japan.png
     include-all: true
-    filter: "日本|日|东京|東京|大阪|🇯🇵|JP|JPN|Japan"
+    filter: "日本|东京|東京|大阪|🇯🇵|JP|JPN|Japan"
     interval: 300
     tolerance: 100
     lazy: true
@@ -545,7 +823,7 @@ proxy-groups:
     type: url-test
     icon: https://fastly.jsdelivr.net/gh/Koolson/Qure/IconSet/Color/South_Korea.png
     include-all: true
-    filter: "韩国|南韩|韓國|🇰🇷|KR|KOR|Korea"
+    filter: "韩国|南韩|韓國|南韓|🇰🇷|KR|KOR|Korea"
     interval: 300
     tolerance: 100
     lazy: true
@@ -555,7 +833,7 @@ proxy-groups:
     type: url-test
     icon: https://fastly.jsdelivr.net/gh/Koolson/Qure/IconSet/Color/United_States.png
     include-all: true
-    filter: "美国|美|🇺🇸|US|USA|United States|America"
+    filter: "美国|美|🇺🇸|USA|United States|UnitedStates|America"
     interval: 300
     tolerance: 100
     lazy: true
@@ -565,7 +843,7 @@ proxy-groups:
     type: url-test
     icon: https://fastly.jsdelivr.net/gh/Koolson/Qure/IconSet/Color/Canada.png
     include-all: true
-    filter: "加拿大|加|🇨🇦|CA|CAN|Canada"
+    filter: "加拿大|加|🇨🇦|CAN|Canada"
     interval: 300
     tolerance: 100
     lazy: true
@@ -575,7 +853,7 @@ proxy-groups:
     type: url-test
     icon: https://fastly.jsdelivr.net/gh/Koolson/Qure/IconSet/Color/United_Kingdom.png
     include-all: true
-    filter: "英国|英|🇬🇧|UK|GB|United Kingdom|Britain"
+    filter: "英国|英|🇬🇧|UK|GB|United Kingdom|UnitedKingdom|Britain"
     interval: 300
     tolerance: 100
     lazy: true
@@ -585,7 +863,7 @@ proxy-groups:
     type: url-test
     icon: https://fastly.jsdelivr.net/gh/Koolson/Qure/IconSet/Color/Germany.png
     include-all: true
-    filter: "德国|德|🇩🇪|DE|Germany|Deutschland"
+    filter: "德国|德|🇩🇪|Germany|Deutschland"
     interval: 300
     tolerance: 100
     lazy: true
@@ -595,7 +873,7 @@ proxy-groups:
     type: url-test
     icon: https://fastly.jsdelivr.net/gh/Koolson/Qure/IconSet/Color/France.png
     include-all: true
-    filter: "法国|法|巴黎|🇫🇷|FR|France"
+    filter: "法国|法|巴黎|🇫🇷|France"
     interval: 300
     tolerance: 100
     lazy: true
@@ -605,7 +883,7 @@ proxy-groups:
     type: url-test
     icon: https://fastly.jsdelivr.net/gh/Koolson/Qure/IconSet/Color/Australia.png
     include-all: true
-    filter: "澳大利亚|澳洲|澳|🇦🇺|AU|Australia"
+    filter: "澳大利亚|澳洲|澳|🇦🇺|Australia"
     interval: 300
     tolerance: 100
     lazy: true
@@ -615,7 +893,7 @@ proxy-groups:
     type: url-test
     icon: https://fastly.jsdelivr.net/gh/Koolson/Qure/IconSet/Color/Netherlands.png
     include-all: true
-    filter: "荷兰|荷|🇳🇱|NL|NLD|Netherlands"
+    filter: "荷兰|荷蘭|荷|🇳🇱|Netherlands"
     interval: 300
     tolerance: 100
     lazy: true
@@ -625,7 +903,7 @@ proxy-groups:
     type: url-test
     icon: https://fastly.jsdelivr.net/gh/Koolson/Qure/IconSet/Color/Switzerland.png
     include-all: true
-    filter: "瑞士|🇨🇭|CH|CHE|Switzerland"
+    filter: "瑞士|🇨🇭|Switzerland"
     interval: 300
     tolerance: 100
     lazy: true
@@ -635,7 +913,7 @@ proxy-groups:
     type: url-test
     icon: https://fastly.jsdelivr.net/gh/Koolson/Qure/IconSet/Color/Italy.png
     include-all: true
-    filter: "意大利|意|🇮🇹|IT|ITA|Italy"
+    filter: "意大利|🇮🇹|Italy"
     interval: 300
     tolerance: 100
     lazy: true
@@ -645,7 +923,7 @@ proxy-groups:
     type: url-test
     icon: https://fastly.jsdelivr.net/gh/Koolson/Qure/IconSet/Color/Spain.png
     include-all: true
-    filter: "西班牙|西|🇪🇸|ES|ESP|Spain"
+    filter: "西班牙|🇪🇸|Spain"
     interval: 300
     tolerance: 100
     lazy: true
@@ -655,7 +933,7 @@ proxy-groups:
     type: url-test
     icon: https://fastly.jsdelivr.net/gh/Koolson/Qure/IconSet/Color/Sweden.png
     include-all: true
-    filter: "瑞典|🇸🇪|SE|SWE|Sweden"
+    filter: "瑞典|🇸🇪|Sweden"
     interval: 300
     tolerance: 100
     lazy: true
@@ -665,7 +943,7 @@ proxy-groups:
     type: url-test
     icon: https://fastly.jsdelivr.net/gh/Koolson/Qure/IconSet/Color/Poland.png
     include-all: true
-    filter: "波兰|波蘭|🇵🇱|PL|POL|Poland"
+    filter: "波兰|波蘭|🇵🇱|Poland"
     interval: 300
     tolerance: 100
     lazy: true
@@ -675,7 +953,7 @@ proxy-groups:
     type: url-test
     icon: https://fastly.jsdelivr.net/gh/Koolson/Qure/IconSet/Color/Malaysia.png
     include-all: true
-    filter: "马来西亚|馬來西亞|马来|🇲🇾|MY|MYS|Malaysia"
+    filter: "马来西亚|馬來西亞|马来|馬來|🇲🇾|Malaysia"
     interval: 300
     tolerance: 100
     lazy: true
@@ -685,7 +963,7 @@ proxy-groups:
     type: url-test
     icon: https://fastly.jsdelivr.net/gh/Koolson/Qure/IconSet/Color/Thailand.png
     include-all: true
-    filter: "泰国|泰國|🇹🇭|TH|THA|Thailand"
+    filter: "泰国|泰國|🇹🇭|Thailand"
     interval: 300
     tolerance: 100
     lazy: true
@@ -695,7 +973,7 @@ proxy-groups:
     type: url-test
     icon: https://fastly.jsdelivr.net/gh/Koolson/Qure/IconSet/Color/Vietnam.png
     include-all: true
-    filter: "越南|🇻🇳|VN|VNM|Vietnam"
+    filter: "越南|🇻🇳|Vietnam"
     interval: 300
     tolerance: 100
     lazy: true
@@ -705,7 +983,7 @@ proxy-groups:
     type: url-test
     icon: https://fastly.jsdelivr.net/gh/Koolson/Qure/IconSet/Color/Philippines.png
     include-all: true
-    filter: "菲律宾|菲律賓|🇵🇭|PH|PHL|Philippines"
+    filter: "菲律宾|菲律賓|🇵🇭|Philippines"
     interval: 300
     tolerance: 100
     lazy: true
@@ -715,7 +993,7 @@ proxy-groups:
     type: url-test
     icon: https://fastly.jsdelivr.net/gh/Koolson/Qure/IconSet/Color/Indonesia.png
     include-all: true
-    filter: "印尼|印度尼西亚|印度尼西亞|🇮🇩|ID|IDN|Indonesia"
+    filter: "印尼|印度尼西亚|印度尼西亞|🇮🇩|Indonesia"
     interval: 300
     tolerance: 100
     lazy: true
@@ -725,7 +1003,7 @@ proxy-groups:
     type: url-test
     icon: https://fastly.jsdelivr.net/gh/Koolson/Qure/IconSet/Color/India.png
     include-all: true
-    filter: "印度|🇮🇳|IN|IND|India"
+    filter: "印度|🇮🇳|India"
     interval: 300
     tolerance: 100
     lazy: true
@@ -735,7 +1013,7 @@ proxy-groups:
     type: url-test
     icon: https://fastly.jsdelivr.net/gh/Koolson/Qure/IconSet/Color/United_Arab_Emirates.png
     include-all: true
-    filter: "阿联酋|阿聯酋|迪拜|🇦🇪|AE|ARE|UAE|Dubai"
+    filter: "阿联酋|阿聯酋|迪拜|🇦🇪|UAE|Dubai"
     interval: 300
     tolerance: 100
     lazy: true
@@ -745,7 +1023,7 @@ proxy-groups:
     type: url-test
     icon: https://fastly.jsdelivr.net/gh/Koolson/Qure/IconSet/Color/Turkey.png
     include-all: true
-    filter: "土耳其|🇹🇷|TR|TUR|Turkey"
+    filter: "土耳其|🇹🇷|Turkey"
     interval: 300
     tolerance: 100
     lazy: true
@@ -755,7 +1033,7 @@ proxy-groups:
     type: url-test
     icon: https://fastly.jsdelivr.net/gh/Koolson/Qure/IconSet/Color/Brazil.png
     include-all: true
-    filter: "巴西|🇧🇷|BR|BRA|Brazil"
+    filter: "巴西|🇧🇷|Brazil"
     interval: 300
     tolerance: 100
     lazy: true
@@ -765,7 +1043,7 @@ proxy-groups:
     type: url-test
     icon: https://fastly.jsdelivr.net/gh/Koolson/Qure/IconSet/Color/Mexico.png
     include-all: true
-    filter: "墨西哥|🇲🇽|MX|MEX|Mexico"
+    filter: "墨西哥|🇲🇽|Mexico"
     interval: 300
     tolerance: 100
     lazy: true
@@ -775,7 +1053,7 @@ proxy-groups:
     type: url-test
     icon: https://fastly.jsdelivr.net/gh/Koolson/Qure/IconSet/Color/New_Zealand.png
     include-all: true
-    filter: "新西兰|紐西蘭|🇳🇿|NZ|NZL|New Zealand"
+    filter: "新西兰|紐西蘭|🇳🇿|New Zealand|NewZealand"
     interval: 300
     tolerance: 100
     lazy: true
@@ -785,7 +1063,7 @@ proxy-groups:
     type: url-test
     icon: https://fastly.jsdelivr.net/gh/Koolson/Qure/IconSet/Color/Russia.png
     include-all: true
-    filter: "俄罗斯|俄羅斯|🇷🇺|RU|RUS|Russia"
+    filter: "俄罗斯|俄羅斯|🇷🇺|Russia"
     interval: 300
     tolerance: 100
     lazy: true
@@ -799,7 +1077,7 @@ proxy-groups:
     type: url-test
     icon: https://fastly.jsdelivr.net/gh/Koolson/Qure/IconSet/Color/Global.png
     include-all: true
-    filter: "^(?!.*(香港|港|🇭🇰|HK|HKG|Hong Kong|HongKong|台湾|臺灣|台|🇹🇼|TW|TWN|Taiwan|新加坡|狮城|🇸🇬|SG|SIN|Singapore|日本|日|东京|東京|大阪|🇯🇵|JP|JPN|Japan|韩国|南韩|韓國|🇰🇷|KR|KOR|Korea|美国|美|🇺🇸|US|USA|United States|America|加拿大|加|🇨🇦|CA|CAN|Canada|英国|英|🇬🇧|UK|GB|United Kingdom|Britain|德国|德|🇩🇪|DE|Germany|Deutschland|法国|法|巴黎|🇫🇷|FR|France|澳大利亚|澳洲|澳|🇦🇺|AU|Australia|荷兰|荷|🇳🇱|NL|NLD|Netherlands|瑞士|🇨🇭|CH|CHE|Switzerland|意大利|意|🇮🇹|IT|ITA|Italy|西班牙|西|🇪🇸|ES|ESP|Spain|瑞典|🇸🇪|SE|SWE|Sweden|波兰|波蘭|🇵🇱|PL|POL|Poland|马来西亚|馬來西亞|马来|🇲🇾|MY|MYS|Malaysia|泰国|泰國|🇹🇭|TH|THA|Thailand|越南|🇻🇳|VN|VNM|Vietnam|菲律宾|菲律賓|🇵🇭|PH|PHL|Philippines|印尼|印度尼西亚|印度尼西亞|🇮🇩|ID|IDN|Indonesia|印度|🇮🇳|IN|IND|India|阿联酋|阿聯酋|迪拜|🇦🇪|AE|ARE|UAE|Dubai|土耳其|🇹🇷|TR|TUR|Turkey|巴西|🇧🇷|BR|BRA|Brazil|墨西哥|🇲🇽|MX|MEX|Mexico|新西兰|紐西蘭|🇳🇿|NZ|NZL|New Zealand|俄罗斯|俄羅斯|🇷🇺|RU|RUS|Russia)).*$"
+    filter: "^(?!.*(香港|港|🇭🇰|HK|HKG|Hong Kong|HongKong|台湾|臺灣|台|🇹🇼|TW|TWN|Taiwan|新加坡|狮城|獅城|🇸🇬|SG|SIN|Singapore|日本|东京|東京|大阪|🇯🇵|JP|JPN|Japan|韩国|南韩|韓國|南韓|🇰🇷|KR|KOR|Korea|美国|美|🇺🇸|USA|United States|UnitedStates|America|加拿大|加|🇨🇦|CAN|Canada|英国|英|🇬🇧|UK|GB|United Kingdom|UnitedKingdom|Britain|德国|德|🇩🇪|Germany|Deutschland|法国|法|巴黎|🇫🇷|France|澳大利亚|澳洲|澳|🇦🇺|Australia|荷兰|荷蘭|荷|🇳🇱|Netherlands|瑞士|🇨🇭|Switzerland|意大利|🇮🇹|Italy|西班牙|🇪🇸|Spain|瑞典|🇸🇪|Sweden|波兰|波蘭|🇵🇱|Poland|马来西亚|馬來西亞|马来|馬來|🇲🇾|Malaysia|泰国|泰國|🇹🇭|Thailand|越南|🇻🇳|Vietnam|菲律宾|菲律賓|🇵🇭|Philippines|印尼|印度尼西亚|印度尼西亞|🇮🇩|Indonesia|印度|🇮🇳|India|阿联酋|阿聯酋|迪拜|🇦🇪|UAE|Dubai|土耳其|🇹🇷|Turkey|巴西|🇧🇷|Brazil|墨西哥|🇲🇽|Mexico|新西兰|紐西蘭|🇳🇿|New Zealand|NewZealand|俄罗斯|俄羅斯|🇷🇺|Russia)).*$"
     interval: 300
     tolerance: 100
     lazy: true
@@ -811,28 +1089,18 @@ proxy-groups:
 
 dns:
 
-  # 仅用于解析 DNS 服务自身
-  # 使用 IP，因此不需要再次解析 DNS 域名
   default-nameserver:
     - 1.1.1.1
     - 223.5.5.5
 
-  # 普通 DNS 请求全部使用加密 DNS
   nameserver:
     - https://1.1.1.1/dns-query
     - https://223.5.5.5/dns-query
 
-  # 不让 DNS 跟随代理规则
-  # 避免代理 DNS 产生递归解析问题
   follow-rule: false
 
-  # 正常验证 DoH 证书
   skip-cert-verify: false
 
-  # 国内域名
-  # 使用加密国内 DNS
-  #
-  # 国际服务继续使用 Cloudflare DoH
   nameserver-policy:
 
     "geosite:cn":
@@ -859,34 +1127,23 @@ dns:
     "geosite:github":
       - https://1.1.1.1/dns-query
 
-  # ==========================================================
-  # Fake IP 排除
-  # ==========================================================
-
   fake-ip-filter:
 
-    # STUN
     - "+.stun.*.*"
     - "+.stun.*.*.*"
     - "+.stun.*.*.*.*"
     - "+.stun.*.*.*.*.*"
 
-    # Google Voice
     - "lens.l.google.com"
 
-    # Nintendo
     - "*.n.n.srv.nintendo.net"
 
-    # PlayStation
     - "+.stun.playstation.net"
 
-    # Xbox
     - "+.stun.xboxlive.com"
 
-    # Mozilla
     - "+.stun.services.mozilla.com"
 
-    # Cloudflare
     - "+.stun.cloudflare.com"
 
 
@@ -898,13 +1155,6 @@ script:
 
   shortcuts:
 
-    # HTTP/3 / QUIC
-    #
-    # 443
-    # Bilibili 常见 4483
-    # Bilibili 常见 9305
-    #
-    # 对部分代理协议可提高稳定性
     quic: network == 'udp' and (dst_port == 443 or dst_port == 4483 or dst_port == 9305)
 
 
@@ -914,24 +1164,12 @@ script:
 
 rules:
 
-
-  # ==========================================================
-  # QUIC
-  # ==========================================================
-
   - SCRIPT,quic,REJECT
-
-
-  # ==========================================================
-  # LAN
-  # ==========================================================
 
   - GEOIP,LAN,DIRECT
 
 
-  # ==========================================================
   # Apple
-  # ==========================================================
 
   - DOMAIN-SUFFIX,apple.com,Apple
   - DOMAIN-SUFFIX,icloud.com,Apple
@@ -941,123 +1179,90 @@ rules:
   - DOMAIN-SUFFIX,itunes.apple.com,Apple
   - DOMAIN-SUFFIX,appstore.com,Apple
 
-  # Apple 推送
   - DOMAIN-SUFFIX,push.apple.com,DIRECT
   - DOMAIN-SUFFIX,iphone-ld.apple.com,DIRECT
   - DOMAIN-SUFFIX,lcdn-locator.apple.com,DIRECT
   - DOMAIN-SUFFIX,lcdn-registration.apple.com,DIRECT
 
 
-  # ==========================================================
   # YouTube
-  # ==========================================================
 
   - GEOSITE,youtube,YouTube
 
 
-  # ==========================================================
   # Google
-  # ==========================================================
 
   - GEOSITE,google,Google
 
 
-  # ==========================================================
   # Netflix
-  # ==========================================================
 
   - GEOSITE,netflix,Netflix
 
 
-  # ==========================================================
   # Disney+
-  # ==========================================================
 
   - GEOSITE,disney,Disney+
 
 
-  # ==========================================================
   # Spotify
-  # ==========================================================
 
   - GEOSITE,spotify,Spotify
 
 
-  # ==========================================================
   # Telegram
-  # ==========================================================
 
   - GEOSITE,telegram,Telegram
 
 
-  # ==========================================================
   # GitHub
-  # ==========================================================
 
   - GEOSITE,github,GitHub
 
 
-  # ==========================================================
-  # X / Twitter
-  # ==========================================================
+  # X
 
   - GEOSITE,twitter,X
 
 
-  # ==========================================================
   # Instagram
-  # ==========================================================
 
   - GEOSITE,instagram,Instagram
 
 
-  # ==========================================================
   # Facebook
-  # ==========================================================
 
   - GEOSITE,facebook,Facebook
 
 
-  # ==========================================================
   # TikTok
-  # ==========================================================
 
   - GEOSITE,tiktok,TikTok
 
 
-  # ==========================================================
   # Microsoft
-  # ==========================================================
 
   - GEOSITE,microsoft@cn,DIRECT
   - GEOSITE,microsoft,Microsoft
 
 
-  # ==========================================================
   # Xbox
-  # ==========================================================
 
   - GEOSITE,xbox,Xbox
 
 
-  # ==========================================================
   # Steam
-  # ==========================================================
 
   - GEOSITE,steam@cn,DIRECT
   - GEOSITE,steam,Steam
 
 
-  # ==========================================================
   # Speedtest
-  # ==========================================================
 
   - GEOSITE,speedtest,Speedtest
 
 
-  # ==========================================================
   # AI
-  # ==========================================================
 
   - DOMAIN-SUFFIX,openai.com,AI
   - DOMAIN-SUFFIX,chatgpt.com,AI
@@ -1077,9 +1282,7 @@ rules:
   - DOMAIN-SUFFIX,huggingface.co,AI
 
 
-  # ==========================================================
   # 游戏
-  # ==========================================================
 
   - DOMAIN-SUFFIX,playstation.com,游戏
   - DOMAIN-SUFFIX,playstation.net,游戏
@@ -1089,16 +1292,12 @@ rules:
   - DOMAIN-SUFFIX,epicgames.com,游戏
 
 
-  # ==========================================================
   # 中国大陆
-  # ==========================================================
 
   - GEOIP,CN,DIRECT
 
 
-  # ==========================================================
   # 最终规则
-  # ==========================================================
 
   - MATCH,默认
 
@@ -1109,22 +1308,12 @@ rules:
 
 tiles:
 
-
-  # ==========================================================
-  # 网络质量
-  # ==========================================================
-
   - name: tile-network-quality
     interval: 600
     title: "网络质量"
     content: "检测中..."
     icon: "speedometer"
     backgroundColor: "#3E315F"
-
-
-  # ==========================================================
-  # 节点健康
-  # ==========================================================
 
   - name: tile-node-health
     interval: 600
@@ -1133,11 +1322,6 @@ tiles:
     icon: "bolt.horizontal.circle.fill"
     backgroundColor: "#315D38"
 
-
-  # ==========================================================
-  # 国际出口
-  # ==========================================================
-
   - name: tile-international
     interval: 86400
     title: "国际出口"
@@ -1145,22 +1329,12 @@ tiles:
     icon: "globe.americas.fill"
     backgroundColor: "#173B5E"
 
-
-  # ==========================================================
-  # 网络控制中心
-  # ==========================================================
-
   - name: tile-network-control
     interval: 86400
     title: "网络控制中心"
     content: "检测中..."
     icon: "network"
     backgroundColor: "#244A3A"
-
-
-  # ==========================================================
-  # DNS
-  # ==========================================================
 
   - name: tile-dns
     interval: 86400
@@ -1170,11 +1344,6 @@ tiles:
     backgroundColor: "#174A52"
     url: "https://www.dnsleaktest.com/"
 
-
-  # ==========================================================
-  # WebRTC
-  # ==========================================================
-
   - name: tile-webrtc
     interval: 86400
     title: "WebRTC 检测"
@@ -1183,11 +1352,6 @@ tiles:
     backgroundColor: "#4C3030"
     url: "https://browserleaks.com/webrtc"
 
-
-  # ==========================================================
-  # TLS
-  # ==========================================================
-
   - name: tile-tls
     interval: 86400
     title: "TLS 检测"
@@ -1195,22 +1359,12 @@ tiles:
     icon: "lock.shield.fill"
     backgroundColor: "#344A63"
 
-
-  # ==========================================================
-  # HTTP/3
-  # ==========================================================
-
   - name: tile-http3
     interval: 86400
     title: "HTTP/3"
     content: "检测中..."
     icon: "bolt.circle.fill"
     backgroundColor: "#164C55"
-
-
-  # ==========================================================
-  # YouTube
-  # ==========================================================
 
   - name: tile-youtube
     interval: 604800
@@ -1220,11 +1374,6 @@ tiles:
     backgroundColor: "#5A2424"
     collapsed: true
 
-
-  # ==========================================================
-  # TikTok
-  # ==========================================================
-
   - name: tile-tiktok
     interval: 604800
     title: "TikTok"
@@ -1232,11 +1381,6 @@ tiles:
     icon: "music.note"
     backgroundColor: "#252525"
     collapsed: true
-
-
-  # ==========================================================
-  # X
-  # ==========================================================
 
   - name: tile-x
     interval: 604800
@@ -1246,11 +1390,6 @@ tiles:
     backgroundColor: "#242424"
     collapsed: true
 
-
-  # ==========================================================
-  # Instagram
-  # ==========================================================
-
   - name: tile-instagram
     interval: 604800
     title: "Instagram"
@@ -1259,11 +1398,6 @@ tiles:
     backgroundColor: "#59324A"
     collapsed: true
 
-
-  # ==========================================================
-  # Google
-  # ==========================================================
-
   - name: tile-google
     interval: 604800
     title: "Google"
@@ -1271,11 +1405,6 @@ tiles:
     icon: "magnifyingglass"
     backgroundColor: "#34475C"
     collapsed: true
-
-
-  # ==========================================================
-  # Netflix
-  # ==========================================================
 
   - name: tile-netflix
     interval: 604800
@@ -1291,11 +1420,6 @@ tiles:
 # ============================================================
 
 script-providers:
-
-
-  # ==========================================================
-  # 网络质量
-  # ==========================================================
 
   tile-network-quality:
     interval: 600
@@ -1352,10 +1476,6 @@ script-providers:
       );
 
 
-  # ==========================================================
-  # 节点健康
-  # ==========================================================
-
   tile-node-health:
     interval: 600
     payload: |
@@ -1400,10 +1520,6 @@ script-providers:
         }
       );
 
-
-  # ==========================================================
-  # 国际出口
-  # ==========================================================
 
   tile-international:
     interval: 86400
@@ -1460,10 +1576,6 @@ script-providers:
       );
 
 
-  # ==========================================================
-  # 网络控制中心
-  # ==========================================================
-
   tile-network-control:
     interval: 86400
     payload: |
@@ -1482,10 +1594,6 @@ script-providers:
         icon: "checkmark"
       });
 
-
-  # ==========================================================
-  # DNS
-  # ==========================================================
 
   tile-dns:
     interval: 86400
@@ -1571,10 +1679,6 @@ script-providers:
       );
 
 
-  # ==========================================================
-  # WebRTC
-  # ==========================================================
-
   tile-webrtc:
     interval: 86400
     payload: |
@@ -1611,10 +1715,6 @@ script-providers:
         }
       );
 
-
-  # ==========================================================
-  # TLS
-  # ==========================================================
 
   tile-tls:
     interval: 86400
@@ -1660,17 +1760,9 @@ script-providers:
             var c =
               data.match(/(?:^|\n)colo=([^\n]+)/);
 
-            if (a) {
-              tls = a[1];
-            }
-
-            if (b) {
-              http = b[1];
-            }
-
-            if (c) {
-              colo = c[1];
-            }
+            if (a) tls = a[1];
+            if (b) http = b[1];
+            if (c) colo = c[1];
 
           }
 
@@ -1687,10 +1779,6 @@ script-providers:
         }
       );
 
-
-  # ==========================================================
-  # HTTP/3
-  # ==========================================================
 
   tile-http3:
     interval: 86400
@@ -1765,10 +1853,6 @@ script-providers:
       );
 
 
-  # ==========================================================
-  # YouTube
-  # ==========================================================
-
   tile-youtube:
     interval: 604800
     payload: |
@@ -1808,10 +1892,6 @@ script-providers:
         }
       );
 
-
-  # ==========================================================
-  # TikTok
-  # ==========================================================
 
   tile-tiktok:
     interval: 604800
@@ -1853,10 +1933,6 @@ script-providers:
       );
 
 
-  # ==========================================================
-  # X
-  # ==========================================================
-
   tile-x:
     interval: 604800
     payload: |
@@ -1896,10 +1972,6 @@ script-providers:
         }
       );
 
-
-  # ==========================================================
-  # Instagram
-  # ==========================================================
 
   tile-instagram:
     interval: 604800
@@ -1941,10 +2013,6 @@ script-providers:
       );
 
 
-  # ==========================================================
-  # Google
-  # ==========================================================
-
   tile-google:
     interval: 604800
     payload: |
@@ -1984,10 +2052,6 @@ script-providers:
         }
       );
 
-
-  # ==========================================================
-  # Netflix
-  # ==========================================================
 
   tile-netflix:
     interval: 604800
