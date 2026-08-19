@@ -3,55 +3,58 @@ desc: 'Zika 自维护｜Bilibili 开屏广告与广告资源过滤｜2026'
 author: 'zika'
 icon: 'https://appicons.co/icons/147654'
 category: '去广告'
-version: '1.0.4'
+version: '1.0.5'
 date: '2026-08-19'
 
 http:
   rewrite:
 
-    # =========================
-    # Bilibili 开屏广告
-    # =========================
+    # =====================================
+    # Bilibili 官方开屏广告接口
+    # =====================================
 
-    # 开屏广告展示接口
+    # 开屏广告展示
     - ^https?:\/\/app\.bilibili\.com\/x\/v2\/splash\/show(?:\?.*)?$ - reject-dict
 
-    # 开屏广告列表接口
+    # 开屏广告列表
     - ^https?:\/\/app\.bilibili\.com\/x\/v\d+\/splash\/list(?:\?.*)?$ - reject-dict
 
-    # Mengqi 广告资源
+    # 开屏品牌广告
+    - ^https?:\/\/app\.bilibili\.com\/x\/v2\/splash\/brand\/list(?:\?.*)?$ - reject-dict
+
+    # 开屏活动
+    - ^https?:\/\/app\.bilibili\.com\/x\/v2\/splash\/event\/list2(?:\?.*)?$ - reject-dict
+
+    # =====================================
+    # Bilibili 广告资源接口
+    # =====================================
+
     - ^https?:\/\/api\.bilibili\.com\/x\/mengqi\/v1\/resource(?:\?.*)?$ - reject-dict
 
-    # Peak 广告资源
     - ^https?:\/\/app\.bilibili\.com\/x\/resource\/peak\/download(?:\?.*)?$ - reject-dict
 
-    # 本地 SPLASH 资源
+    # =====================================
+    # Bilibili SPLASH 广告资源
+    # =====================================
+
     - ^http:\/\/[\d.]+:8000\/v1\/resource\/[A-Za-z0-9_-]+-1-SPLASH(?:\?.*)?$ - reject-dict
 
-    # Bilibili CDN SPLASH 资源
     - ^https?:\/\/upos-[^\/]+\.bilivideo\.com\/.*\/[A-Za-z0-9_-]+-1-SPLASH(?:\?.*)?$ - reject
 
-    # 静态 SPLASH 资源
     - ^https?:\/\/upos-sz-static\.bilivideo\.com\/.*-1-SPLASH(?:\?.*)?$ - reject
 
-    # 常见开屏图片资源
-    - ^https?:\/\/.*\.bilivideo\.com\/.*\/SPLASH[^\/]*(?:\?.*)?$ - reject
+    # =====================================
+    # Bilibili → 第三方 DSP
+    # 只拦 Bilibili 专用广告接口
+    # 不封整个 t-dsp.pinduoduo.com
+    # =====================================
 
-  script:
-    - match: ^https?:\/\/app\.bilibili\.com\/x\/v\d+\/splash\/list(?:\?.*)?$
-      name: BiliBili_开屏去广告
-      type: response
-      timeout: 30
-      require-body: true
-      max-size: 3145728
+    - ^https?:\/\/t-dsp\.pinduoduo\.com\/dspcb\/i\/mrk_bilibili(?:\?.*)?$ - reject-200
 
 mitm:
   - app.bilibili.com
   - api.bilibili.com
+  - '*.bilibili.com'
   - '*.bilivideo.com'
   - '*.bilivideo.cn'
-
-script-providers:
-  BiliBili_开屏去广告:
-    url: https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/script/startup/startup.js
-    interval: 86400
+  - t-dsp.pinduoduo.com
