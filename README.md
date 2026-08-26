@@ -3,7 +3,7 @@
 Zika 自维护的 Stash 配置、复写、规则集与网络检测工具集合。
 ![Stash Network Diagnostic](https://raw.githubusercontent.com/lihx0481-create/-Stash-config/main/copy_DBB6470D-277A-44D3-9CDD-8EDCC0AC8DFC.GIF)
 
-
+[![一键导入 Clash TF](https://img.shields.io/badge/一键导入%20Clash%20TF-配置版-5865F2?style=for-the-badge)](https://raw.githubusercontent.com/lihx0481-create/-Stash-config/main/Zika-Clash-TF.yaml)
 
 
 # 🚀 Zika Nexus · Stash 3.6
