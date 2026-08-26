@@ -1,13 +1,31 @@
 # ============================================================
 # Zika Clash TF
-# 国内直连 + 海外手动代理 + 内置去广告 + DNS 防泄漏
+# Clash for Apple Platforms / Hako / mihomo
+#
+# 🇨🇳 中国大陆直连
+# 🌎 海外手动代理
+# 🛡️ 广告拦截
+# 🔒 DNS 防泄漏
+# 🍎 Apple 服务兼容
+# ❌ 不自动选择 / 不自动切换节点
 # ============================================================
 
-mixed-port: 7890
-allow-lan: false
+# ============================================================
+# 基础
+# ============================================================
+
 mode: rule
 log-level: warning
+
 ipv6: false
+
+allow-lan: false
+
+unified-delay: true
+tcp-concurrent: true
+
+find-process-mode: off
+
 
 # ============================================================
 # DNS
@@ -15,124 +33,286 @@ ipv6: false
 
 dns:
   enable: true
+
   ipv6: false
+
   enhanced-mode: fake-ip
+
   fake-ip-range: 198.18.0.1/16
+
+  fake-ip-filter-mode: blacklist
+
+  # DNS 查询遵循 Clash 分流规则
   respect-rules: true
 
+  # DNS 服务本身的域名解析
+  default-nameserver:
+    - 223.5.5.5
+    - 119.29.29.29
+
+  # 默认 DNS
+  # 使用 DoH，不使用运营商明文 DNS
   nameserver:
     - https://223.5.5.5/dns-query
     - https://doh.pub/dns-query
 
+  # 代理节点服务器地址的解析
+  # 防止连接代理节点之前先走系统 DNS
   proxy-server-nameserver:
-    - https://223.5.5.5/dns-query
     - https://1.1.1.1/dns-query
+    - https://8.8.8.8/dns-query
 
+  # 国内域名
   nameserver-policy:
+
     "geosite:cn":
       - https://223.5.5.5/dns-query
       - https://doh.pub/dns-query
 
+    # 海外域名
     "geosite:geolocation-!cn":
       - https://1.1.1.1/dns-query
       - https://dns.google/dns-query
 
+  # 不进行 Fake-IP 的地址
   fake-ip-filter:
+
+    # 局域网
     - "*.lan"
     - "*.local"
-    - "+.apple.com"
-    - "+.icloud.com"
-    - "+.push.apple.com"
+
+    # 本机
+    - "localhost"
+    - "localhost.*"
+
+    # Apple 推送
+    - "*.push.apple.com"
+
+    # Apple 部分系统服务
+    - "*.icloud.com"
+    - "*.icloud-content.com"
+
+    # Windows 网络检测
+    - "*.msftncsi.com"
+    - "*.msftconnecttest.com"
+
 
 # ============================================================
-# 你的订阅
+# TUN
+# ============================================================
+
+tun:
+
+  enable: true
+
+  stack: mixed
+
+  auto-route: true
+
+  auto-detect-interface: true
+
+  # 严格路由
+  # 防止系统流量绕过 TUN
+  strict-route: true
+
+  # 劫持传统 DNS
+  dns-hijack:
+    - any:53
+    - tcp://any:53
+
+
+# ============================================================
+# 代理订阅
 # ============================================================
 
 proxy-providers:
 
   Zika-Subscription:
+
     type: http
+
+    # ========================================================
+    # 把这里替换成你的 Clash / Mihomo 订阅地址
+    # ========================================================
+
     url: "YOUR_SUBSCRIPTION_URL"
+
+    path: ./proxy_providers/Zika-Subscription.yaml
+
     interval: 86400
-    path: ./proxy_providers/zika.yaml
+
+    health-check:
+
+      enable: true
+
+      url: https://www.gstatic.com/generate_204
+
+      interval: 600
+
+      timeout: 5000
+
 
 # ============================================================
-# 手动代理
+# 代理组
 # ============================================================
 
 proxy-groups:
 
+  # ==========================================================
+  # 海外代理
+  #
+  # type: select
+  #
+  # 只允许你手动选择
+  #
+  # 不使用：
+  # url-test
+  # fallback
+  # load-balance
+  #
+  # 因此不会自动换节点
+  # ==========================================================
+
   - name: "🌎 海外代理"
+
     type: select
+
     use:
       - Zika-Subscription
 
+    proxies:
+      - DIRECT
+
+
 # ============================================================
-# 内置去广告
+# 广告规则
+# ============================================================
+
+rule-providers:
+
+  Advertising:
+
+    type: http
+
+    behavior: classical
+
+    format: yaml
+
+    url: >-
+      https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Clash/Advertising/Advertising_Classical.yaml
+
+    path: ./ruleset/Zika-Advertising.yaml
+
+    interval: 86400
+
+    proxy: 🌎 海外代理
+
+
+# ============================================================
+# 隐私 / 跟踪规则
+# ============================================================
+
+  Privacy:
+
+    type: http
+
+    behavior: classical
+
+    format: yaml
+
+    url: >-
+      https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Clash/Privacy/Privacy_Classical.yaml
+
+    path: ./ruleset/Zika-Privacy.yaml
+
+    interval: 86400
+
+    proxy: 🌎 海外代理
+
+
+# ============================================================
+# 中国大陆规则
+# ============================================================
+
+  China:
+
+    type: http
+
+    behavior: classical
+
+    format: yaml
+
+    url: >-
+      https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Clash/China/China_Classical.yaml
+
+    path: ./ruleset/Zika-China.yaml
+
+    interval: 86400
+
+    proxy: 🌎 海外代理
+
+
+# ============================================================
+# 分流规则
 # ============================================================
 
 rules:
 
-  # -------------------------
-  # 常见广告/统计域名
-  # -------------------------
+  # ==========================================================
+  # ① 局域网
+  # ==========================================================
 
-  - DOMAIN-SUFFIX,doubleclick.net,REJECT
-  - DOMAIN-SUFFIX,googlesyndication.com,REJECT
-  - DOMAIN-SUFFIX,googleadservices.com,REJECT
-  - DOMAIN-SUFFIX,adservice.google.com,REJECT
-  - DOMAIN-SUFFIX,adsrvr.org,REJECT
-  - DOMAIN-SUFFIX,adnxs.com,REJECT
-  - DOMAIN-SUFFIX,adsafeprotected.com,REJECT
-  - DOMAIN-SUFFIX,advertising.com,REJECT
-  - DOMAIN-SUFFIX,amazon-adsystem.com,REJECT
-  - DOMAIN-SUFFIX,scorecardresearch.com,REJECT
-  - DOMAIN-SUFFIX,criteo.com,REJECT
-  - DOMAIN-SUFFIX,criteo.net,REJECT
-  - DOMAIN-SUFFIX,taboola.com,REJECT
-  - DOMAIN-SUFFIX,outbrain.com,REJECT
-  - DOMAIN-SUFFIX,moatads.com,REJECT
-  - DOMAIN-SUFFIX,app-measurement.com,REJECT
-  - DOMAIN-SUFFIX,adjust.com,REJECT
-  - DOMAIN-SUFFIX,appsflyer.com,REJECT
+  - DOMAIN-SUFFIX,local,DIRECT
 
-  # -------------------------
-  # 常见国内广告域名
-  # -------------------------
+  - IP-CIDR,10.0.0.0/8,DIRECT,no-resolve
 
-  - DOMAIN-SUFFIX,adsame.com,REJECT
-  - DOMAIN-SUFFIX,alimama.com,REJECT
-  - DOMAIN-SUFFIX,mmstat.com,REJECT
-  - DOMAIN-SUFFIX,tanx.com,REJECT
-  - DOMAIN-SUFFIX,umeng.com,REJECT
-  - DOMAIN-SUFFIX,umengcloud.com,REJECT
-  - DOMAIN-SUFFIX,baidustatic.com,REJECT
-  - DOMAIN-SUFFIX,union.baidu.com,REJECT
-  - DOMAIN-SUFFIX,bdstatic.com,REJECT
-  - DOMAIN-SUFFIX,adview.cn,REJECT
-  - DOMAIN-SUFFIX,admaster.com.cn,REJECT
-  - DOMAIN-SUFFIX,mediav.com,REJECT
-  - DOMAIN-SUFFIX,miaozhen.com,REJECT
-  - DOMAIN-SUFFIX,ipinyou.com,REJECT
+  - IP-CIDR,172.16.0.0/12,DIRECT,no-resolve
 
-  # -------------------------
-  # 常见广告关键词域名
-  # -------------------------
+  - IP-CIDR,192.168.0.0/16,DIRECT,no-resolve
 
-  - DOMAIN-KEYWORD,adservice,REJECT
-  - DOMAIN-KEYWORD,advertising,REJECT
-  - DOMAIN-KEYWORD,analytics,REJECT
-  - DOMAIN-KEYWORD,tracking,REJECT
-  - DOMAIN-KEYWORD,tracker,REJECT
+  - IP-CIDR,127.0.0.0/8,DIRECT,no-resolve
+
 
   # ==========================================================
-  # 中国大陆直连
+  # ② Apple
+  #
+  # 保证 Apple 系统服务 / Push 不被广告规则误伤
   # ==========================================================
+
+  - DOMAIN-SUFFIX,push.apple.com,DIRECT
+
+  - DOMAIN-SUFFIX,icloud.com,DIRECT
+
+  - DOMAIN-SUFFIX,icloud-content.com,DIRECT
+
+  - DOMAIN-SUFFIX,apple-cloudkit.com,DIRECT
+
+
+  # ==========================================================
+  # ③ 广告
+  # ==========================================================
+
+  - RULE-SET,Advertising,REJECT
+
+
+  # ==========================================================
+  # ④ 隐私 / 跟踪
+  # ==========================================================
+
+  - RULE-SET,Privacy,REJECT
+
+
+  # ==========================================================
+  # ⑤ 中国大陆
+  # ==========================================================
+
+  - RULE-SET,China,DIRECT
 
   - GEOIP,CN,DIRECT
 
+
   # ==========================================================
-  # 其他全部手动代理
+  # ⑥ 其他全部海外代理
   # ==========================================================
 
   - MATCH,🌎 海外代理
