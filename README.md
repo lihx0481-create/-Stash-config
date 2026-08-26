@@ -6,8 +6,36 @@ Zika 自维护的 Stash 配置、复写、规则集与网络检测工具集合�
 
 ## 🚀 一键导入 Zika Nexus
 [![一键导入 Zika Nexus](https://img.shields.io/badge/一键导入-Zika%20Nexus-5865F2?style=for-the-badge)](https://link.stash.ws/install-config/raw.githubusercontent.com/lihx0481-create/-Stash-config/main/Zika-Network-Stash-3.6.yaml)
+# 🚀 Zika Nexus · Stash 3.6
 
-[一键导入 Zika Nexus Manual](https://link.stash.ws/install-config/raw.githubusercontent.com/lihx0481-create/-Stash-config/main/Zika-Network-Stash-3.6-Manual.yaml)
+<p align="center">
+
+<a href="https://link.stash.ws/install-config/raw.githubusercontent.com/lihx0481-create/-Stash-config/main/Zika-Network-Stash-3.6-Manual.yaml">
+
+<img src="https://img.shields.io/badge/🚀%20一键导入%20Stash-8A2BE2?style=for-the-badge">
+
+</a>
+
+</p>
+
+> **Stash 3.6.x · 手动节点版 · 无订阅 · 无国家策略组**
+
+### ✨ 特性
+
+- 🖥️ 手动添加节点
+- 🇨🇳 中国大陆直连
+- 🌎 国际服务分流
+- 🍎 Apple / APNs
+- 🌐 DNS 分流
+- 🚫 QUIC 控制
+- 📊 网络检测 Tiles
+
+---
+
+### 📄 配置文件
+
+[Zika-Network-Stash-3.6-Manual.yaml](https://raw.githubusercontent.com/lihx0481-create/-Stash-config/main/Zika-Network-Stash-3.6-Manual.yaml)
+
 ### 🚫 去广告复写
 
 [🇨🇳 国内媒体去广告](https://github.com/lihx0481-create/-Stash-config/tree/main/Stash/%E5%8E%BB%E5%B9%BF%E5%91%8A)
