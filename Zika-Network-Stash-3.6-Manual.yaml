@@ -1,0 +1,1617 @@
+#SUBSCRIBED
+# https://raw.githubusercontent.com/lihx0481-create/-Stash-config/main/Zika-Network-Stash-3.6-Manual.yaml
+
+name: Zika Nexus Manual
+
+# ============================================================
+# Zika Nexus Manual
+# Stash 3.6.x
+#
+# 手动节点版
+#
+# 特点：
+# 1. 不使用订阅
+# 2. 不自动识别国家
+# 3. 不使用国家策略组
+# 4. 节点全部手动添加
+# 5. 自动选择只测速手动添加的节点
+# 6. 中国大陆直连
+# 7. 国际服务代理
+# 8. Apple / APNs
+# 9. DNS / QUIC / Tiles
+#
+# GitHub：
+# https://github.com/lihx0481-create/-Stash-config
+#
+# Raw：
+# https://raw.githubusercontent.com/lihx0481-create/-Stash-config/main/Zika-Network-Stash-3.6-Manual.yaml
+# ============================================================
+
+
+# ============================================================
+# 基础
+# ============================================================
+
+mode: rule
+
+log-level: warning
+
+ipv6: true
+
+
+# ============================================================
+# 手动节点
+#
+# 你只需要修改这里。
+#
+# 不需要填写国家。
+# 不需要填写节点组。
+# 不需要填写订阅。
+#
+# 支持：
+# socks5
+# http
+# https
+#
+# 如果节点不需要用户名密码：
+# 删除 username / password 即可。
+# ============================================================
+
+proxies:
+
+  # ----------------------------------------------------------
+  # 示例节点 01
+  # ----------------------------------------------------------
+  #
+  # - name: 节点 01
+  #   type: socks5
+  #   server: 1.2.3.4
+  #   port: 1080
+  #   username: username
+  #   password: password
+
+
+  # ----------------------------------------------------------
+  # 示例节点 02
+  # ----------------------------------------------------------
+  #
+  # - name: 节点 02
+  #   type: http
+  #   server: 1.2.3.5
+  #   port: 8080
+  #   username: username
+  #   password: password
+
+
+  # ----------------------------------------------------------
+  # 你自己的节点从这里开始添加
+  # ----------------------------------------------------------
+
+
+# ============================================================
+# Proxy Groups
+# ============================================================
+
+proxy-groups:
+
+
+  # ==========================================================
+  # 主入口
+  # ==========================================================
+
+  - name: 选择代理
+    type: select
+    icon: https://fastly.jsdelivr.net/gh/Koolson/Qure/IconSet/Color/Proxy.png
+    proxies:
+      - 自动选择
+      - 手动选择
+      - DIRECT
+
+
+  # ==========================================================
+  # 默认
+  # ==========================================================
+
+  - name: 默认
+    type: select
+    icon: https://fastly.jsdelivr.net/gh/Koolson/Qure/IconSet/Color/Final.png
+    proxies:
+      - 选择代理
+      - DIRECT
+
+
+  # ==========================================================
+  # 自动选择
+  #
+  # 只会使用 proxies:
+  # 里面手动添加的节点
+  #
+  # 不识别国家
+  # 不读取订阅
+  # ==========================================================
+
+  - name: 自动选择
+    type: url-test
+    icon: https://fastly.jsdelivr.net/gh/Koolson/Qure/IconSet/Color/Auto.png
+    include-all: true
+    interval: 300
+    tolerance: 100
+    lazy: true
+
+
+  # ==========================================================
+  # 手动选择
+  #
+  # 只显示你自己添加的节点
+  # ==========================================================
+
+  - name: 手动选择
+    type: select
+    icon: https://fastly.jsdelivr.net/gh/Koolson/Qure/IconSet/Color/Static.png
+    include-all: true
+
+
+  # ==========================================================
+  # Apple
+  # ==========================================================
+
+  - name: Apple
+    type: select
+    icon: https://fastly.jsdelivr.net/gh/Koolson/Qure/IconSet/Color/Apple.png
+    proxies:
+      - 自动选择
+      - 手动选择
+      - DIRECT
+
+
+  # ==========================================================
+  # Google
+  # ==========================================================
+
+  - name: Google
+    type: select
+    icon: https://fastly.jsdelivr.net/gh/Koolson/Qure/IconSet/Color/Google.png
+    proxies:
+      - 自动选择
+      - 手动选择
+      - DIRECT
+
+
+  # ==========================================================
+  # YouTube
+  # ==========================================================
+
+  - name: YouTube
+    type: select
+    icon: https://fastly.jsdelivr.net/gh/Koolson/Qure/IconSet/Color/YouTube.png
+    proxies:
+      - 自动选择
+      - 手动选择
+      - DIRECT
+
+
+  # ==========================================================
+  # Netflix
+  # ==========================================================
+
+  - name: Netflix
+    type: select
+    icon: https://fastly.jsdelivr.net/gh/Koolson/Qure/IconSet/Color/Netflix.png
+    proxies:
+      - 自动选择
+      - 手动选择
+      - DIRECT
+
+
+  # ==========================================================
+  # Disney+
+  # ==========================================================
+
+  - name: Disney+
+    type: select
+    icon: https://fastly.jsdelivr.net/gh/Koolson/Qure/IconSet/Color/Disney%2B.png
+    proxies:
+      - 自动选择
+      - 手动选择
+      - DIRECT
+
+
+  # ==========================================================
+  # Spotify
+  # ==========================================================
+
+  - name: Spotify
+    type: select
+    icon: https://fastly.jsdelivr.net/gh/Koolson/Qure/IconSet/Color/Spotify.png
+    proxies:
+      - 自动选择
+      - 手动选择
+      - DIRECT
+
+
+  # ==========================================================
+  # Telegram
+  # ==========================================================
+
+  - name: Telegram
+    type: select
+    icon: https://fastly.jsdelivr.net/gh/Koolson/Qure/IconSet/Color/Telegram.png
+    proxies:
+      - 自动选择
+      - 手动选择
+      - DIRECT
+
+
+  # ==========================================================
+  # GitHub
+  # ==========================================================
+
+  - name: GitHub
+    type: select
+    icon: https://fastly.jsdelivr.net/gh/Koolson/Qure/IconSet/Color/GitHub.png
+    proxies:
+      - 自动选择
+      - 手动选择
+      - DIRECT
+
+
+  # ==========================================================
+  # X
+  # ==========================================================
+
+  - name: X
+    type: select
+    icon: https://fastly.jsdelivr.net/gh/Koolson/Qure/IconSet/Color/X.png
+    proxies:
+      - 自动选择
+      - 手动选择
+      - DIRECT
+
+
+  # ==========================================================
+  # Instagram
+  # ==========================================================
+
+  - name: Instagram
+    type: select
+    icon: https://fastly.jsdelivr.net/gh/Koolson/Qure/IconSet/Color/Instagram.png
+    proxies:
+      - 自动选择
+      - 手动选择
+      - DIRECT
+
+
+  # ==========================================================
+  # Facebook
+  # ==========================================================
+
+  - name: Facebook
+    type: select
+    icon: https://fastly.jsdelivr.net/gh/Koolson/Qure/IconSet/Color/Facebook.png
+    proxies:
+      - 自动选择
+      - 手动选择
+      - DIRECT
+
+
+  # ==========================================================
+  # TikTok
+  # ==========================================================
+
+  - name: TikTok
+    type: select
+    icon: https://fastly.jsdelivr.net/gh/Koolson/Qure/IconSet/Color/TikTok.png
+    proxies:
+      - 自动选择
+      - 手动选择
+      - DIRECT
+
+
+  # ==========================================================
+  # Microsoft
+  # ==========================================================
+
+  - name: Microsoft
+    type: select
+    icon: https://fastly.jsdelivr.net/gh/Koolson/Qure/IconSet/Color/Microsoft.png
+    proxies:
+      - 自动选择
+      - 手动选择
+      - DIRECT
+
+
+  # ==========================================================
+  # Xbox
+  # ==========================================================
+
+  - name: Xbox
+    type: select
+    icon: https://fastly.jsdelivr.net/gh/Koolson/Qure/IconSet/Color/Xbox.png
+    proxies:
+      - 自动选择
+      - 手动选择
+      - DIRECT
+
+
+  # ==========================================================
+  # Steam
+  # ==========================================================
+
+  - name: Steam
+    type: select
+    icon: https://fastly.jsdelivr.net/gh/Koolson/Qure/IconSet/Color/Steam.png
+    proxies:
+      - 自动选择
+      - 手动选择
+      - DIRECT
+
+
+  # ==========================================================
+  # Speedtest
+  # ==========================================================
+
+  - name: Speedtest
+    type: select
+    icon: https://fastly.jsdelivr.net/gh/Koolson/Qure/IconSet/Color/Speedtest.png
+    proxies:
+      - 自动选择
+      - 手动选择
+      - DIRECT
+
+
+  # ==========================================================
+  # AI
+  # ==========================================================
+
+  - name: AI
+    type: select
+    icon: https://fastly.jsdelivr.net/gh/Koolson/Qure/IconSet/Color/OpenAI.png
+    proxies:
+      - 自动选择
+      - 手动选择
+      - DIRECT
+
+
+  # ==========================================================
+  # 游戏
+  # ==========================================================
+
+  - name: 游戏
+    type: select
+    icon: https://fastly.jsdelivr.net/gh/Koolson/Qure/IconSet/Color/Game.png
+    proxies:
+      - DIRECT
+      - 自动选择
+      - 手动选择
+
+
+# ============================================================
+# DNS
+# ============================================================
+
+dns:
+
+  default-nameserver:
+    - 1.1.1.1
+    - 223.5.5.5
+
+  nameserver:
+    - https://1.1.1.1/dns-query
+    - https://223.5.5.5/dns-query
+
+  follow-rule: false
+
+  skip-cert-verify: false
+
+  nameserver-policy:
+
+    # 中国大陆
+    "geosite:cn":
+      - https://223.5.5.5/dns-query
+
+    # Apple
+    "geosite:apple":
+      - https://1.1.1.1/dns-query
+
+    # Google
+    "geosite:google":
+      - https://1.1.1.1/dns-query
+
+    # YouTube
+    "geosite:youtube":
+      - https://1.1.1.1/dns-query
+
+    # Telegram
+    "geosite:telegram":
+      - https://1.1.1.1/dns-query
+
+    # Twitter / X
+    "geosite:twitter":
+      - https://1.1.1.1/dns-query
+
+    # Facebook
+    "geosite:facebook":
+      - https://1.1.1.1/dns-query
+
+    # GitHub
+    "geosite:github":
+      - https://1.1.1.1/dns-query
+
+
+  # ==========================================================
+  # Fake IP Filter
+  # ==========================================================
+
+  fake-ip-filter:
+
+    - "+.stun.*.*"
+    - "+.stun.*.*.*"
+    - "+.stun.*.*.*.*"
+    - "+.stun.*.*.*.*.*"
+
+    - "lens.l.google.com"
+
+    - "*.n.n.srv.nintendo.net"
+
+    - "+.stun.playstation.net"
+
+    - "+.stun.xboxlive.com"
+
+    - "+.stun.services.mozilla.com"
+
+    - "+.stun.cloudflare.com"
+
+
+# ============================================================
+# Script
+# ============================================================
+
+script:
+
+  shortcuts:
+
+    # 拒绝 QUIC / HTTP3 UDP
+    quic: network == 'udp' and (dst_port == 443 or dst_port == 4483 or dst_port == 9305)
+
+
+# ============================================================
+# Rules
+# ============================================================
+
+rules:
+
+
+  # ==========================================================
+  # QUIC
+  # ==========================================================
+
+  - SCRIPT,quic,REJECT
+
+
+  # ==========================================================
+  # LAN
+  # ==========================================================
+
+  - GEOIP,LAN,DIRECT
+
+
+  # ==========================================================
+  # Apple
+  # ==========================================================
+
+  - DOMAIN-SUFFIX,apple.com,Apple
+  - DOMAIN-SUFFIX,icloud.com,Apple
+  - DOMAIN-SUFFIX,icloud-content.com,Apple
+  - DOMAIN-SUFFIX,apple-cloudkit.com,Apple
+  - DOMAIN-SUFFIX,mzstatic.com,Apple
+  - DOMAIN-SUFFIX,itunes.apple.com,Apple
+  - DOMAIN-SUFFIX,appstore.com,Apple
+
+
+  # ==========================================================
+  # Apple Push Notification Service
+  #
+  # APNs 保持 DIRECT
+  #
+  # Apple 推送使用这些域名时不会进入代理。
+  # ==========================================================
+
+  - DOMAIN-SUFFIX,push.apple.com,DIRECT
+  - DOMAIN-SUFFIX,api.push.apple.com,DIRECT
+  - DOMAIN-SUFFIX,feedback.push.apple.com,DIRECT
+  - DOMAIN-SUFFIX,feedback.push.apple.com,DIRECT
+  - DOMAIN-SUFFIX,courier.push.apple.com,DIRECT
+  - DOMAIN-SUFFIX,iphone-ld.apple.com,DIRECT
+  - DOMAIN-SUFFIX,lcdn-locator.apple.com,DIRECT
+  - DOMAIN-SUFFIX,lcdn-registration.apple.com,DIRECT
+
+
+  # ==========================================================
+  # YouTube
+  # ==========================================================
+
+  - GEOSITE,youtube,YouTube
+
+
+  # ==========================================================
+  # Google
+  # ==========================================================
+
+  - GEOSITE,google,Google
+
+
+  # ==========================================================
+  # Netflix
+  # ==========================================================
+
+  - GEOSITE,netflix,Netflix
+
+
+  # ==========================================================
+  # Disney+
+  # ==========================================================
+
+  - GEOSITE,disney,Disney+
+
+
+  # ==========================================================
+  # Spotify
+  # ==========================================================
+
+  - GEOSITE,spotify,Spotify
+
+
+  # ==========================================================
+  # Telegram
+  # ==========================================================
+
+  - GEOSITE,telegram,Telegram
+
+
+  # ==========================================================
+  # GitHub
+  # ==========================================================
+
+  - GEOSITE,github,GitHub
+
+
+  # ==========================================================
+  # X / Twitter
+  # ==========================================================
+
+  - GEOSITE,twitter,X
+
+
+  # ==========================================================
+  # Instagram
+  # ==========================================================
+
+  - GEOSITE,instagram,Instagram
+
+
+  # ==========================================================
+  # Facebook
+  # ==========================================================
+
+  - GEOSITE,facebook,Facebook
+
+
+  # ==========================================================
+  # TikTok
+  # ==========================================================
+
+  - GEOSITE,tiktok,TikTok
+
+
+  # ==========================================================
+  # Microsoft
+  # ==========================================================
+
+  - GEOSITE,microsoft@cn,DIRECT
+  - GEOSITE,microsoft,Microsoft
+
+
+  # ==========================================================
+  # Xbox
+  # ==========================================================
+
+  - GEOSITE,xbox,Xbox
+
+
+  # ==========================================================
+  # Steam
+  # ==========================================================
+
+  - GEOSITE,steam@cn,DIRECT
+  - GEOSITE,steam,Steam
+
+
+  # ==========================================================
+  # Speedtest
+  # ==========================================================
+
+  - GEOSITE,speedtest,Speedtest
+
+
+  # ==========================================================
+  # AI
+  # ==========================================================
+
+  # OpenAI
+  - DOMAIN-SUFFIX,openai.com,AI
+  - DOMAIN-SUFFIX,chatgpt.com,AI
+  - DOMAIN-SUFFIX,oaistatic.com,AI
+  - DOMAIN-SUFFIX,oaiusercontent.com,AI
+
+  # Anthropic
+  - DOMAIN-SUFFIX,anthropic.com,AI
+  - DOMAIN-SUFFIX,claude.ai,AI
+
+  # Google AI
+  - DOMAIN-SUFFIX,gemini.google.com,AI
+  - DOMAIN-SUFFIX,ai.google,AI
+
+  # Perplexity
+  - DOMAIN-SUFFIX,perplexity.ai,AI
+
+  # Poe
+  - DOMAIN-SUFFIX,poe.com,AI
+
+  # Character AI
+  - DOMAIN-SUFFIX,character.ai,AI
+
+  # Cohere
+  - DOMAIN-SUFFIX,cohere.com,AI
+
+  # HuggingFace
+  - DOMAIN-SUFFIX,huggingface.co,AI
+
+
+  # ==========================================================
+  # 游戏
+  # ==========================================================
+
+  - DOMAIN-SUFFIX,playstation.com,游戏
+  - DOMAIN-SUFFIX,playstation.net,游戏
+  - DOMAIN-SUFFIX,xboxlive.com,游戏
+  - DOMAIN-SUFFIX,nintendo.com,游戏
+  - DOMAIN-SUFFIX,nintendo.net,游戏
+  - DOMAIN-SUFFIX,epicgames.com,游戏
+
+
+  # ==========================================================
+  # 中国大陆
+  #
+  # 所有中国大陆 IP 默认直连
+  # ==========================================================
+
+  - GEOIP,CN,DIRECT
+
+
+  # ==========================================================
+  # 最终规则
+  #
+  # 没有被上面规则匹配的流量
+  # → 选择代理
+  # ==========================================================
+
+  - MATCH,默认
+
+
+# ============================================================
+# Tiles
+# ============================================================
+
+tiles:
+
+
+  # ==========================================================
+  # 网络质量
+  # ==========================================================
+
+  - name: tile-network-quality
+    interval: 600
+    title: "网络质量"
+    content: "检测中..."
+    icon: "speedometer"
+    backgroundColor: "#3E315F"
+
+
+  # ==========================================================
+  # 节点健康
+  # ==========================================================
+
+  - name: tile-node-health
+    interval: 600
+    title: "节点健康"
+    content: "检测中..."
+    icon: "bolt.horizontal.circle.fill"
+    backgroundColor: "#315D38"
+
+
+  # ==========================================================
+  # 国际出口
+  # ==========================================================
+
+  - name: tile-international
+    interval: 86400
+    title: "国际出口"
+    content: "检测中..."
+    icon: "globe.americas.fill"
+    backgroundColor: "#173B5E"
+
+
+  # ==========================================================
+  # 网络控制中心
+  # ==========================================================
+
+  - name: tile-network-control
+    interval: 86400
+    title: "网络控制中心"
+    content: "检测中..."
+    icon: "network"
+    backgroundColor: "#244A3A"
+
+
+  # ==========================================================
+  # DNS
+  # ==========================================================
+
+  - name: tile-dns
+    interval: 86400
+    title: "DNS 检测"
+    content: "检测中..."
+    icon: "network.badge.shield.half.filled"
+    backgroundColor: "#174A52"
+    url: "https://www.dnsleaktest.com/"
+
+
+  # ==========================================================
+  # WebRTC
+  # ==========================================================
+
+  - name: tile-webrtc
+    interval: 86400
+    title: "WebRTC 检测"
+    content: "检测中..."
+    icon: "shield.lefthalf.filled"
+    backgroundColor: "#4C3030"
+    url: "https://browserleaks.com/webrtc"
+
+
+  # ==========================================================
+  # TLS
+  # ==========================================================
+
+  - name: tile-tls
+    interval: 86400
+    title: "TLS 检测"
+    content: "检测中..."
+    icon: "lock.shield.fill"
+    backgroundColor: "#344A63"
+
+
+  # ==========================================================
+  # HTTP/3
+  # ==========================================================
+
+  - name: tile-http3
+    interval: 86400
+    title: "HTTP/3"
+    content: "检测中..."
+    icon: "bolt.circle.fill"
+    backgroundColor: "#164C55"
+
+
+  # ==========================================================
+  # YouTube
+  # ==========================================================
+
+  - name: tile-youtube
+    interval: 604800
+    title: "YouTube"
+    content: "检测中..."
+    icon: "play.rectangle.fill"
+    backgroundColor: "#5A2424"
+    collapsed: true
+
+
+  # ==========================================================
+  # TikTok
+  # ==========================================================
+
+  - name: tile-tiktok
+    interval: 604800
+    title: "TikTok"
+    content: "检测中..."
+    icon: "music.note"
+    backgroundColor: "#252525"
+    collapsed: true
+
+
+  # ==========================================================
+  # X
+  # ==========================================================
+
+  - name: tile-x
+    interval: 604800
+    title: "X"
+    content: "检测中..."
+    icon: "at"
+    backgroundColor: "#242424"
+    collapsed: true
+
+
+  # ==========================================================
+  # Instagram
+  # ==========================================================
+
+  - name: tile-instagram
+    interval: 604800
+    title: "Instagram"
+    content: "检测中..."
+    icon: "camera.fill"
+    backgroundColor: "#59324A"
+    collapsed: true
+
+
+  # ==========================================================
+  # Google
+  # ==========================================================
+
+  - name: tile-google
+    interval: 604800
+    title: "Google"
+    content: "检测中..."
+    icon: "magnifyingglass"
+    backgroundColor: "#34475C"
+    collapsed: true
+
+
+  # ==========================================================
+  # Netflix
+  # ==========================================================
+
+  - name: tile-netflix
+    interval: 604800
+    title: "Netflix"
+    content: "检测中..."
+    icon: "play.tv.fill"
+    backgroundColor: "#541F28"
+    collapsed: true
+
+
+# ============================================================
+# Tile Scripts
+# ============================================================
+
+script-providers:
+
+
+  # ==========================================================
+  # 网络质量
+  # ==========================================================
+
+  tile-network-quality:
+    interval: 600
+    payload: |
+
+      var start = Date.now();
+
+      $httpClient.head(
+        {
+          url: "https://www.apple.com/",
+          timeout: 5
+        },
+
+        function(error, response, data) {
+
+          var ms = Date.now() - start;
+
+          if (
+            error ||
+            !response ||
+            response.status < 200 ||
+            response.status >= 400
+          ) {
+
+            $done({
+              content:
+                "✕ 网络不可用\n" +
+                "状态 · Failed",
+              icon: "xmark"
+            });
+
+            return;
+          }
+
+          var quality = "较高";
+
+          if (ms < 80) {
+            quality = "优秀";
+          } else if (ms < 150) {
+            quality = "良好";
+          } else if (ms < 250) {
+            quality = "一般";
+          }
+
+          $done({
+            content:
+              "✓ 网络正常\n" +
+              "延迟 · " + ms + "ms\n" +
+              "质量 · " + quality,
+            icon: "checkmark"
+          });
+
+        }
+      );
+
+
+  # ==========================================================
+  # 节点健康
+  # ==========================================================
+
+  tile-node-health:
+    interval: 600
+    payload: |
+
+      var start = Date.now();
+
+      $httpClient.head(
+        {
+          url: "https://www.apple.com/",
+          timeout: 5
+        },
+
+        function(error, response, data) {
+
+          var ms = Date.now() - start;
+
+          if (
+            error ||
+            !response ||
+            response.status < 200 ||
+            response.status >= 400
+          ) {
+
+            $done({
+              content:
+                "✕ 当前节点异常\n" +
+                "状态 · Failed",
+              icon: "xmark"
+            });
+
+            return;
+          }
+
+          $done({
+            content:
+              "✓ 当前节点正常\n" +
+              "延迟 · " + ms + "ms\n" +
+              "状态 · Healthy",
+            icon: "checkmark"
+          });
+
+        }
+      );
+
+
+  # ==========================================================
+  # 国际出口
+  # ==========================================================
+
+  tile-international:
+    interval: 86400
+    payload: |
+
+      $httpClient.get(
+        "https://ipinfo.io/json",
+
+        function(error, response, data) {
+
+          if (
+            error ||
+            !response ||
+            response.status < 200 ||
+            response.status >= 300
+          ) {
+
+            $done({
+              content:
+                "✕ 出口检测失败",
+              icon: "xmark"
+            });
+
+            return;
+          }
+
+          try {
+
+            var x = JSON.parse(data);
+
+            $done({
+              content:
+                "✓ 国际出口\n" +
+                "IP · " + (x.ip || "Unknown") + "\n" +
+                "地区 · " +
+                (x.country || "Unknown") +
+                " · " +
+                (x.city || "Unknown") + "\n" +
+                "ISP · " +
+                (x.org || "Unknown"),
+              icon: "checkmark"
+            });
+
+          } catch (e) {
+
+            $done({
+              content:
+                "✕ 出口数据解析失败",
+              icon: "xmark"
+            });
+
+          }
+
+        }
+      );
+
+
+  # ==========================================================
+  # 网络控制中心
+  # ==========================================================
+
+  tile-network-control:
+    interval: 86400
+    payload: |
+
+      var version =
+        $environment["stash-version"] || "Unknown";
+
+      var build =
+        $environment["stash-build"] || "Unknown";
+
+      $done({
+        content:
+          "Stash · " + version + "\n" +
+          "Build · " + build + "\n" +
+          "Network Engine · OK",
+        icon: "checkmark"
+      });
+
+
+  # ==========================================================
+  # DNS
+  # ==========================================================
+
+  tile-dns:
+    interval: 86400
+    payload: |
+
+      var start = Date.now();
+
+      $httpClient.get(
+        {
+          url:
+            "https://1.1.1.1/dns-query?name=example.com&type=A",
+
+          headers: {
+            "Accept": "application/dns-json"
+          },
+
+          timeout: 5
+        },
+
+        function(error, response, data) {
+
+          var ms = Date.now() - start;
+
+          if (
+            error ||
+            !response ||
+            response.status < 200 ||
+            response.status >= 300
+          ) {
+
+            $done({
+              content:
+                "✕ DoH 查询失败\n" +
+                "Resolver · Cloudflare\n" +
+                "1.1.1.1",
+              icon: "xmark"
+            });
+
+            return;
+          }
+
+          try {
+
+            var json = JSON.parse(data);
+
+            var answers =
+              json.Answer || [];
+
+            if (!answers.length) {
+
+              $done({
+                content:
+                  "⚠ DNS 无 Answer\n" +
+                  "查询 · example.com\n" +
+                  "耗时 · " + ms + "ms",
+                icon: "exclamationmark.triangle"
+              });
+
+              return;
+            }
+
+            $done({
+              content:
+                "✓ DoH 正常\n" +
+                "Resolver · Cloudflare\n" +
+                "A · " + answers[0].data + "\n" +
+                "Answer · " + answers.length + "\n" +
+                "耗时 · " + ms + "ms",
+              icon: "checkmark"
+            });
+
+          } catch (e) {
+
+            $done({
+              content:
+                "✕ DNS 数据解析失败",
+              icon: "xmark"
+            });
+
+          }
+
+        }
+      );
+
+
+  # ==========================================================
+  # WebRTC
+  # ==========================================================
+
+  tile-webrtc:
+    interval: 86400
+    payload: |
+
+      $httpClient.get(
+        "https://browserleaks.com/webrtc",
+
+        function(error, response, data) {
+
+          if (
+            error ||
+            !response ||
+            response.status < 200 ||
+            response.status >= 400
+          ) {
+
+            $done({
+              content:
+                "✕ WebRTC 检测入口不可用\n" +
+                "点击手动检测 →",
+              icon: "xmark"
+            });
+
+            return;
+          }
+
+          $done({
+            content:
+              "✓ 检测入口正常\n" +
+              "点击手动检测 →",
+            icon: "checkmark"
+          });
+
+        }
+      );
+
+
+  # ==========================================================
+  # TLS
+  # ==========================================================
+
+  tile-tls:
+    interval: 86400
+    payload: |
+
+      var start = Date.now();
+
+      $httpClient.get(
+        "https://www.cloudflare.com/cdn-cgi/trace",
+
+        function(error, response, data) {
+
+          var ms = Date.now() - start;
+
+          if (
+            error ||
+            !response ||
+            response.status < 200 ||
+            response.status >= 400
+          ) {
+
+            $done({
+              content:
+                "✕ TLS 检测失败",
+              icon: "xmark"
+            });
+
+            return;
+          }
+
+          var tls = "Unknown";
+          var http = "Unknown";
+          var colo = "Unknown";
+
+          if (data) {
+
+            var a =
+              data.match(/(?:^|\n)tls=([^\n]+)/);
+
+            var b =
+              data.match(/(?:^|\n)http=([^\n]+)/);
+
+            var c =
+              data.match(/(?:^|\n)colo=([^\n]+)/);
+
+            if (a) tls = a[1];
+            if (b) http = b[1];
+            if (c) colo = c[1];
+
+          }
+
+          $done({
+            content:
+              "✓ TLS 正常\n" +
+              "TLS · " + tls + "\n" +
+              "HTTP · " + http + "\n" +
+              "POP · " + colo + "\n" +
+              "链路 · " + ms + "ms",
+            icon: "checkmark"
+          });
+
+        }
+      );
+
+
+  # ==========================================================
+  # HTTP/3
+  # ==========================================================
+
+  tile-http3:
+    interval: 86400
+    payload: |
+
+      var start = Date.now();
+
+      $httpClient.get(
+        "https://cloudflare-quic.com/",
+
+        function(error, response, data) {
+
+          var ms = Date.now() - start;
+
+          if (
+            error ||
+            !response ||
+            response.status < 200 ||
+            response.status >= 400
+          ) {
+
+            $done({
+              content:
+                "✕ HTTP/3 端点不可用\n" +
+                "链路 · " + ms + "ms",
+              icon: "xmark"
+            });
+
+            return;
+          }
+
+          var alt = "";
+
+          try {
+
+            if (response.headers) {
+
+              alt =
+                response.headers["alt-svc"] ||
+                response.headers["Alt-Svc"] ||
+                "";
+
+            }
+
+          } catch (e) {}
+
+          if (
+            alt &&
+            alt.toLowerCase().indexOf("h3") !== -1
+          ) {
+
+            $done({
+              content:
+                "✓ HTTP/3 可用\n" +
+                "链路 · " + ms + "ms\n" +
+                "Alt-Svc · h3",
+              icon: "checkmark"
+            });
+
+          } else {
+
+            $done({
+              content:
+                "⚠ HTTP/3 未确认\n" +
+                "链路 · " + ms + "ms",
+              icon: "exclamationmark.triangle"
+            });
+
+          }
+
+        }
+      );
+
+
+  # ==========================================================
+  # YouTube
+  # ==========================================================
+
+  tile-youtube:
+    interval: 604800
+    payload: |
+
+      var start = Date.now();
+
+      $httpClient.get(
+        "https://www.youtube.com/generate_204",
+
+        function(error, response, data) {
+
+          var ms = Date.now() - start;
+
+          if (
+            !error &&
+            response &&
+            response.status >= 200 &&
+            response.status < 400
+          ) {
+
+            $done({
+              content:
+                "✓ 可用 · " + ms + "ms",
+              icon: "checkmark"
+            });
+
+          } else {
+
+            $done({
+              content:
+                "✕ 不可用",
+              icon: "xmark"
+            });
+
+          }
+
+        }
+      );
+
+
+  # ==========================================================
+  # TikTok
+  # ==========================================================
+
+  tile-tiktok:
+    interval: 604800
+    payload: |
+
+      var start = Date.now();
+
+      $httpClient.get(
+        "https://www.tiktok.com/robots.txt",
+
+        function(error, response, data) {
+
+          var ms = Date.now() - start;
+
+          if (
+            !error &&
+            response &&
+            response.status >= 200 &&
+            response.status < 400
+          ) {
+
+            $done({
+              content:
+                "✓ 可用 · " + ms + "ms",
+              icon: "checkmark"
+            });
+
+          } else {
+
+            $done({
+              content:
+                "✕ 不可用",
+              icon: "xmark"
+            });
+
+          }
+
+        }
+      );
+
+
+  # ==========================================================
+  # X
+  # ==========================================================
+
+  tile-x:
+    interval: 604800
+    payload: |
+
+      var start = Date.now();
+
+      $httpClient.get(
+        "https://x.com/robots.txt",
+
+        function(error, response, data) {
+
+          var ms = Date.now() - start;
+
+          if (
+            !error &&
+            response &&
+            response.status >= 200 &&
+            response.status < 400
+          ) {
+
+            $done({
+              content:
+                "✓ 可用 · " + ms + "ms",
+              icon: "checkmark"
+            });
+
+          } else {
+
+            $done({
+              content:
+                "✕ 不可用",
+              icon: "xmark"
+            });
+
+          }
+
+        }
+      );
+
+
+  # ==========================================================
+  # Instagram
+  # ==========================================================
+
+  tile-instagram:
+    interval: 604800
+    payload: |
+
+      var start = Date.now();
+
+      $httpClient.get(
+        "https://www.instagram.com/robots.txt",
+
+        function(error, response, data) {
+
+          var ms = Date.now() - start;
+
+          if (
+            !error &&
+            response &&
+            response.status >= 200 &&
+            response.status < 400
+          ) {
+
+            $done({
+              content:
+                "✓ 可用 · " + ms + "ms",
+              icon: "checkmark"
+            });
+
+          } else {
+
+            $done({
+              content:
+                "✕ 不可用",
+              icon: "xmark"
+            });
+
+          }
+
+        }
+      );
+
+
+  # ==========================================================
+  # Google
+  # ==========================================================
+
+  tile-google:
+    interval: 604800
+    payload: |
+
+      var start = Date.now();
+
+      $httpClient.get(
+        "https://www.google.com/generate_204",
+
+        function(error, response, data) {
+
+          var ms = Date.now() - start;
+
+          if (
+            !error &&
+            response &&
+            response.status >= 200 &&
+            response.status < 400
+          ) {
+
+            $done({
+              content:
+                "✓ 可用 · " + ms + "ms",
+              icon: "checkmark"
+            });
+
+          } else {
+
+            $done({
+              content:
+                "✕ 不可用",
+              icon: "xmark"
+            });
+
+          }
+
+        }
+      );
+
+
+  # ==========================================================
+  # Netflix
+  # ==========================================================
+
+  tile-netflix:
+    interval: 604800
+    payload: |
+
+      var start = Date.now();
+
+      $httpClient.get(
+        "https://www.netflix.com/robots.txt",
+
+        function(error, response, data) {
+
+          var ms = Date.now() - start;
+
+          if (
+            !error &&
+            response &&
+            response.status >= 200 &&
+            response.status < 400
+          ) {
+
+            $done({
+              content:
+                "✓ 可用 · " + ms + "ms",
+              icon: "checkmark"
+            });
+
+          } else {
+
+            $done({
+              content:
+                "✕ 不可用",
+              icon: "xmark"
+            });
+
+          }
+
+        }
+      );
