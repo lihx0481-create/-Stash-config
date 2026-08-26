@@ -5,10 +5,9 @@ Zika 自维护的 Stash 配置、复写、规则集与网络检测工具集合�
 
 
 ## 🚀 一键导入 Zika Nexus
-自动配置
 [![一键导入 Zika Nexus](https://img.shields.io/badge/一键导入-Zika%20Nexus-5865F2?style=for-the-badge)](https://link.stash.ws/install-config/raw.githubusercontent.com/lihx0481-create/-Stash-config/main/Zika-Network-Stash-3.6.yaml)
-手动配置
-[![一键导入 Zika Nexus Manual](https://link.stash.ws/install-config/raw.githubusercontent.com/lihx0481-create/-Stash-config/main/Zika-Network-Stash-3.6-Manual.yaml)
+
+[一键导入 Zika Nexus Manual](https://link.stash.ws/install-config/raw.githubusercontent.com/lihx0481-create/-Stash-config/main/Zika-Network-Stash-3.6-Manual.yaml)
 ### 🚫 去广告复写
 
 [🇨🇳 国内媒体去广告](https://github.com/lihx0481-create/-Stash-config/tree/main/Stash/%E5%8E%BB%E5%B9%BF%E5%91%8A)
