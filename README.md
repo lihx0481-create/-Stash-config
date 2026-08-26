@@ -3,38 +3,32 @@
 Zika 自维护的 Stash 配置、复写、规则集与网络检测工具集合。
 ![Stash Network Diagnostic](https://raw.githubusercontent.com/lihx0481-create/-Stash-config/main/copy_DBB6470D-277A-44D3-9CDD-8EDCC0AC8DFC.GIF)
 
+## 🚀 Zika Nexus · Stash 3.6
 
-## 🚀 一键导入 Zika Nexus
-[![一键导入 Zika Nexus](https://img.shields.io/badge/一键导入-Zika%20Nexus-5865F2?style=for-the-badge)](https://link.stash.ws/install-config/raw.githubusercontent.com/lihx0481-create/-Stash-config/main/Zika-Network-Stash-3.6.yaml)
-# 🚀 Zika Nexus · Stash 3.6
+### 📡 订阅版
 
-<p align="center">
+[![一键导入 Zika Nexus · 订阅版](https://img.shields.io/badge/🚀%20一键导入-Zika%20Nexus%20订阅版-5865F2?style=for-the-badge)](https://link.stash.ws/install-config/raw.githubusercontent.com/lihx0481-create/-Stash-config/main/Zika-Network-Stash-3.6.yaml)
 
-<a href="https://link.stash.ws/install-config/raw.githubusercontent.com/lihx0481-create/-Stash-config/main/Zika-Network-Stash-3.6-Manual.yaml">
+> 自动识别订阅节点并按国家地区进行策略分组。
 
-<img src="https://img.shields.io/badge/🚀%20一键导入%20Stash-8A2BE2?style=for-the-badge">
+---
 
-</a>
+### 🖥️ 手动版
 
-</p>
+[![一键导入 Zika Nexus · 手动版](https://img.shields.io/badge/🚀%20一键导入-Zika%20Nexus%20手动版-5865F2?style=for-the-badge)](https://link.stash.ws/install-config/raw.githubusercontent.com/lihx0481-create/-Stash-config/main/Zika-Network-Stash-3.6-Manual.yaml)
 
-> **Stash 3.6.x · 手动节点版 · 无订阅 · 无国家策略组**
+> 手动添加节点，不使用订阅、不使用国家策略组。
 
-### ✨ 特性
+---
 
-- 🖥️ 手动添加节点
+### ✨ 通用特性
+
 - 🇨🇳 中国大陆直连
 - 🌎 国际服务分流
 - 🍎 Apple / APNs
 - 🌐 DNS 分流
 - 🚫 QUIC 控制
 - 📊 网络检测 Tiles
-
----
-
-### 📄 配置文件
-
-[Zika-Network-Stash-3.6-Manual.yaml](https://raw.githubusercontent.com/lihx0481-create/-Stash-config/main/Zika-Network-Stash-3.6-Manual.yaml)
 
 ### 🚫 去广告复写
 
