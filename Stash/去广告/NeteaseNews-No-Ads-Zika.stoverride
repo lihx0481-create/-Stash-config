@@ -1,7 +1,6 @@
 name: '网易新闻综合去广告 · Zika'
 desc: 'Zika 自维护的网易新闻去广告规则，拦截已识别的广告投放请求，尽量避免影响新闻、视频及正常内容加载'
 author: 'zika'
-icon: 'https://raw.githubusercontent.com/lihx0481-create/-Stash-config/main/Stash/icon/NeteaseNews.png'
 category: '去广告'
 
 http:
