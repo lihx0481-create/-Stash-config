@@ -1,7 +1,6 @@
 name: '高德地图综合去广告 · Zika 2026'
 desc: 'Zika 自维护的高德地图推广内容过滤规则｜2026'
 author: 'zika'
-icon: 'https://raw.githubusercontent.com/lihx0481-create/-Stash-config/main/Stash/icon/Amap.png'
 category: '去广告'
 
 http:
