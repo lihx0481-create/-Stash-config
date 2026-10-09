@@ -1,7 +1,6 @@
 name: '红果短剧综合去广告 · Zika 2026'
 desc: 'Zika 自维护的红果短剧广告过滤规则｜开屏、插播、全屏、信息流及广告回传｜2026'
 author: 'zika'
-icon: 'https://raw.githubusercontent.com/lihx0481-create/-Stash-config/main/Stash/icon/RedFruit.png'
 category: '去广告'
 
 http:
