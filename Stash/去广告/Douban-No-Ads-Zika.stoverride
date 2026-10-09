@@ -1,7 +1,6 @@
 name: '豆瓣综合去广告 · Zika'
 desc: 'Zika 自维护的豆瓣去广告规则，拦截已确认的广告请求，尽量避免影响正常内容、评论、电影及小组功能'
 author: 'zika'
-icon: 'https://raw.githubusercontent.com/lihx0481-create/-Stash-config/main/Stash/icon/Douban.png'
 category: '去广告'
 
 http:
