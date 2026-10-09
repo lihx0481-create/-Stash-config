@@ -1,7 +1,6 @@
 name: '百度贴吧综合去广告 · Zika'
 desc: 'Zika 自维护的百度贴吧 2026 去广告规则，优先处理开屏、Feed 广告及明确广告请求'
 author: 'zika'
-icon: 'https://raw.githubusercontent.com/lihx0481-create/-Stash-config/main/Stash/icon/Tieba.png'
 category: '去广告'
 
 http:
