@@ -20,10 +20,6 @@ Zika 自维护的 Stash 配置、复写、规则集与网络检测工具集合�
 
 > 手动添加节点，不使用订阅、不使用国家策略组。
 
-### 🌎 Clash TF 版
-
-[`Zika-Clash-TF.yaml`](./Zika-Clash-TF.yaml) —— 适用于 Clash for Apple Platforms / Mihomo，含去广告规则集与 DNS 防泄漏配置。
-
 ---
 
 ## ✨ 通用特性
@@ -38,7 +34,7 @@ Zika 自维护的 Stash 配置、复写、规则集与网络检测工具集合�
 ## 🚫 去广告
 
 - **Stash 复写**：[🇨🇳 国内媒体去广告](https://github.com/lihx0481-create/-Stash-config/tree/main/Stash/%E5%8E%BB%E5%B9%BF%E5%91%8A) —— 覆盖 20+ 国产 App（抖音、微信、淘宝、哔哩哔哩等）
-- **Clash 规则集**：`Zika-Clash-TF.yaml` 内置 blackmatrix7 + ACL4SSR 去广告与隐私跟踪拦截
+- **Clash 规则集**：[`Zika-Clash-TF.yaml`](./Zika-Clash-TF.yaml)（Clash / Mihomo 用）内置 blackmatrix7 + ACL4SSR 去广告与隐私跟踪拦截
 
 ## 🌐 网络检测
 
