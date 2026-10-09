@@ -1,7 +1,6 @@
 name: '快手综合去广告 · Zika'
 desc: 'Zika 自维护的快手去广告规则，拦截明确广告请求及广告素材，避免影响正常视频、直播与内容加载'
 author: 'zika'
-icon: 'https://raw.githubusercontent.com/lihx0481-create/-Stash-config/main/Stash/icon/Kuaishou.png'
 category: '去广告'
 
 http:
