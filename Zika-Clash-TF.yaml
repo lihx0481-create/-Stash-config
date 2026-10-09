@@ -231,6 +231,47 @@ rule-providers:
 
 
 # ============================================================
+# 去广告增强 (ACL4SSR)
+# 与 blackmatrix7 互补，覆盖更广的广告域名
+# ============================================================
+
+  BanAD:
+
+    type: http
+
+    behavior: classical
+
+    format: yaml
+
+    url: >-
+      https://raw.githubusercontent.com/ACL4SSR/ACL4SSR/master/Clash/BanAD.yaml
+
+    path: ./ruleset/Zika-BanAD.yaml
+
+    interval: 86400
+
+    proxy: 🌎 海外代理
+
+
+  BanProgramAD:
+
+    type: http
+
+    behavior: classical
+
+    format: yaml
+
+    url: >-
+      https://raw.githubusercontent.com/ACL4SSR/ACL4SSR/master/Clash/BanProgramAD.yaml
+
+    path: ./ruleset/Zika-BanProgramAD.yaml
+
+    interval: 86400
+
+    proxy: 🌎 海外代理
+
+
+# ============================================================
 # 中国大陆规则
 # ============================================================
 
@@ -300,6 +341,10 @@ rules:
   # ==========================================================
 
   - RULE-SET,Privacy,REJECT
+
+  - RULE-SET,BanAD,REJECT
+
+  - RULE-SET,BanProgramAD,REJECT
 
 
   # ==========================================================
