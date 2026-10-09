@@ -34,7 +34,6 @@ Zika 自维护的 Stash 配置、复写、规则集与网络检测工具集合�
 ## 🚫 去广告
 
 - **Stash 复写**：[🇨🇳 国内媒体去广告](https://github.com/lihx0481-create/-Stash-config/tree/main/Stash/%E5%8E%BB%E5%B9%BF%E5%91%8A) —— 覆盖 20+ 国产 App（抖音、微信、淘宝、哔哩哔哩等）
-- **Clash 规则集**：[`Zika-Clash-TF.yaml`](./Zika-Clash-TF.yaml)（Clash / Mihomo 用）内置 blackmatrix7 + ACL4SSR 去广告与隐私跟踪拦截
 
 ## 🌐 网络检测
 
@@ -68,7 +67,6 @@ Zika 自维护的 Stash 配置、复写、规则集与网络检测工具集合�
 持续维护中：
 
 - Stash 配置（订阅版 / 手动版）
-- Clash TF 配置
 - 去广告复写与规则集
 - 国内软件分流
 - DNS / WebRTC 检测工具
