@@ -1,7 +1,6 @@
 name: '百度网盘综合去广告 · Zika'
 desc: 'Zika 自维护的百度网盘去广告规则｜2026'
 author: 'zika'
-icon: 'https://raw.githubusercontent.com/lihx0481-create/-Stash-config/main/Stash/icon/BaiduNetDisk.png'
 category: '去广告'
 
 http:
