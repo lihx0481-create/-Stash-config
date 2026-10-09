@@ -1,7 +1,6 @@
 name: '小红书综合去广告 · Zika 2026'
 desc: 'Zika 自维护的小红书去广告规则｜开屏优先'
 author: 'zika'
-icon: 'https://raw.githubusercontent.com/lihx0481-create/-Stash-config/main/Stash/icon/XiaoHongShu.png'
 category: '去广告'
 
 http:
