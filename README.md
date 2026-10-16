@@ -16,7 +16,7 @@ Zika 自维护的 Stash 配置、复写、规则集与网络检测工具集合�
 
 ### 🖥️ 手动版 · Stash 3.6
 
-[![一键导入 Stash](https://img.shields.io/badge/一键导入%20Stash-手动版-5865F2?style=for-the-badge)](https://link.stash.ws/install-config/raw.githubusercontent.com/lihx0481-create/-Stash-config/main/Zika-Network-Stash-3.6-Manual.yaml)
+[![一键导入 Stash](https://img.shields.io/badge/一键导入%20Stash-手动版-5865F2?style=for-the-badge)](https://link.stash.ws/install-config/raw.githubusercontent.com/lihx0481-create/-Stash-config/main/Zika-Network-Stash-3.6-Manual.yaml?t=20261016)
 
 > 手动添加节点，不使用订阅、不使用国家策略组。
 
